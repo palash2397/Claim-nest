@@ -39,24 +39,33 @@ export class ContactService {
     }
   }
 
-  async update(dto: UpdateContactDto, userId: string) {
-    try {
-      const contact = this.contactModel.findById(dto.id);
-      if (!contact) {
-        return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
+    async update(dto: UpdateContactDto, userId: string) {
+      try {
+        // const event = await this.eventModel.findById(dto.id);
+        // if (!event) {
+        //   return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+        // }
+  
+        // // Update the event with the new data
+        const updatedData = await this.contactModel.findByIdAndUpdate(
+          dto.id,
+          {
+            ...dto,
+            updatedBy: new Types.ObjectId(userId),
+          },
+          { new: true },
+        );
+  
+        if (!updatedData) {
+          return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
+        }
+  
+        return new ApiResponse(200, updatedData, Msg.CONTACT_UPDATED);
+      } catch (error) {
+        console.log(`Error updating event: ${error}`);
+        return new ApiResponse(500, {}, Msg.SERVER_ERROR);
       }
-
-      const data = {
-        ...dto,
-        updatedBy: new Types.ObjectId(userId),
-      };
-
-      return new ApiResponse(200, data, Msg.CONTACT_UPDATED);
-    } catch (error) {
-      console.log('Error updating contact:', error);
-      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
-  }
 
   async findOne(id: string) {
     try {
