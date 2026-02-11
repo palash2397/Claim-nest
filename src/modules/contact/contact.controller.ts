@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req, Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, Patch, Param, Delete, Get } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import type { Request } from 'express';
 
@@ -26,5 +26,23 @@ export class ContactController {
   @UseGuards(JwtAuthGuard)
   async update(@Body() dto: UpdateContactDto, @Req() req: Request) {
     return this.contactService.update(dto, req.user.id);
+  }
+
+  @Delete("/delete/:id")
+  @UseGuards(JwtAuthGuard)
+  async delete(@Param() param: IdParamDto) {
+    return this.contactService.delete(param.id);
+  }
+
+  @Get("/all")
+  @UseGuards(JwtAuthGuard)
+  async findAll() {
+    return this.contactService.findAll();
+  }
+
+  @Get("/:id")
+  @UseGuards(JwtAuthGuard)
+  async findOne(@Param() param: IdParamDto) {
+    return this.contactService.findOne(param.id);
   }
 }

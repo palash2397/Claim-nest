@@ -14,15 +14,16 @@ import { UpdateContactDto } from './dto/update-contact.dto';
 @Injectable()
 export class ContactService {
   constructor(
-    @InjectModel(Contact.name)
+    @InjectModel('Contact')
     private contactModel: Model<ContactDocument>,
-    @InjectModel(User.name)
+    @InjectModel('User')
     private userModel: Model<UserDocument>,
   ) {}
 
   async create(dto: CreateContactDto, userId: string) {
     try {
-      const user = this.userModel.findById(dto.assignedTo);
+      const user = await this.userModel.findOne({ _id: dto.assignedTo });
+      console.log(' ------>', user);
       if (!user) {
         return new ApiResponse(404, {}, Msg.ASSIGNED_USER_NOT_FOUND);
       }
@@ -31,45 +32,49 @@ export class ContactService {
         ...dto,
         createdBy: new Types.ObjectId(userId),
       };
+      const contact = await this.contactModel.create(data);
 
-      return new ApiResponse(201, data, Msg.CONTACT_CREATED);
+      return new ApiResponse(201, contact, Msg.CONTACT_CREATED);
     } catch (error) {
       console.log('Error creating contact:', error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
 
-    async update(dto: UpdateContactDto, userId: string) {
-      try {
-        // const event = await this.eventModel.findById(dto.id);
-        // if (!event) {
-        //   return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
-        // }
-  
-        // // Update the event with the new data
-        const updatedData = await this.contactModel.findByIdAndUpdate(
-          dto.id,
-          {
-            ...dto,
-            updatedBy: new Types.ObjectId(userId),
-          },
-          { new: true },
-        );
-  
-        if (!updatedData) {
-          return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
-        }
-  
-        return new ApiResponse(200, updatedData, Msg.CONTACT_UPDATED);
-      } catch (error) {
-        console.log(`Error updating event: ${error}`);
-        return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+  async update(dto: UpdateContactDto, userId: string) {
+    try {
+      // const event = await this.eventModel.findById(dto.id);
+      // if (!event) {
+      //   return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      // }
+
+      // // Update the event with the new data
+      const updatedData = await this.contactModel.findByIdAndUpdate(
+        dto.id,
+        {
+          ...dto,
+          updatedBy: new Types.ObjectId(userId),
+        },
+        { new: true },
+      );
+
+      if (!updatedData) {
+        return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
       }
+
+      return new ApiResponse(200, updatedData, Msg.CONTACT_UPDATED);
+    } catch (error) {
+      console.log(`Error updating contact: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
+  }
 
   async findOne(id: string) {
     try {
-      const contact = this.contactModel.findById(id);
+      const contact = this.contactModel
+        .findById(id)
+        .populate('assignedTo', 'name email')
+        .populate('createdBy', 'name email');
       if (!contact) {
         return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
       }
@@ -83,7 +88,11 @@ export class ContactService {
 
   async findAll() {
     try {
-      const contacts = await this.contactModel.find();
+      const contacts = await this.contactModel
+        .find()
+        .populate('assignedTo', 'name email')
+        .populate('createdBy', 'name email')
+        .sort({ createdAt: -1 });
       if (!contacts || contacts.length === 0) {
         return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
       }
@@ -94,7 +103,7 @@ export class ContactService {
     }
   }
 
-  async delete(id: string){
+  async delete(id: string) {
     try {
       const contact = this.contactModel.findByIdAndDelete(id);
       if (!contact) {
@@ -102,10 +111,8 @@ export class ContactService {
       }
       return new ApiResponse(200, contact, Msg.CONTACT_DELETED);
     } catch (error) {
-       console.log('Error deleting contact:', error);
-       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
-      
+      console.log('Error deleting contact:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
-
   }
 }
