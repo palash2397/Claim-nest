@@ -71,7 +71,8 @@ export class ContactService {
 
   async findOne(id: string) {
     try {
-      const contact = this.contactModel
+      console.log('id', id);
+      const contact = await this.contactModel
         .findById(id)
         .populate('assignedTo', 'name email')
         .populate('createdBy', 'name email');
