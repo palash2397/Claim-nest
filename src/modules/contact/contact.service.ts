@@ -106,7 +106,7 @@ export class ContactService {
 
   async delete(id: string) {
     try {
-      const contact = this.contactModel.findByIdAndDelete(id);
+      const contact = await this.contactModel.findByIdAndDelete(id);
       if (!contact) {
         return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
       }
@@ -115,5 +115,74 @@ export class ContactService {
       console.log('Error deleting contact:', error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
+  }
+
+  async getKanban() {
+    try {
+      const contacts = await this.contactModel
+        .find()
+        .populate('assignedTo', 'name')
+        .sort({ createdAt: -1 });
+
+      if (!contacts || contacts.length === 0) {
+        return new ApiResponse(404, {}, Msg.CONTACTS_NOT_FOUND);
+      }
+
+      const grouped: {
+        New: any[];
+        Active: any[];
+        FollowUp: any[];
+        Closed: any[];
+      } = {
+        New: [],
+        Active: [],
+        FollowUp: [],
+        Closed: [],
+      };
+
+      for (const item of contacts) {
+        if (['Potential', 'Inquiry'].includes(item.status)) {
+          grouped.New.push(item);
+        } else if (item.status === 'Client') {
+          grouped.Active.push(item);
+        } else if (item.status === 'Callback') {
+          grouped.FollowUp.push(item);
+        } else if (item.status === 'Closed') {
+          grouped.Closed.push(item);
+        }
+      }
+
+      return new ApiResponse(200, grouped, Msg.CONTACT_LIST_FETCHED);
+    } catch (error) {
+      console.log('Error finding contacts:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+    // return grouped;
+  }
+
+  async filterByAll(status?: string, search?: string) {
+    const filter: any = {};
+
+    if (status) {
+      filter.status = status;
+    }
+
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { phone: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const data = await this.contactModel
+      .find(filter)
+      .populate('assignedTo', 'name')
+      .sort({ createdAt: -1 });
+    
+    if (!data || data.length === 0) {
+      return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
+    }
+
+    return new ApiResponse(200, data, Msg.CONTACT_LIST_FETCHED);
   }
 }
