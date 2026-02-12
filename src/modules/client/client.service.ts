@@ -63,7 +63,7 @@ export class ClientService {
     try {
       const clients = await this.clientModel.find();
       if (!clients || clients.length === 0) {
-        return new ApiResponse(404, {}, Msg.CLIENT_NOT_FOUND);
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
       return new ApiResponse(200, clients, Msg.CLIENT_FETCHED);
     } catch (error) {

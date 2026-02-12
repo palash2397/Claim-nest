@@ -9,6 +9,7 @@ import {
   Get,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -35,6 +36,25 @@ export class ClientController {
   @UseGuards(JwtAuthGuard)
   update(@Body() dto: UpdateClientDto) {
     return this.clientService.update(dto);
+  }
+
+
+  @Delete('/delete/:id')
+  @UseGuards(JwtAuthGuard)
+  delete(@Param() dto: IdParamDto) {
+    return this.clientService.delete(dto.id);
+  }
+
+  @Get('/all')
+  @UseGuards(JwtAuthGuard)
+  all() {
+    return this.clientService.all();
+  }
+
+  @Get('/by-id/:id')
+  @UseGuards(JwtAuthGuard)
+  clientById(@Param() dto: IdParamDto) {
+    return this.clientService.clientById(dto.id);
   }
 
 }
