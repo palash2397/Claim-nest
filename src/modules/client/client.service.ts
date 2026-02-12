@@ -29,9 +29,9 @@ export class ClientService {
     }
   }
 
-  async update(id: string, dto: any) {
+  async update(dto: any) {
     try {
-      const client = await this.clientModel.findByIdAndUpdate(id, dto, {
+      const client = await this.clientModel.findByIdAndUpdate(dto.id, dto, {
         new: true,
       });
       if (!client) {

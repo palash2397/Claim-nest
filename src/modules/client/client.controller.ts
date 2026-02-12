@@ -17,14 +17,24 @@ import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
 import { ClientService } from './client.service';
 
+import { IdParamDto } from './dto/client-param.dto';
+import { CreateClientDto } from './dto/create-client.dto';
+import { UpdateClientDto } from './dto/update-client.dto';
+
 @Controller('client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Post('/create')
   @UseGuards(JwtAuthGuard)
-  create(@Body() createClientDto: any) {
+  create(@Body() createClientDto: CreateClientDto) {
     return this.clientService.create(createClientDto);
+  }
+
+  @Patch('/update')
+  @UseGuards(JwtAuthGuard)
+  update(@Body() dto: UpdateClientDto) {
+    return this.clientService.update(dto);
   }
 
 }
