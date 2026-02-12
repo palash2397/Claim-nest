@@ -37,7 +37,7 @@ export class MessageService {
 
       const messageDoc = new this.messageModel({
         from,
-        case: caseId,
+        regarding: caseId,
         message,
       });
 
@@ -89,7 +89,10 @@ export class MessageService {
 
   async findOne(id: string) {
     try {
-      const messageDoc = await this.messageModel.findById(id);
+      const messageDoc = await this.messageModel.findById(id)
+      .populate('from', 'name email')
+      .populate('regarding', 'caseId clientName')
+      .lean();
 
       if (!messageDoc) {
         return new ApiResponse(404, {}, Msg.MESSAGE_NOT_FOUND);
@@ -104,7 +107,13 @@ export class MessageService {
 
   async all() {
     try {
-      const messages = await this.messageModel.find();
+      const messages = await this.messageModel.find()
+      .populate('from', 'name email')
+      .populate('regarding', 'caseId clientName')
+      .lean()
+      if (!messages || messages.length === 0) {
+        return new ApiResponse(404, {}, Msg.MESSAGE_NOT_FOUND);
+      }
       return new ApiResponse(200, messages, Msg.MESSAGE_LIST_FETCHED);
     } catch (error) {
       console.log(`error while fetching messages: ${error.message}`);
