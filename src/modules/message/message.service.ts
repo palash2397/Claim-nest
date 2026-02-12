@@ -10,6 +10,9 @@ import { Message, MessageDocument } from './schemas/message.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
 import { Case, CaseDocument } from '../case/schemas/case.schema';   
 
+
+import { CreateMessageDto } from './dto/create-message.dto';
+
 @Injectable()
 export class MessageService {
     constructor(
@@ -17,4 +20,7 @@ export class MessageService {
         @InjectModel('User') private userModel: Model<UserDocument>,
         @InjectModel('Case') private caseModel: Model<CaseDocument>,
     ) {}
+
+
+    async create()
 }
