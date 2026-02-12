@@ -60,7 +60,8 @@ export class UserService {
 
   async all() {
     try {
-      const users = await this.userModel.find();
+      const users = await this.userModel.find({ role: 'User' }).lean();
+
       if(!users || users.length === 0) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
@@ -72,7 +73,7 @@ export class UserService {
 
   async getById(id: string) {
     try {
-      const user = await this.userModel.findById(id);
+      const user = await this.userModel.findById(id).lean();
       if(!user) {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }

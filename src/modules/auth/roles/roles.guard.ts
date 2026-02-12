@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate {
 
     console.log('User Role:', user?.role);
 
-    if (user?.role !== 'admin') {
+    if (user?.role !== 'Admin') {
       throw new ForbiddenException(
         new ApiResponse(401, {}, 'Access is forbidden'),
       );
