@@ -8,14 +8,14 @@ import { TaskModule } from './modules/task/task.module';
 import { AwsModule } from './modules/aws/aws.module';
 import { EventModule } from './modules/event/event.module';
 import { ContactModule } from './modules/contact/contact.module';
-import { ClientModule } from './client/client.module';
+
 
 
 @Module({
   imports: [DatabaseModule, ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: '.env',
-  }), UserModule, CallLogModule, CaseModule, TaskModule, AwsModule, EventModule, ContactModule, ClientModule],
+  }), UserModule, CallLogModule, CaseModule, TaskModule, AwsModule, EventModule, ContactModule],
   controllers: [],
   providers: [],
 })
