@@ -9,6 +9,7 @@ import { AwsModule } from './modules/aws/aws.module';
 import { EventModule } from './modules/event/event.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { ClientModule } from './modules/client/client.module';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ClientModule } from './modules/client/client.module';
     EventModule,
     ContactModule,
     ClientModule,
+    MessageModule,
   ],
   controllers: [],
   providers: [],
