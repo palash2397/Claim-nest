@@ -10,6 +10,7 @@ import { User, UserDocument } from '../user/schemas/user.schema';
 import { Case, CaseDocument } from '../case/schemas/case.schema';
 
 import { CreateMessageDto } from './dto/create-message.dto';
+import { UpdateMessageDto } from './dto/update-message.dto';
 
 @Injectable()
 export class MessageService {
@@ -49,32 +50,22 @@ export class MessageService {
     }
   }
 
-  async update(id: string, dto: CreateMessageDto) {
+  async update(dto: UpdateMessageDto) {
     try {
-      const { from, caseId, message } = dto;
-      const user = await this.userModel.findById(from);
+      const { id, from, caseId, message } = dto;
 
-      if (!user) {
-        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
-      }
-
-      const caseDoc = await this.caseModel.findById(caseId);
-
-      if (!caseDoc) {
-        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
-      }
-
-      const messageDoc = await this.messageModel.findByIdAndUpdate(id, {
-        from,
-        case: caseId,
-        message,
-      });
-
-      if (!messageDoc) {
+      const msg = await this.messageModel.findById(id);
+   
+      if (!msg) {
         return new ApiResponse(404, {}, Msg.MESSAGE_NOT_FOUND);
       }
+      
+      msg.from = new Types.ObjectId(from) || msg.from;
+      msg.regarding = new Types.ObjectId(caseId) || msg.regarding;
+      msg.message = message || msg.message;
+      await msg.save();
 
-      return new ApiResponse(200, messageDoc, Msg.MESSAGE_UPDATED);
+      return new ApiResponse(200, {}, Msg.MESSAGE_UPDATED);
     } catch (error) {
       console.log(`error while updating message: ${error.message}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
