@@ -48,7 +48,10 @@ export class CallLogService {
 
   async allCallLog() {
     try {
-      const data = await this.callLogModel.find().lean();
+      const data = await this.callLogModel.find()
+      .populate('case', 'caseId caseTitle')
+      .populate('createdBy', 'name email')
+      .lean();
       if (!data || data.length === 0) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
