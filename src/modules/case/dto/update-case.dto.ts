@@ -13,6 +13,8 @@ export class UpdateCaseDto {
   @IsString()
   clientPhone?: string;
 
+  
+
   @IsOptional()
   @IsString()
   clientAddress?: string;
