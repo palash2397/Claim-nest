@@ -43,4 +43,45 @@ export class ClientService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+
+  async delete(id: string) {
+    try {
+      const client = await this.clientModel.findByIdAndDelete(id);
+      if (!client) {
+        return new ApiResponse(404, {}, Msg.CLIENT_NOT_FOUND);
+      }
+      return new ApiResponse(200, client, Msg.CLIENT_DELETED);
+    } catch (error) {
+      console.log(`Error deleting client: ${error.message}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+
+  async all() {
+    try {
+      const clients = await this.clientModel.find();
+      if (!clients || clients.length === 0) {
+        return new ApiResponse(404, {}, Msg.CLIENT_NOT_FOUND);
+      }
+      return new ApiResponse(200, clients, Msg.CLIENT_FETCHED);
+    } catch (error) {
+      console.log(`Error fetching clients: ${error.message}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async clientById(id: string) {
+    try {
+      const client = await this.clientModel.findById(id);
+      if (!client) {
+        return new ApiResponse(404, {}, Msg.CLIENT_NOT_FOUND);
+      }
+      return new ApiResponse(200, client, Msg.CLIENT_FETCHED);
+    } catch (error) {
+      console.log(`Error fetching client: ${error.message}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
