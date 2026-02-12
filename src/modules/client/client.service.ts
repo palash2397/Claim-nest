@@ -78,6 +78,10 @@ export class ClientService {
       if (!client) {
         return new ApiResponse(404, {}, Msg.CLIENT_NOT_FOUND);
       }
+
+      if (client.claimStatus === 'Closed') {
+        return new ApiResponse(400, {}, Msg.DATA_IS_CLOSED);
+      }
       return new ApiResponse(200, client, Msg.CLIENT_FETCHED);
     } catch (error) {
       console.log(`Error fetching client: ${error.message}`);

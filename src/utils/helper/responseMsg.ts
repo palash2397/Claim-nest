@@ -43,6 +43,7 @@ export const Msg = {
   DATA_ADDED: `Data added successfully`,
   DATA_REQUIRED: `Data is required`,
   DATA_ALREADY_EXISTS: `Data  already exists`,
+  DATA_IS_CLOSED: `Data is closed`,
 
 
   // Id
