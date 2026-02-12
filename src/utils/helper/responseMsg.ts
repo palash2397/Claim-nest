@@ -150,4 +150,15 @@ export const Msg = {
  MESSAGE_FETCHED: `Message fetched successfully`,
  MESSAGE_LIST_FETCHED: `Message list fetched successfully`,
 
+
+
+ // call log
+ CALL_LOG_CREATED: `Call log created successfully`,
+ CALL_LOG_FETCHED: `Call log fetched successfully`,
+ CALL_LOG_LIST_FETCHED: `Call log list fetched successfully`,
+ CALL_LOG_NOT_FOUND: `Call log not found`,
+ CALL_LOG_ALREADY_EXISTS: `Call log already exists`,
+ CALL_LOG_UPDATED: `Call log updated successfully`,
+ CALL_LOG_DELETED: `Call log deleted successfully`,
+
 };
