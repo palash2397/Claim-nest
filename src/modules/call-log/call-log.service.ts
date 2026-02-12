@@ -48,10 +48,11 @@ export class CallLogService {
 
   async allCallLog() {
     try {
-      const data = await this.callLogModel.find()
-      .populate('case', 'caseId caseTitle')
-      .populate('createdBy', 'name email')
-      .lean();
+      const data = await this.callLogModel
+        .find()
+        .populate('case', 'caseId caseTitle')
+        .populate('createdBy', 'name email')
+        .lean();
       if (!data || data.length === 0) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
@@ -64,7 +65,11 @@ export class CallLogService {
 
   async callLogById(id: string) {
     try {
-      const data = await this.callLogModel.findById(id).lean();
+      const data = await this.callLogModel
+        .findById(id)
+        .populate('case', 'caseId caseTitle')
+        .populate('createdBy', 'name email')
+        .lean();
       if (!data) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
@@ -74,6 +79,4 @@ export class CallLogService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
-
-  
 }

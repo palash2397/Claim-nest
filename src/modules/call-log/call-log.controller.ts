@@ -18,4 +18,11 @@ export class CallLogController {
   findAll() {
     return this.callLogService.allCallLog();
   }
+
+
+  @Get("/by-id/:id")
+  @UseGuards(JwtAuthGuard)
+  findById(@Req() req: any) {
+    return this.callLogService.callLogById(req.params.id);
+  }
 }
