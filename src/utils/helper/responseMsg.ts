@@ -123,6 +123,20 @@ export const Msg = {
   CONTACT_UPDATED: `Contact updated successfully`,
   CONTACT_DELETED: `Contact deleted successfully`,
 
+
+
+  // Client
+  CLIENT_CREATED: `Client created successfully`,
+  CLIENT_FETCHED: `Client fetched successfully`,
+  CLIENT_LIST_FETCHED: `Client list fetched successfully`,
+  CLIENT_ALREADY_EXISTS: `Client already exists`,
+  CLIENT_UPDATED: `Client updated successfully`,
+  CLIENT_DELETED: `Client deleted successfully`,
+  CLIENT_NOT_CREATED: `Client not created`,
+  CLIENT_NOT_UPDATED: `Client not updated`,
+  CLIENT_NOT_DELETED: `Client not deleted`,
+  CLIENT_NOT_FOUND: `Client not found`,
+  CLIENT_NOT_EXISTS: `Client not exists`,
   
   
   
