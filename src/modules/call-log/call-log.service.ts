@@ -23,21 +23,54 @@ export class CallLogService {
   ) {}
 
   async createCallLog(dto: CreateCallLogDto, userId: string) {
-    const caseDoc = await this.caseModel.findById(dto.case);
-    if (!caseDoc) {
-      return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+    try {
+      const caseDoc = await this.caseModel.findById(dto.case);
+      if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+      }
+
+      const userDoc = await this.userModel.findById(userId);
+      if (!userDoc) {
+        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
+      }
+
+      const data = await this.callLogModel.create({
+        ...dto,
+        createdBy: new Types.ObjectId(userId),
+      });
+
+      return new ApiResponse(201, data, Msg.CALL_LOG_CREATED);
+    } catch (error) {
+      console.log(`error while creating call log: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
-
-    const userDoc = await this.userModel.findById(userId);
-    if (!userDoc) {
-      return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
-    }
-
-    const data = await this.callLogModel.create({
-      ...dto,
-      createdBy: new Types.ObjectId(userId),
-    });
-
-    return new ApiResponse(201, data, Msg.CALL_LOG_CREATED);
   }
+
+  async allCallLog() {
+    try {
+      const data = await this.callLogModel.find().lean();
+      if (!data || data.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, data, Msg.DATA_FETCHED);
+    } catch (error) {
+      console.log(`error while fetching call logs: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async callLogById(id: string) {
+    try {
+      const data = await this.callLogModel.findById(id).lean();
+      if (!data) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, data, Msg.DATA_FETCHED);
+    } catch (error) {
+      console.log(`error while fetching call log: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  
 }
