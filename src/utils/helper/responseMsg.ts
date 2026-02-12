@@ -82,7 +82,9 @@ export const Msg = {
   THUMBNAIL_GENERATION_LIMIT_EXCEEDED: `Thumbnail generation limit exceeded`,
 
 
-// Case
+  // Case
+  CASE_NOT_FOUND: `Case not found`,
+  CASE_ALREADY_EXISTS: `Case already exists`,
   ACTIVITY_ADDED: `Activity added successfully`,
   NOTE_ADDED: `Note added successfully`,
   MESSAGE_ADDED: `Message / Call added successfully`,
@@ -138,19 +140,14 @@ export const Msg = {
   CLIENT_NOT_DELETED: `Client not deleted`,
   CLIENT_NOT_FOUND: `Client not found`,
   CLIENT_NOT_EXISTS: `Client not exists`,
-  
-  
-  
 
-
-
-
-
-
-
-
-
-
-
+ // Message
+ MESSAGE_UPDATED: `Message updated successfully`,
+ MESSAGE_NOT_FOUND: `Message not found`,
+ MESSAGE_DELETED: `Message deleted successfully`,
+ MESSAGE_NOT_DELETED: `Message not deleted`,
+ MESSAGE_CREATED: `Message created successfully`,
+ MESSAGE_FETCHED: `Message fetched successfully`,
+ MESSAGE_LIST_FETCHED: `Message list fetched successfully`,
 
 };

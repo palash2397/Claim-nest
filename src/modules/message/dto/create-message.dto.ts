@@ -7,7 +7,7 @@ export class CreateMessageDto {
 
   @IsMongoId()
   @IsNotEmpty()
-  regarding: string;
+  caseId: string;
 
   @IsString()
   @IsNotEmpty()
