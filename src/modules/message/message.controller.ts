@@ -25,7 +25,7 @@ export class MessageController {
     return this.messageService.create(createMessageDto);
   }
 
-  @Get("/find/all")
+  @Get('/find/all')
   @UseGuards(JwtAuthGuard)
   findAll() {
     return this.messageService.all();
@@ -42,8 +42,8 @@ export class MessageController {
     return this.messageService.update(UpdateMessageDto);
   }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.messageService.remove(id);
-  // }
+  @Delete('/delete/:id')
+  delete(@Param('id') id: string) {
+    return this.messageService.delete(id);
+  }
 }
