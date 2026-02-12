@@ -57,4 +57,28 @@ export class UserService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async all() {
+    try {
+      const users = await this.userModel.find();
+      if(!users || users.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, users, Msg.DATA_FETCHED);
+    } catch (error) {
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async getById(id: string) {
+    try {
+      const user = await this.userModel.findById(id);
+      if(!user) {
+        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
+      }
+      return new ApiResponse(200, user, Msg.USER_FETCHED);
+    } catch (error) {
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
