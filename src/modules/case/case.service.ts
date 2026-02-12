@@ -347,5 +347,28 @@ export class CaseService {
     }
   }
 
-  async caseBy
+  async caseById(caseId: string) {
+    try {
+      const caseDoc = await this.caseModel.findById(caseId);
+      if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      
+      // Add signed URLs for documents
+      if (caseDoc.documents && caseDoc.documents.length > 0) {
+        for await (const doc of caseDoc.documents) {
+          if (doc.s3Key) {
+            doc.signedUrl = await this.awsService.getSignedFileUrl(doc.s3Key);
+          }
+        }
+      }
+      
+      return new ApiResponse(200, caseDoc, Msg.DATA_FETCHED);
+    } catch (error) {
+      console.log(`Error fetching case by ID: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  
 }
