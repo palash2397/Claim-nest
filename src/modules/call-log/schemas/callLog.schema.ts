@@ -1,48 +1,73 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type CallLogDocument = CallLog & Document;
 
+
+export enum CommunicationType {
+  CALL = 'Call',
+  TEXT = 'Text',
+}
+
+export enum Direction {
+  INCOMING = 'Incoming',
+  OUTGOING = 'Outgoing',
+}
+
+export enum ContactRole {
+  CLIENT = 'Client',
+  ATTORNEY = 'Attorney',
+  EMPLOYER = 'Employer',
+  OTHER = 'Other',
+}
+
 @Schema({ timestamps: true })
 export class CallLog {
-  @Prop()
-  dateTime: string;
 
-  @Prop({ enum: ['Call', 'Text'], required: true })
-  commType: 'Call' | 'Text';
+  @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
+  case: Types.ObjectId;
 
-  @Prop({ enum: ['Incoming', 'Outgoing'], required: true })
-  direction: 'Incoming' | 'Outgoing';
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  createdBy: Types.ObjectId;
 
-  @Prop()
+  @Prop({
+    type: String,
+    enum: CommunicationType,
+    required: true,
+  })
+  communicationType: string;
+
+  @Prop({
+    type: String,
+    enum: Direction,
+    required: true,
+  })
+  direction: string;
+
+  @Prop({
+    type: String,
+    enum: ContactRole,
+    default: ContactRole.CLIENT,
+  })
   contactRole: string;
+
+  @Prop()
+  callDuration: number;
 
   @Prop()
   contactName: string;
 
   @Prop()
-  phone: string;
+  phoneNumber: string;
 
-  @Prop()
-  caseId: string;
-
-  @Prop()
-  clientName: string;
-
-  @Prop()
-  durationMinutes: number;
-
-  @Prop()
-  textPreview: string;
-
-  @Prop()
+  @Prop({ required: true })
   notes: string;
 
   @Prop({ default: false })
   followUpRequired: boolean;
 
   @Prop()
-  followUpDueDate: string;
+  followUpDueDate: Date;
 }
 
 export const CallLogSchema = SchemaFactory.createForClass(CallLog);
