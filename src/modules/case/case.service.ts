@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { ApiResponse } from '../../utils/helper/ApiResponse';
 import { Msg } from '../../utils/helper/responseMsg';
+import { AwsService } from '../aws/aws.service';
+
 import { Case, CaseDocument } from './schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
-import {
-  CaseCounter,
-  CaseCounterDocument,
-} from './schemas/case-counter.schema';
-
+import { CaseCounter, CaseCounterDocument } from './schemas/case-counter.schema';
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 import { AddActivityDto } from './dto/add-activity.dto';
@@ -19,8 +17,6 @@ import { AddMessageCallDto } from './dto/add-message.dto';
 import { AddTimeLossDto } from './dto/add-time-loss.dto';
 import { AddProtestAppealDto } from './dto/add-protest-appeal.dto';
 import { AddDocumentDto } from './dto/add-document.dto';
-
-import { AwsService } from '../aws/aws.service';
 
 @Injectable()
 export class CaseService {
@@ -239,7 +235,7 @@ export class CaseService {
     return new ApiResponse(200, {}, Msg.PROTEST_APPEAL_ADDED);
   }
 
-  async caseById(caseId: string) {
+  async caseByCaseId(caseId: string) {
     const caseDoc = await this.caseModel.findOne({ caseId: caseId });
     if (!caseDoc) {
       return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
@@ -323,17 +319,33 @@ export class CaseService {
     }
   }
 
-  async allCases(){
+  async allCases() {
     try {
       const cases = await this.caseModel.find();
+
       if (!cases || cases.length === 0) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
+      
+      // Add signed URLs for documents
+      for await (const caseDoc of cases) {
+        if (caseDoc.documents && caseDoc.documents.length > 0) {
+          for await (const doc of caseDoc.documents) {
+            if (doc.s3Key) {
+              doc.signedUrl = await this.awsService.getSignedFileUrl(doc.s3Key);
+            }
+          }
+        }
+      }
+      
+    
+   
       return new ApiResponse(200, cases, Msg.DATA_FETCHED);
     } catch (error) {
       console.log(`Error fetching all cases: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
-      
     }
   }
+
+  async caseBy
 }

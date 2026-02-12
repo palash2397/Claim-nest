@@ -239,6 +239,7 @@ export class Case {
         // 🔜 future S3 fields
         fileUrl: String, // nullable for now
         s3Key: String, // nullable for now
+        signedUrl: String, // for temporary access
 
         uploadedBy: { type: Types.ObjectId, ref: 'User' },
         uploadedAt: Date,
@@ -254,6 +255,7 @@ export class Case {
     size: number;
     fileUrl?: string;
     s3Key?: string;
+    signedUrl?: string;
     uploadedBy: Types.ObjectId;
     uploadedAt: Date;
   }[];

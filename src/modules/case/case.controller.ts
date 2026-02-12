@@ -112,7 +112,7 @@ export class CaseController {
   @Get('/:id/name')
   @UseGuards(JwtAuthGuard)
   caseById(@Param('id') caseId: string) {
-    return this.caseService.caseById(caseId);
+    return this.caseService.caseByCaseId(caseId);
   }
 
 
