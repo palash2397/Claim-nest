@@ -94,6 +94,8 @@ export const Msg = {
   PROTEST_APPEAL_ADDED: `Protest / Appeal added successfully`,
   DOCUMENT_ADDED: `Document added successfully`,
 
+  CASE_EMAIL_ADDED: `Case email added successfully`,
+
   PROTEST_APPEAL_FETCHED  : `Protest / Appeal fetched successfully`,
   PROTEST_APPEAL_UPDATED: `Protest / Appeal updated successfully`,
   PROTEST_APPEAL_DELETED: `Protest / Appeal deleted successfully`,

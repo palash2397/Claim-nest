@@ -5,6 +5,8 @@ import {
   UseGuards,
   UseInterceptors,
   Req,
+  Get,
+  Param,
   UploadedFile,
 } from '@nestjs/common';
 import { CaseDocumentsService } from './case-documents.service';
@@ -27,5 +29,11 @@ export class CaseDocumentsController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     return this.caseDocumentsService.upload(dto, req.user.id, file);
+  }
+
+  @Get("/find/:caseId")
+  @UseGuards(JwtAuthGuard)
+  async findByCaseId(@Param('caseId') caseId: string) {
+    return this.caseDocumentsService.findByCaseId(caseId);
   }
 }
