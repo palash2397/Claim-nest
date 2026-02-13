@@ -161,4 +161,15 @@ export const Msg = {
  CALL_LOG_UPDATED: `Call log updated successfully`,
  CALL_LOG_DELETED: `Call log deleted successfully`,
 
+
+
+ // Activity Log
+ ACTIVITY_LOG_CREATED: `Activity log created successfully`,
+ ACTIVITY_LOG_FETCHED: `Activity log fetched successfully`,
+ ACTIVITY_LOG_LIST_FETCHED: `Activity log list fetched successfully`,
+ ACTIVITY_LOG_NOT_FOUND: `Activity log not found`,
+ ACTIVITY_LOG_ALREADY_EXISTS: `Activity log already exists`,
+ ACTIVITY_LOG_UPDATED: `Activity log updated successfully`,
+ ACTIVITY_LOG_DELETED: `Activity log deleted successfully`,
+
 };
