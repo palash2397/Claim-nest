@@ -14,6 +14,7 @@ import { ActivityLogModule } from './modules/activity-log/activity-log.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { CaseMessageModule } from './modules/case-message/case-message.module';
 import { CaseTimeLossModule } from './modules/case-time-loss/case-time-loss.module';
+import { CaseProtestAppealModule } from './modules/case-protest-appeal/case-protest-appeal.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CaseTimeLossModule } from './modules/case-time-loss/case-time-loss.modu
     NotesModule,
     CaseMessageModule,
     CaseTimeLossModule,
+    CaseProtestAppealModule,
   ],
   controllers: [],
   providers: [],
