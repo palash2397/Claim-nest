@@ -13,6 +13,7 @@ export class CallLogController {
     return this.callLogService.createCallLog(dto, req.user.id);
   }
 
+
   @Get("/all")
   @UseGuards(JwtAuthGuard)
   findAll() {

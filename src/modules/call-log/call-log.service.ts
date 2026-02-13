@@ -10,6 +10,7 @@ import { Case, CaseDocument } from '../case/schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
 
 import { CreateCallLogDto } from './dto/create-call-log.dto';
+import { UpdateCallLogDto } from './dto/update-call-log.dto';
 
 @Injectable()
 export class CallLogService {
@@ -42,6 +43,19 @@ export class CallLogService {
       return new ApiResponse(201, data, Msg.CALL_LOG_CREATED);
     } catch (error) {
       console.log(`error while creating call log: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async updateCallLog(dto: UpdateCallLogDto) {
+    try {
+      const data = await this.callLogModel.findByIdAndUpdate(dto.id, dto, { new: true });
+      if (!data) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, data, Msg.DATA_UPDATED);
+    } catch (error) {
+      console.log(`error while updating call log: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
