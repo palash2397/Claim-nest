@@ -12,6 +12,7 @@ import { ClientModule } from './modules/client/client.module';
 import { MessageModule } from './modules/message/message.module';
 import { ActivityLogModule } from './modules/activity-log/activity-log.module';
 import { NotesModule } from './modules/notes/notes.module';
+import { CaseMessageModule } from './modules/case-message/case-message.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { NotesModule } from './modules/notes/notes.module';
     MessageModule,
     ActivityLogModule,
     NotesModule,
+    CaseMessageModule,
   ],
   controllers: [],
   providers: [],

@@ -5,6 +5,7 @@ import { NotesController } from './notes.controller';
 import { Note, NoteSchema } from './schemas/create-note.schema';
 import { Case, CaseSchema } from '../case/schemas/case.schema';
 import { User, UserSchema } from '../user/schemas/user.schema';
+import { Task, TaskSchema } from '../task/schemas/task.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -12,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
     MongooseModule.forFeature([{ name: Case.name, schema: CaseSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
   ],
   controllers: [NotesController],
   providers: [NotesService],

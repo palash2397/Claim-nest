@@ -11,14 +11,10 @@ export const NOTE_TYPES = [
   'Internal',
 ] as const;
 
-export const NOTE_VISIBILITY = [
-  'Internal',
-  'Admin Only',
-] as const;
+export const NOTE_VISIBILITY = ['Internal', 'Admin Only'] as const;
 
 @Schema({ timestamps: true })
 export class Note {
-
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
   caseId: Types.ObjectId;
 
@@ -36,6 +32,9 @@ export class Note {
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   createdBy: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Task' })
+  linkedTaskId?: Types.ObjectId;
 }
 
 export const NoteSchema = SchemaFactory.createForClass(Note);

@@ -85,6 +85,8 @@ export const Msg = {
   // Case
   CASE_NOT_FOUND: `Case not found`,
   CASE_ALREADY_EXISTS: `Case already exists`,
+  CASE_HAS_NO_ASSIGNED_MANAGER: `Case has no assigned manager`,
+  CASE_MESSAGE_ADDED: `Case message added successfully`,
   ACTIVITY_ADDED: `Activity added successfully`,
   NOTE_ADDED: `Note added successfully`,
   MESSAGE_ADDED: `Message / Call added successfully`,
@@ -181,5 +183,9 @@ export const Msg = {
  NOTE_ALREADY_EXISTS: `Note already exists`,
  NOTE_UPDATED: `Note updated successfully`,
  NOTE_DELETED: `Note deleted successfully`,
+
+
+
+ // Task
 
 };
