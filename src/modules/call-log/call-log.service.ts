@@ -53,7 +53,7 @@ export class CallLogService {
       if (!data) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
-      return new ApiResponse(200, data, Msg.DATA_UPDATED);
+      return new ApiResponse(200, {}, Msg.DATA_UPDATED);
     } catch (error) {
       console.log(`error while updating call log: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
@@ -93,4 +93,6 @@ export class CallLogService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+
 }
