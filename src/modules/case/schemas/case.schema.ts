@@ -106,212 +106,212 @@ export class Case {
   @Prop()
   lastActivity: string;
 
-  /* ===================== ACTIVITY ===================== */
+  // /* ===================== ACTIVITY ===================== */
 
-  @Prop({
-    type: [
-      {
-        activity: String,
-        createdBy: String,
-        createdAt: Date,
-      },
-    ],
-    default: [],
-  })
-  activityLogs: {
-    activity: string;
-    createdBy: string;
-    createdAt: Date;
-  }[];
+  // @Prop({
+  //   type: [
+  //     {
+  //       activity: String,
+  //       createdBy: String,
+  //       createdAt: Date,
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // activityLogs: {
+  //   activity: string;
+  //   createdBy: string;
+  //   createdAt: Date;
+  // }[];
 
-  /* ===================== NOTES ===================== */
+  // /* ===================== NOTES ===================== */
 
-  @Prop({
-    type: [
-      {
-        note: String,
-        createdBy: String,
-        createdAt: Date,
-      },
-    ],
-    default: [],
-  })
-  notes: {
-    note: string;
-    createdBy: string;
-    createdAt: Date;
-  }[];
+  // @Prop({
+  //   type: [
+  //     {
+  //       note: String,
+  //       createdBy: String,
+  //       createdAt: Date,
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // notes: {
+  //   note: string;
+  //   createdBy: string;
+  //   createdAt: Date;
+  // }[];
 
-  /* ===================== MESSAGES / CALLS ===================== */
+  // /* ===================== MESSAGES / CALLS ===================== */
 
-  @Prop({
-    type: [
-      {
-        from: { type: String }, // Admin / Staff name or role
-        regarding: { type: String }, // Client / Staff
-        status: { type: String }, // Resolved, Pending, etc.
-        message: { type: String }, // short message
-        action: { type: String }, // Call Back, Follow Up
-        note: { type: String }, // long note
-        createdBy: { type: Types.ObjectId, ref: 'User' },
-        createdAt: { type: Date },
-      },
-    ],
-    default: [],
-  })
-  messagesAndCalls: {
-    from: string;
-    regarding: string;
-    status: string;
-    message: string;
-    action: string;
-    note?: string;
-    createdBy: Types.ObjectId;
-    createdAt: Date;
-  }[];
+  // @Prop({
+  //   type: [
+  //     {
+  //       from: { type: String }, // Admin / Staff name or role
+  //       regarding: { type: String }, // Client / Staff
+  //       status: { type: String }, // Resolved, Pending, etc.
+  //       message: { type: String }, // short message
+  //       action: { type: String }, // Call Back, Follow Up
+  //       note: { type: String }, // long note
+  //       createdBy: { type: Types.ObjectId, ref: 'User' },
+  //       createdAt: { type: Date },
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // messagesAndCalls: {
+  //   from: string;
+  //   regarding: string;
+  //   status: string;
+  //   message: string;
+  //   action: string;
+  //   note?: string;
+  //   createdBy: Types.ObjectId;
+  //   createdAt: Date;
+  // }[];
 
-  /* ===================== EMAILS ===================== */
+  // /* ===================== EMAILS ===================== */
 
-  @Prop({
-    type: [
-      {
-        subject: String,
-        sender: String,
-        receivedAt: Date,
-        externalId: String,
-      },
-    ],
-    default: [],
-  })
-  emails: {
-    subject: string;
-    sender: string;
-    receivedAt: Date;
-    externalId?: string;
-  }[];
+  // @Prop({
+  //   type: [
+  //     {
+  //       subject: String,
+  //       sender: String,
+  //       receivedAt: Date,
+  //       externalId: String,
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // emails: {
+  //   subject: string;
+  //   sender: string;
+  //   receivedAt: Date;
+  //   externalId?: string;
+  // }[];
 
-  /* ===================== TIME LOSS ===================== */
+  // /* ===================== TIME LOSS ===================== */
 
-  @Prop({
-    type: [
-      {
-        fromDate: { type: Date },
-        toDate: { type: Date },
-        payPeriod: { type: String }, // Weekly, Bi-Weekly, Monthly
-        description: { type: String },
-        createdBy: { type: Types.ObjectId, ref: 'User' },
-        createdAt: { type: Date },
-      },
-    ],
-    default: [],
-  })
-  timeLosses: {
-    fromDate: Date;
-    toDate: Date;
-    payPeriod: string;
-    description?: string;
-    createdBy: Types.ObjectId;
-    createdAt: Date;
-  }[];
+  // @Prop({
+  //   type: [
+  //     {
+  //       fromDate: { type: Date },
+  //       toDate: { type: Date },
+  //       payPeriod: { type: String }, // Weekly, Bi-Weekly, Monthly
+  //       description: { type: String },
+  //       createdBy: { type: Types.ObjectId, ref: 'User' },
+  //       createdAt: { type: Date },
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // timeLosses: {
+  //   fromDate: Date;
+  //   toDate: Date;
+  //   payPeriod: string;
+  //   description?: string;
+  //   createdBy: Types.ObjectId;
+  //   createdAt: Date;
+  // }[];
 
-  /* ===================== DOCUMENTS ===================== */
+  // /* ===================== DOCUMENTS ===================== */
 
-  @Prop({
-    type: [
-      {
-        fileName: String,
-        originalName: String,
-        category: {
-          type: String,
-          enum: [
-            'IWJ Documents',
-            'Dept Letters',
-            'Draft Copies',
-            'Medical',
-            'Vocational',
-            'WSF',
-            'SI CFU',
-          ],
-        },
-        mimeType: String,
-        size: Number,
+  // @Prop({
+  //   type: [
+  //     {
+  //       fileName: String,
+  //       originalName: String,
+  //       category: {
+  //         type: String,
+  //         enum: [
+  //           'IWJ Documents',
+  //           'Dept Letters',
+  //           'Draft Copies',
+  //           'Medical',
+  //           'Vocational',
+  //           'WSF',
+  //           'SI CFU',
+  //         ],
+  //       },
+  //       mimeType: String,
+  //       size: Number,
 
-        // 🔜 future S3 fields
-        fileUrl: String, // nullable for now
-        s3Key: String, // nullable for now
-        signedUrl: String, // for temporary access
+  //       // 🔜 future S3 fields
+  //       fileUrl: String, // nullable for now
+  //       s3Key: String, // nullable for now
+  //       signedUrl: String, // for temporary access
 
-        uploadedBy: { type: Types.ObjectId, ref: 'User' },
-        uploadedAt: Date,
-      },
-    ],
-    default: [],
-  })
-  documents: {
-    fileName: string;
-    originalName: string;
-    category: string;
-    mimeType: string;
-    size: number;
-    fileUrl?: string;
-    s3Key?: string;
-    signedUrl?: string;
-    uploadedBy: Types.ObjectId;
-    uploadedAt: Date;
-  }[];
+  //       uploadedBy: { type: Types.ObjectId, ref: 'User' },
+  //       uploadedAt: Date,
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // documents: {
+  //   fileName: string;
+  //   originalName: string;
+  //   category: string;
+  //   mimeType: string;
+  //   size: number;
+  //   fileUrl?: string;
+  //   s3Key?: string;
+  //   signedUrl?: string;
+  //   uploadedBy: Types.ObjectId;
+  //   uploadedAt: Date;
+  // }[];
 
-  /* ===================== PROTESTS & APPEALS ===================== */
+  // /* ===================== PROTESTS & APPEALS ===================== */
 
-  @Prop({
-    type: {
-      doDate: { type: Date },
-      description: { type: String },
-      deadline: { type: Date },
-      status: {
-        type: String,
-        enum: ['Protested', 'Appealed', 'No Action'],
-      },
-      outcome: { type: String },
-      notes: { type: String },
-      createdBy: { type: Types.ObjectId, ref: 'User' },
-      createdAt: { type: Date },
-    },
-    default: null,
-  })
-  protestsAndAppeals: {
-    doDate: Date;
-    description: string;
-    deadline: Date;
-    status: string;
-    outcome: string;
-    notes?: string;
-    createdBy: Types.ObjectId;
-    createdAt: Date;
-  };
+  // @Prop({
+  //   type: {
+  //     doDate: { type: Date },
+  //     description: { type: String },
+  //     deadline: { type: Date },
+  //     status: {
+  //       type: String,
+  //       enum: ['Protested', 'Appealed', 'No Action'],
+  //     },
+  //     outcome: { type: String },
+  //     notes: { type: String },
+  //     createdBy: { type: Types.ObjectId, ref: 'User' },
+  //     createdAt: { type: Date },
+  //   },
+  //   default: null,
+  // })
+  // protestsAndAppeals: {
+  //   doDate: Date;
+  //   description: string;
+  //   deadline: Date;
+  //   status: string;
+  //   outcome: string;
+  //   notes?: string;
+  //   createdBy: Types.ObjectId;
+  //   createdAt: Date;
+  // };
 
-  /* ===================== AUDIT LOG ===================== */
+  // /* ===================== AUDIT LOG ===================== */
 
-  @Prop({
-    type: [
-      {
-        action: String, // created | updated | deleted
-        field: String,
-        oldValue: String,
-        newValue: String,
-        performedBy: { type: Types.ObjectId, ref: 'User' },
-        performedAt: Date,
-      },
-    ],
-    default: [],
-  })
-  auditLogs: {
-    action: string;
-    field?: string;
-    oldValue?: string;
-    newValue?: string;
-    performedBy: Types.ObjectId;
-    performedAt: Date;
-  }[];
+  // @Prop({
+  //   type: [
+  //     {
+  //       action: String, // created | updated | deleted
+  //       field: String,
+  //       oldValue: String,
+  //       newValue: String,
+  //       performedBy: { type: Types.ObjectId, ref: 'User' },
+  //       performedAt: Date,
+  //     },
+  //   ],
+  //   default: [],
+  // })
+  // auditLogs: {
+  //   action: string;
+  //   field?: string;
+  //   oldValue?: string;
+  //   newValue?: string;
+  //   performedBy: Types.ObjectId;
+  //   performedAt: Date;
+  // }[];
 }
 
 export const CaseSchema = SchemaFactory.createForClass(Case);

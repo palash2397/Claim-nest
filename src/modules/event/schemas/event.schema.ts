@@ -10,7 +10,7 @@ export class Event {
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
   caseId: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: false })
   roleUserId: Types.ObjectId; // selected role / staff
 
   /* ===== EVENT DETAILS ===== */

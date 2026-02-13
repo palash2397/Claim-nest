@@ -54,60 +54,60 @@ export class CaseController {
     return this.caseService.update(updateCaseDto, req.user.id, caseId);
   }
 
-  @Post('/:id/activity')
-  @UseGuards(JwtAuthGuard)
-  addActivity(
-    @Param('id') caseId: string,
-    @Body() dto: AddActivityDto,
-    @Req() req: Request,
-  ) {
+  // @Post('/:id/activity')
+  // @UseGuards(JwtAuthGuard)
+  // addActivity(
+  //   @Param('id') caseId: string,
+  //   @Body() dto: AddActivityDto,
+  //   @Req() req: Request,
+  // ) {
 
-    return this.caseService.addActivity(caseId, dto, req.user.id);
-  }
+  //   return this.caseService.addActivity(caseId, dto, req.user.id);
+  // }
 
-  @Post('/:id/note')
-  @UseGuards(JwtAuthGuard)
-  addNote(
-    @Param('id') caseId: string,
-    @Body() dto: AddNoteDto,
-    @Req() req: Request,
-  ) {
-    if (!req.user) {
-      return new ApiResponse(401, {}, Msg.UNAUTHORIZED);
-    }
-    return this.caseService.addNote(caseId, dto, req.user.id);
-  }
+  // @Post('/:id/note')
+  // @UseGuards(JwtAuthGuard)
+  // addNote(
+  //   @Param('id') caseId: string,
+  //   @Body() dto: AddNoteDto,
+  //   @Req() req: Request,
+  // ) {
+  //   if (!req.user) {
+  //     return new ApiResponse(401, {}, Msg.UNAUTHORIZED);
+  //   }
+  //   return this.caseService.addNote(caseId, dto, req.user.id);
+  // }
 
-  @Post('/:id/messages')
-  @UseGuards(JwtAuthGuard)
-  addMessageCall(
-    @Param('id') caseId: string,
-    @Body() dto: AddMessageCallDto,
-    @Req() req: any,
-  ) {
-    return this.caseService.addMessageCall(caseId, dto, req.user.id);
-  }
+  // @Post('/:id/messages')
+  // @UseGuards(JwtAuthGuard)
+  // addMessageCall(
+  //   @Param('id') caseId: string,
+  //   @Body() dto: AddMessageCallDto,
+  //   @Req() req: any,
+  // ) {
+  //   return this.caseService.addMessageCall(caseId, dto, req.user.id);
+  // }
 
-  @Post('/:id/time-loss')
-  @UseGuards(JwtAuthGuard)
-  addTimeLoss(
-    @Param('id') caseId: string,
-    @Body() dto: AddTimeLossDto,
-    @Req() req: any,
-  ) {
-    return this.caseService.addTimeLoss(caseId, dto, req.user.id);
-  }
+  // @Post('/:id/time-loss')
+  // @UseGuards(JwtAuthGuard)
+  // addTimeLoss(
+  //   @Param('id') caseId: string,
+  //   @Body() dto: AddTimeLossDto,
+  //   @Req() req: any,
+  // ) {
+  //   return this.caseService.addTimeLoss(caseId, dto, req.user.id);
+  // }
 
 
-  @Post('/:id/protest-appeal')
-  @UseGuards(JwtAuthGuard)
-  addProtestAppeal(
-    @Param('id') caseId: string,
-    @Body() dto: AddProtestAppealDto,
-    @Req() req: any,
-  ) {
-    return this.caseService.addProtestAppeal(caseId, dto, req.user.id);
-  }
+  // @Post('/:id/protest-appeal')
+  // @UseGuards(JwtAuthGuard)
+  // addProtestAppeal(
+  //   @Param('id') caseId: string,
+  //   @Body() dto: AddProtestAppealDto,
+  //   @Req() req: any,
+  // ) {
+  //   return this.caseService.addProtestAppeal(caseId, dto, req.user.id);
+  // }
 
   @Get('/:id/name')
   @UseGuards(JwtAuthGuard)
@@ -116,16 +116,16 @@ export class CaseController {
   }
 
 
-  @Post("/document")
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('file'))
-  addDoucment(
-    @Body() body: any,
-    @Req() req: any,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    return this.caseService.addDocument(body, req.user.id, file);
-  }
+  // @Post("/document")
+  // @UseGuards(JwtAuthGuard)
+  // @UseInterceptors(FileInterceptor('file'))
+  // addDoucment(
+  //   @Body() body: any,
+  //   @Req() req: any,
+  //   @UploadedFile() file: Express.Multer.File,
+  // ) {
+  //   return this.caseService.addDocument(body, req.user.id, file);
+  // }
 
 
   @Get('/caseId/id')

@@ -76,6 +76,7 @@ export class CaseProtestAppealService {
        caseId: dto.caseId,
        title: `Protest Deadline`,
        eventType: 'Protest/Appeal',
+       roleUserId: caseDoc.assignedManager,
        eventDate: new Date(dto.deadline),
        status: 'Pending',
        createdBy: new Types.ObjectId(userId),
