@@ -14,12 +14,12 @@ import {
 } from './schemas/case-counter.schema';
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
-import { AddActivityDto } from './dto/add-activity.dto';
-import { AddNoteDto } from './dto/add-note.dto';
-import { AddMessageCallDto } from './dto/add-message.dto';
-import { AddTimeLossDto } from './dto/add-time-loss.dto';
-import { AddProtestAppealDto } from './dto/add-protest-appeal.dto';
-import { AddDocumentDto } from './dto/add-document.dto';
+// import { AddActivityDto } from './dto/add-activity.dto';
+// import { AddNoteDto } from './dto/add-note.dto';
+// import { AddMessageCallDto } from './dto/add-message.dto';
+// import { AddTimeLossDto } from './dto/add-time-loss.dto';
+// import { AddProtestAppealDto } from './dto/add-protest-appeal.dto';
+// import { AddDocumentDto } from './dto/add-document.dto';
 
 @Injectable()
 export class CaseService {
