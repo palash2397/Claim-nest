@@ -172,4 +172,14 @@ export const Msg = {
  ACTIVITY_LOG_UPDATED: `Activity log updated successfully`,
  ACTIVITY_LOG_DELETED: `Activity log deleted successfully`,
 
+
+ // Notes
+ NOTE_CREATED: `Note created successfully`,
+ NOTE_FETCHED: `Note fetched successfully`,
+ NOTE_LIST_FETCHED: `Note list fetched successfully`,
+ NOTE_NOT_FOUND: `Note not found`,
+ NOTE_ALREADY_EXISTS: `Note already exists`,
+ NOTE_UPDATED: `Note updated successfully`,
+ NOTE_DELETED: `Note deleted successfully`,
+
 };
