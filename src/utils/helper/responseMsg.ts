@@ -94,6 +94,13 @@ export const Msg = {
   PROTEST_APPEAL_ADDED: `Protest / Appeal added successfully`,
   DOCUMENT_ADDED: `Document added successfully`,
 
+  PROTEST_APPEAL_FETCHED  : `Protest / Appeal fetched successfully`,
+  PROTEST_APPEAL_UPDATED: `Protest / Appeal updated successfully`,
+  PROTEST_APPEAL_DELETED: `Protest / Appeal deleted successfully`,
+  PROTEST_APPEAL_NOT_FOUND: `Protest / Appeal not found`,
+  PROTEST_APPEAL_ALREADY_EXISTS: `Protest / Appeal already exists`,
+  PROTEST_APPEAL_CREATED: `Protest / Appeal created successfully`,
+
 
   // Task
   TASK_CREATED: `Task created successfully`,
