@@ -48,4 +48,20 @@ export class NotesService {
        return new ApiResponse(500,{}, Msg.SERVER_ERROR)
     }
   }
+
+  async findOne(id: string){
+    try {
+     const note = await this.noteModel.find({caseId: id});
+     if (!note || note.length === 0) {
+        return new ApiResponse(404, {}, Msg.NOTE_NOT_FOUND);
+     }
+
+     return new ApiResponse(200, note, Msg.NOTE_FETCHED);
+        
+    } catch (error) {
+        console.log(`error while finding note: ${error}`);
+        return new ApiResponse(500,{}, Msg.SERVER_ERROR);
+        
+    }
+  }
 }
