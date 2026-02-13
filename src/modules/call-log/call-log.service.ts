@@ -60,6 +60,19 @@ export class CallLogService {
     }
   }
 
+  async deleteCallLog(id: string) {
+    try {
+      const data = await this.callLogModel.findByIdAndDelete(id);
+      if (!data) {
+        return new ApiResponse(404, {}, Msg.CALL_LOG_NOT_FOUND);
+      }
+      return new ApiResponse(200, {}, Msg.CALL_LOG_DELETED);
+    } catch (error) {
+      console.log(`error while deleting call log: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
   async allCallLog() {
     try {
       const data = await this.callLogModel
