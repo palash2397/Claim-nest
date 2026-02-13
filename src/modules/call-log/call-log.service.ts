@@ -51,9 +51,9 @@ export class CallLogService {
     try {
       const data = await this.callLogModel.findByIdAndUpdate(dto.id, dto, { new: true });
       if (!data) {
-        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+        return new ApiResponse(404, {}, Msg.CALL_LOG_NOT_FOUND);
       }
-      return new ApiResponse(200, {}, Msg.DATA_UPDATED);
+      return new ApiResponse(200, {}, Msg.CALL_LOG_UPDATED);
     } catch (error) {
       console.log(`error while updating call log: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
