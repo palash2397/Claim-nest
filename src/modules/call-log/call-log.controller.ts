@@ -31,11 +31,11 @@ export class CallLogController {
     return this.callLogService.updateCallLog(dto);
   }
    
-  // @Delete("/delete/:id")
-  // @UseGuards(JwtAuthGuard)
-  // delete(@Req() req: any) {
-  //   return this.callLogService.deleteCallLog(req.params.id);
-  // }
+  @Delete("/delete/:id")
+  @UseGuards(JwtAuthGuard)
+  delete(@Req() req: any) {
+    return this.callLogService.deleteCallLog(req.params.id);
+  }
 
   @Get("/by-id/:id")
   @UseGuards(JwtAuthGuard)

@@ -10,6 +10,7 @@ import { EventModule } from './modules/event/event.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { ClientModule } from './modules/client/client.module';
 import { MessageModule } from './modules/message/message.module';
+import { ActivityLogModule } from './modules/activity-log/activity-log.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MessageModule } from './modules/message/message.module';
     ContactModule,
     ClientModule,
     MessageModule,
+    ActivityLogModule,
   ],
   controllers: [],
   providers: [],

@@ -106,9 +106,7 @@ export class UpdateCaseDto {
   @IsString()
   assignedManager?: string;
 
-  @IsOptional()
-  @IsString()
-  lastActivity?: string;
+
 
 
   @IsOptional()
