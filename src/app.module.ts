@@ -11,6 +11,7 @@ import { ContactModule } from './modules/contact/contact.module';
 import { ClientModule } from './modules/client/client.module';
 import { MessageModule } from './modules/message/message.module';
 import { ActivityLogModule } from './modules/activity-log/activity-log.module';
+import { NotesModule } from './modules/notes/notes.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ActivityLogModule } from './modules/activity-log/activity-log.module';
     ClientModule,
     MessageModule,
     ActivityLogModule,
+    NotesModule,
   ],
   controllers: [],
   providers: [],

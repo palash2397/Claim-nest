@@ -56,7 +56,9 @@ export class ActivityLogService {
 
       const activities = await this.activityLogModel
         .find({ caseId })
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .populate("caseId", "caseId")
+        .populate("createdBy", "firstName lastName email");
 
       if (!activities || activities.length === 0) {
         return new ApiResponse(404, {}, Msg.ACTIVITY_LOG_NOT_FOUND);
