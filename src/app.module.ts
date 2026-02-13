@@ -13,6 +13,7 @@ import { MessageModule } from './modules/message/message.module';
 import { ActivityLogModule } from './modules/activity-log/activity-log.module';
 import { NotesModule } from './modules/notes/notes.module';
 import { CaseMessageModule } from './modules/case-message/case-message.module';
+import { CaseTimeLossModule } from './modules/case-time-loss/case-time-loss.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CaseMessageModule } from './modules/case-message/case-message.module';
     ActivityLogModule,
     NotesModule,
     CaseMessageModule,
+    CaseTimeLossModule,
   ],
   controllers: [],
   providers: [],

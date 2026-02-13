@@ -23,31 +23,47 @@ export class CaseMessageService {
   ) {}
 
   async create(dto: CreateCaseMessageDto, userId: string) {
-   try {
-     const caseDoc = await this.caseModel.findById(dto.caseId);
- 
-     if (!caseDoc) {
-       return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
-     }
- 
-     const entry = await this.caseMessageModel.create({
-       caseId: dto.caseId,
-       from: new Types.ObjectId(userId),
-       regarding: dto.regarding,
-       status: dto.status,
-       message: dto.message,
-       action: dto.action,
-       note: dto.note,
-       createdBy: new Types.ObjectId(userId),
-     });
- 
-     caseDoc.lastActivity = `Message logged`;
-     await caseDoc.save();
- 
-    return new ApiResponse(201, entry, Msg.CASE_MESSAGE_ADDED);
-   } catch (error) {
-       console.log(`error while creating case message: ${error}`);
-       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
-   }
+    try {
+      const caseDoc = await this.caseModel.findById(dto.caseId);
+
+      if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+      }
+
+      const entry = await this.caseMessageModel.create({
+        caseId: dto.caseId,
+        from: new Types.ObjectId(userId),
+        regarding: dto.regarding,
+        status: dto.status,
+        message: dto.message,
+        action: dto.action,
+        note: dto.note,
+        createdBy: new Types.ObjectId(userId),
+      });
+
+      caseDoc.lastActivity = `Message logged`;
+      await caseDoc.save();
+
+      return new ApiResponse(201, entry, Msg.CASE_MESSAGE_ADDED);
+    } catch (error) {
+      console.log(`error while creating case message: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async findOne(id: string) {
+    try {
+      const message = await this.caseMessageModel
+        .find({ caseId: id })
+        .populate('caseId', 'caseId')
+        .populate('from', 'name');
+      if (!message) {
+        return new ApiResponse(404, {}, Msg.MESSAGE_NOT_FOUND);
+      }
+      return new ApiResponse(200, message, Msg.SUCCESS);
+    } catch (error) {
+      console.log(`error while finding case message: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
   }
 }
