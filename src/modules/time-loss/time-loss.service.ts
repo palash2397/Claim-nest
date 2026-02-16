@@ -5,7 +5,6 @@ import { Model, Types } from 'mongoose';
 import { ApiResponse } from '../../utils/helper/ApiResponse';
 import { Msg } from '../../utils/helper/responseMsg';
 
-
 import { TimeLoss, TimeLossDocument } from './schemas/time-loss.schema';
 import { Case, CaseDocument } from '../case/schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
@@ -23,14 +22,26 @@ export class TimeLossService {
     private userModel: Model<UserDocument>,
   ) {}
 
-  async create(dto: CreateTimeLossDto) {
-    if (dto.caseId) {
-      const caseDoc = await this.caseModel.findById(dto.caseId);
-      if (!caseDoc) {
-        return new ApiResponse(404,{}, Msg.CASE_NOT_FOUND)
+  async create(dto: CreateTimeLossDto, userId: string) {
+    try {
+      if (dto.caseId) {
+        const caseDoc = await this.caseModel.findById(dto.caseId);
+        if (!caseDoc) {
+          return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+        }
       }
-      
+
+      const entry = await this.timeLossModel.create({
+        ...dto,
+        date: new Date(dto.date),
+        caseId: dto.caseId,
+        createdBy: new Types.ObjectId(userId),
+      });
+
+      return new ApiResponse(201, entry, Msg.TIME_LOSS_CREATED);
+    } catch (error) {
+      console.error('Error creating time loss:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
-    
   }
 }

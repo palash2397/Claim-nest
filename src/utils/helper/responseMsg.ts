@@ -195,6 +195,13 @@ export const Msg = {
 
 
 
- // Task
+ // Time Loss
+ TIME_LOSS_CREATED: `Time Loss created successfully`,
+ TIME_LOSS_FETCHED: `Time Loss fetched successfully`,
+ TIME_LOSS_LIST_FETCHED: `Time Loss list fetched successfully`,
+ TIME_LOSS_NOT_FOUND: `Time Loss not found`,
+ TIME_LOSS_ALREADY_EXISTS: `Time Loss already exists`,
+ TIME_LOSS_UPDATED: `Time Loss updated successfully`,
+ TIME_LOSS_DELETED: `Time Loss deleted successfully`,
 
 };
