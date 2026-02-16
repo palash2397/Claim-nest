@@ -18,6 +18,7 @@ import { CaseProtestAppealModule } from './modules/case-protest-appeal/case-prot
 import { CaseDocumentsModule } from './modules/case-documents/case-documents.module';
 import { CaseMailModule } from './modules/case-mail/case-mail.module';
 import { TimeLossModule } from './modules/time-loss/time-loss.module';
+import { ExcelModule } from './modules/excel/excel.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { TimeLossModule } from './modules/time-loss/time-loss.module';
     CaseDocumentsModule,
     CaseMailModule,
     TimeLossModule,
+    ExcelModule,
   ],
   controllers: [],
   providers: [],
