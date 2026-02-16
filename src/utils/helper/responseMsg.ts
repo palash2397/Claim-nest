@@ -204,4 +204,18 @@ export const Msg = {
  TIME_LOSS_UPDATED: `Time Loss updated successfully`,
  TIME_LOSS_DELETED: `Time Loss deleted successfully`,
 
+
+ // Excel
+ EXCEL_UPLOADED_SUCCESSFULLY: `Excel uploaded successfully`,
+ EXCEL_NOT_UPLOADED: `Excel not uploaded`,
+ EXCEL_ERROR: `Excel error`,
+ EXCEL_INVALID_FORMAT: `Excel invalid format`,
+ EXCEL_INVALID_DATA: `Excel invalid data`,
+
+
+ //Aws 
+ AWS_ERROR: `Aws error`,
+ 
+ 
+
 };
