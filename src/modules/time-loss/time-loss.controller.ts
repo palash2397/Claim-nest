@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req, Patch, Param, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, Patch, Param, Get, Delete } from '@nestjs/common';
 import { TimeLossService } from './time-loss.service';
 
 import { CreateTimeLossDto } from './dto/create-time-loss.dto';
@@ -28,9 +28,15 @@ export class TimeLossController {
     return this.timeLossService.findOne(id);
   }
 
-  @Get("/find/all")
+  @Get("/all")
   @UseGuards(JwtAuthGuard)
   list() {
     return this.timeLossService.findAll();
+  }
+
+  @Delete("/delete/:id")
+  @UseGuards(JwtAuthGuard)
+  delete(@Param("id") id: string) {
+    return this.timeLossService.delete(id);
   }
 }

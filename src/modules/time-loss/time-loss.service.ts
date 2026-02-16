@@ -5,7 +5,10 @@ import { Model, Types } from 'mongoose';
 import { ApiResponse } from '../../utils/helper/ApiResponse';
 import { Msg } from '../../utils/helper/responseMsg';
 
-import { PaymentLedger, PaymentLedgerDocument } from './schemas/time-loss.schema';
+import {
+  PaymentLedger,
+  PaymentLedgerDocument,
+} from './schemas/time-loss.schema';
 import { Case, CaseDocument } from '../case/schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
 
@@ -69,8 +72,6 @@ export class TimeLossService {
         }
       }
 
-   
-
       const entry = await this.timeLossModel.findByIdAndUpdate(
         dto.id,
         updateData,
@@ -99,9 +100,17 @@ export class TimeLossService {
 
   async findOne(id: string) {
     try {
-      const entry = await this.timeLossModel.findById(id);
+      const entry = await this.timeLossModel
+        .findById(id)
+        .populate('caseId', `caseId`);
       if (!entry) {
         return new ApiResponse(404, {}, Msg.TIME_LOSS_NOT_FOUND);
+      }
+      if (entry.caseId) {
+        const caseDoc = await this.caseModel.findById(entry.caseId);
+        if (!caseDoc) {
+          return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+        }
       }
       return new ApiResponse(200, entry, Msg.TIME_LOSS_FETCHED);
     } catch (error) {
@@ -112,10 +121,13 @@ export class TimeLossService {
 
   async findAll() {
     try {
-      const entries = await this.timeLossModel.find();
+      const entries = await this.timeLossModel
+        .find()
+        .populate('caseId', 'caseId');
       if (!entries || entries.length === 0) {
         return new ApiResponse(404, [], Msg.TIME_LOSS_NOT_FOUND);
       }
+
       return new ApiResponse(200, entries, Msg.TIME_LOSS_LIST_FETCHED);
     } catch (error) {
       console.error('Error finding time loss:', error);
