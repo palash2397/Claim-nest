@@ -84,10 +84,15 @@ export class CaseMailService {
     }
   }
 
-
-  async findByCaseId(caseId: string, userId: string) {
+  async findByCaseId(caseId: string) {
     try {
-      const emails = await this.caseEmailModel.find({ caseId }).sort({ emailDate: -1 });
+      const emails = await this.caseEmailModel
+        .find({ caseId })
+        .populate('linkedTaskId')
+        .sort({ emailDate: -1 });
+      if (!emails || emails.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
       return new ApiResponse(200, emails, Msg.DATA_FETCHED);
     } catch (error) {
       console.log(`error while fetching case emails: ${error}`);
