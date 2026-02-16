@@ -8,7 +8,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class CreatePaymentLedgerDto {
+export class CreateTimeLossDto {
 
   @IsDateString()
   date: string;
