@@ -213,6 +213,7 @@ export const Msg = {
  EXCEL_INVALID_FORMAT: `Excel invalid format`,
  EXCEL_INVALID_DATA: `Excel invalid data`,
  EXCEL_FETCHED_SUCCESSFULLY: `Excel fetched successfully`,
+ EXCEL_DELETED_SUCCESSFULL: `Excel deleted successfully`,
 
 
  //Aws 

@@ -99,4 +99,16 @@ export class ExcelService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async deleteExcel(id: string) {
+    try {
+      const record = await this.excelModel.findByIdAndDelete(id);
+      if (!record) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, record, Msg.EXCEL_DELETED_SUCCESSFULL);
+    } catch (error) {
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
