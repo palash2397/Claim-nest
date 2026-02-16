@@ -34,9 +34,29 @@ export class ExcelService {
         return new ApiResponse(500, {}, Msg.AWS_ERROR);
       }
 
-      return new ApiResponse(200, {}, Msg.EXCEL_UPLOADED_SUCCESSFULLY);
+      const record = await this.excelModel.create({
+        sheetName: dto.sheetName,
+        sheetType: dto.sheetType,
+        fileName: file.originalname,
+        fileUrl: uploadResult.Location,
+        status: 'Pending',
+        uploadedBy: new Types.ObjectId(userId),
+      });
+
+      return new ApiResponse(200, record, Msg.EXCEL_UPLOADED_SUCCESSFULLY);
     } catch (error) {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  //   async updateExcel(id: string, dto: UploadExcelDto) {
+  //     try {
+  //       const sheet = await this.excelModel.findByIdAndUpdate(id, dto, {
+  //         new: true,
+  //       });
+  //       return new ApiResponse(200, sheet, Msg.EXCEL_UPDATED_SUCCESSFULLY);
+  //     } catch (error) {
+  //       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+  //     }
+  //   }
 }
