@@ -95,4 +95,17 @@ export class TimeLossService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async findAll() {
+    try {
+      const entries = await this.timeLossModel.find();
+      if (!entries || entries.length === 0) {
+        return new ApiResponse(404, [], Msg.TIME_LOSS_NOT_FOUND);
+      }
+      return new ApiResponse(200, entries, Msg.TIME_LOSS_LIST_FETCHED);
+    } catch (error) {
+      console.error('Error finding time loss:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
