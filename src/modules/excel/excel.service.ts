@@ -59,4 +59,33 @@ export class ExcelService {
   //       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
   //     }
   //   }
+
+  async findOne(id: string) {
+    try {
+      const sheet = await this.excelModel.findById(id);
+      if (!sheet) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+
+      sheet.fileUrl = await this.awsService.getSignedFileUrl(sheet.fileUrl);
+
+
+      return new ApiResponse(200, sheet, Msg.EXCEL_FETCHED_SUCCESSFULLY);
+    } catch (error) {
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+
+  async findAll(){
+    try {
+      const sheets = await this.excelModel.find();
+      if (!sheets || sheets.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, sheets, Msg.SUCCESS);
+    } catch (error) {
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
