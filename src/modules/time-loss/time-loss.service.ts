@@ -82,4 +82,17 @@ export class TimeLossService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async findOne(id: string) {
+    try {
+      const entry = await this.timeLossModel.findById(id);
+      if (!entry) {
+        return new ApiResponse(404, {}, Msg.TIME_LOSS_NOT_FOUND);
+      }
+      return new ApiResponse(200, entry, Msg.TIME_LOSS_FETCHED);
+    } catch (error) {
+      console.error('Error finding time loss:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
