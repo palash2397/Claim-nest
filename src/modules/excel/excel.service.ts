@@ -83,6 +83,10 @@ export class ExcelService {
       if (!sheets || sheets.length === 0) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
+
+      for (const sheet of sheets) {
+        sheet.fileUrl = await this.awsService.getSignedFileUrl(sheet.fileUrl);
+      }
       return new ApiResponse(200, sheets, Msg.SUCCESS);
     } catch (error) {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);

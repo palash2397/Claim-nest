@@ -1,13 +1,14 @@
-import { IsEnum, IsString } from 'class-validator';
+import { IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { UploadExcelDto } from './create-excel.dto';
 
-export class UploadExcelDto {
+export class UpdateExcelDto extends PartialType(UploadExcelDto) {
 
-  @IsString()
-  sheetName: string;
+  @IsMongoId()
+  @IsNotEmpty()
+  id: string;
 
-  @IsEnum(['Contacts', 'Tasks', 'PNCs', 'Cases'])
-  sheetType: 'Contacts' | 'Tasks' | 'PNCs' | 'Cases';
-
-
-  
+  @IsOptional()
+  @IsEnum(['Pending', 'Processed', 'Failed'])
+  status?: 'Pending' | 'Processed' | 'Failed';
 }
