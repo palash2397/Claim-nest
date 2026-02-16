@@ -37,6 +37,10 @@ export class CreateTimeLossDto {
   bank?: string;
 
   @IsOptional()
+  @IsString()
+  accountNumber?: string;
+
+  @IsOptional()
   @IsBoolean()
   cleared?: boolean;
 

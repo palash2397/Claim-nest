@@ -6,7 +6,7 @@ import { UpdateTimeLossDto } from './dto/update-time-loss.dto';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
-@Controller('time-loss')
+@Controller('time/loss')
 export class TimeLossController {
   constructor(private readonly timeLossService: TimeLossService) {}
 
@@ -24,7 +24,13 @@ export class TimeLossController {
 
   @Get("/find/:id")
   @UseGuards(JwtAuthGuard)
-  get(@Param("id") id: string, @Req() req: any) {
-    return this.timeLossService.get(id, req.user.Id);
+  get(@Param("id") id: string) {
+    return this.timeLossService.findOne(id);
+  }
+
+  @Get("/find/all")
+  @UseGuards(JwtAuthGuard)
+  list() {
+    return this.timeLossService.findAll();
   }
 }

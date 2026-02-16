@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-export type TimeLossDocument = TimeLoss & Document;
+export type PaymentLedgerDocument = PaymentLedger & Document;
 
 @Schema({ timestamps: true })
-export class TimeLoss {
+export class PaymentLedger {
 
   /* ===== BASIC INFO ===== */
 
@@ -39,6 +39,9 @@ export class TimeLoss {
   @Prop()
   bank: string;
 
+  @Prop()
+  accountNumber?: string;
+
   @Prop({ default: false })
   cleared: boolean;
 
@@ -49,7 +52,7 @@ export class TimeLoss {
 
   /* ===== OPTIONAL CASE LINK ===== */
 
-  @Prop({ type: Types.ObjectId, ref: 'Case' })
+  @Prop({ type: Types.ObjectId, ref: 'Case', required: false })
   caseId?: Types.ObjectId;
 
   /* ===== AUDIT ===== */
@@ -61,5 +64,5 @@ export class TimeLoss {
   updatedBy: Types.ObjectId;
 }
 
-export const TimeLossSchema =
-  SchemaFactory.createForClass(TimeLoss);
+export const PaymentLedgerSchema =
+  SchemaFactory.createForClass(PaymentLedger);

@@ -5,7 +5,7 @@ import { Model, Types } from 'mongoose';
 import { ApiResponse } from '../../utils/helper/ApiResponse';
 import { Msg } from '../../utils/helper/responseMsg';
 
-import { TimeLoss, TimeLossDocument } from './schemas/time-loss.schema';
+import { PaymentLedger, PaymentLedgerDocument } from './schemas/time-loss.schema';
 import { Case, CaseDocument } from '../case/schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
 
@@ -15,8 +15,8 @@ import { UpdateTimeLossDto } from './dto/update-time-loss.dto';
 @Injectable()
 export class TimeLossService {
   constructor(
-    @InjectModel(TimeLoss.name)
-    private timeLossModel: Model<TimeLossDocument>,
+    @InjectModel(PaymentLedger.name)
+    private timeLossModel: Model<PaymentLedgerDocument>,
     @InjectModel(Case.name)
     private caseModel: Model<CaseDocument>,
     @InjectModel(User.name)
@@ -48,6 +48,11 @@ export class TimeLossService {
 
   async update(dto: UpdateTimeLossDto, userId: string) {
     try {
+      const data = await this.timeLossModel.findById(dto.id);
+      if (!data) {
+        return new ApiResponse(404, {}, Msg.TIME_LOSS_NOT_FOUND);
+      }
+
       const updateData: any = {
         ...dto,
         updatedBy: new Types.ObjectId(userId),
@@ -56,6 +61,15 @@ export class TimeLossService {
       if (dto.date) {
         updateData.date = new Date(dto.date);
       }
+
+      if (dto.caseId) {
+        const caseDoc = await this.caseModel.findById(dto.caseId);
+        if (!caseDoc) {
+          return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+        }
+      }
+
+   
 
       const entry = await this.timeLossModel.findByIdAndUpdate(
         dto.id,
