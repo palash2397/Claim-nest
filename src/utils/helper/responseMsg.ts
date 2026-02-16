@@ -207,6 +207,7 @@ export const Msg = {
 
  // Excel
  EXCEL_UPLOADED_SUCCESSFULLY: `Excel uploaded successfully`,
+ EXCEL_UPDATED_SUCCESSFULLY: `Excel updated successfully`,
  EXCEL_NOT_UPLOADED: `Excel not uploaded`,
  EXCEL_ERROR: `Excel error`,
  EXCEL_INVALID_FORMAT: `Excel invalid format`,

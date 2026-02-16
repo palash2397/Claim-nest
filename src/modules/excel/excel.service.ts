@@ -8,6 +8,7 @@ import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from '../../utils/helper/responseMsg';
 
 import { UploadExcelDto } from './dto/create-excel.dto';
+import { UpdateExcelDto } from './dto/update-excel.dto';
 import { AwsService } from '../aws/aws.service';
 
 @Injectable()
@@ -49,16 +50,24 @@ export class ExcelService {
     }
   }
 
-  //   async updateExcel(id: string, dto: UploadExcelDto) {
-  //     try {
-  //       const sheet = await this.excelModel.findByIdAndUpdate(id, dto, {
-  //         new: true,
-  //       });
-  //       return new ApiResponse(200, sheet, Msg.EXCEL_UPDATED_SUCCESSFULLY);
-  //     } catch (error) {
-  //       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
-  //     }
-  //   }
+  async updateExcel(dto: UpdateExcelDto) {
+    try {
+      const record = await this.excelModel.findById(dto.id);
+      
+      if (!record) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      
+      Object.assign(record, dto);
+      await record.save();
+      
+      return new ApiResponse(200, record, Msg.EXCEL_UPDATED_SUCCESSFULLY);
+    } catch (error) {
+      console.log(`Error updating excel: ${error}`);
+
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 
   async findOne(id: string) {
     try {
@@ -69,15 +78,13 @@ export class ExcelService {
 
       sheet.fileUrl = await this.awsService.getSignedFileUrl(sheet.fileUrl);
 
-
       return new ApiResponse(200, sheet, Msg.EXCEL_FETCHED_SUCCESSFULLY);
     } catch (error) {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
 
-
-  async findAll(){
+  async findAll() {
     try {
       const sheets = await this.excelModel.find();
       if (!sheets || sheets.length === 0) {
