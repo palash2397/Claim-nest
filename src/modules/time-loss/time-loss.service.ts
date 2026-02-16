@@ -10,6 +10,7 @@ import { Case, CaseDocument } from '../case/schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
 
 import { CreateTimeLossDto } from './dto/create-time-loss.dto';
+import { UpdateTimeLossDto } from './dto/update-time-loss.dto';
 
 @Injectable()
 export class TimeLossService {
@@ -41,6 +42,43 @@ export class TimeLossService {
       return new ApiResponse(201, entry, Msg.TIME_LOSS_CREATED);
     } catch (error) {
       console.error('Error creating time loss:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async update(dto: UpdateTimeLossDto, userId: string) {
+    try {
+      const updateData: any = {
+        ...dto,
+        updatedBy: new Types.ObjectId(userId),
+      };
+
+      if (dto.date) {
+        updateData.date = new Date(dto.date);
+      }
+
+      const entry = await this.timeLossModel.findByIdAndUpdate(
+        dto.id,
+        updateData,
+        { new: true },
+      );
+
+      return new ApiResponse(200, entry, Msg.TIME_LOSS_UPDATED);
+    } catch (error) {
+      console.error('Error updating time loss:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async delete(id: string) {
+    try {
+      const entry = await this.timeLossModel.findByIdAndDelete(id);
+      if (!entry) {
+        return new ApiResponse(404, {}, Msg.TIME_LOSS_NOT_FOUND);
+      }
+      return new ApiResponse(200, entry, Msg.TIME_LOSS_DELETED);
+    } catch (error) {
+      console.error('Error deleting time loss:', error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
