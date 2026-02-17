@@ -20,9 +20,14 @@ export class MessageService {
     @InjectModel('Case') private caseModel: Model<CaseDocument>,
   ) {}
 
-  async create(dto: CreateMessageDto, userId: string) {
+  async create(dto: CreateMessageDto) {
     try {
-      const { caseId, type, direction, from, to, notes, communicationDate } = dto;
+      const { from, caseId, message } = dto;
+      const user = await this.userModel.findById(from);
+
+      if (!user) {
+        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
+      }
 
       const caseDoc = await this.caseModel.findById(caseId);
 
@@ -32,13 +37,8 @@ export class MessageService {
 
       const messageDoc = new this.messageModel({
         from,
-        caseId,
-        type,
-        direction,
-        to,
-        notes,
-        communicationDate,
-        createdBy: new mongoose.Types.ObjectId(userId),
+        regarding: caseId,
+        message,
       });
 
       await messageDoc.save();
@@ -50,23 +50,19 @@ export class MessageService {
     }
   }
 
-  async update(dto: UpdateMessageDto) { 
+  async update(dto: UpdateMessageDto) {
     try {
-   
+      const { id, from, caseId, message } = dto;
 
-      const msg = await this.messageModel.findById(dto.id);
+      const msg = await this.messageModel.findById(id);
    
       if (!msg) {
         return new ApiResponse(404, {}, Msg.MESSAGE_NOT_FOUND);
       }
       
-      msg.from = dto.from || msg.from;
-      msg.caseId = dto.caseId ? new mongoose.Types.ObjectId(dto.caseId) : msg.caseId;
-      msg.type = dto.type || msg.type;
-      msg.direction = dto.direction || msg.direction;
-      msg.to = dto.to || msg.to;
-      msg.notes = dto.notes || msg.notes;
-      msg.communicationDate = dto.communicationDate ? new Date(dto.communicationDate) : msg.communicationDate;
+      msg.from = new Types.ObjectId(from) || msg.from;
+      msg.regarding = new Types.ObjectId(caseId) || msg.regarding;
+      msg.message = message || msg.message;
       await msg.save();
 
       return new ApiResponse(200, {}, Msg.MESSAGE_UPDATED);
@@ -95,7 +91,7 @@ export class MessageService {
     try {
       const messageDoc = await this.messageModel.findById(id)
       .populate('from', 'name email')
-      .populate('caseId', 'caseId clientName')
+      .populate('regarding', 'caseId clientName')
       .lean();
 
       if (!messageDoc) {
@@ -113,7 +109,7 @@ export class MessageService {
     try {
       const messages = await this.messageModel.find()
       .populate('from', 'name email')
-      .populate('caseId', 'caseId clientName')
+      .populate('regarding', 'caseId clientName')
       .lean()
       if (!messages || messages.length === 0) {
         return new ApiResponse(404, {}, Msg.MESSAGE_NOT_FOUND);

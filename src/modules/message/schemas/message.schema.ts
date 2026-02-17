@@ -6,43 +6,17 @@ export type MessageDocument = Message & Document;
 @Schema({ timestamps: true })
 export class Message {
 
-  // Must always attach to a case
-  @Prop({ type: Types.ObjectId, ref: 'Case', required: true, index: true })
-  caseId: Types.ObjectId;
+  // Who sent the message
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  from: Types.ObjectId;
 
-  // Call or Text
-  @Prop({
-    enum: ['Call', 'Text'],
-    required: true,
-  })
-  type: 'Call' | 'Text';
+  // Which case this message belongs to
+  @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
+  regarding: Types.ObjectId;
 
-  // Incoming or Outgoing
-  @Prop({
-    enum: ['Incoming', 'Outgoing'],
-    required: true,
-  })
-  direction: 'Incoming' | 'Outgoing';
-
-  // From (editable string now)
-  @Prop({ required: true })
-  from: string;
-
-  // Optional To field
-  @Prop()
-  to: string;
-
-  // Notes about communication
-  @Prop({ required: true })
-  notes: string;
-
-  // Communication date/time
-  @Prop({ type: Date, required: true })
-  communicationDate: Date;
-
-  // Which staff logged it
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  createdBy: Types.ObjectId;
+  // Message content
+  @Prop({ required: true, trim: true })
+  message: string;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

@@ -1,9 +1,19 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateMessageDto } from './create-message.dto';
-import { IsNotEmpty, IsMongoId } from 'class-validator';
+import { IsNotEmpty, IsString, IsMongoId, IsOptional } from 'class-validator';
 
-export class UpdateMessageDto extends PartialType(CreateMessageDto) {
+export class UpdateMessageDto {
   @IsMongoId()
-  @IsNotEmpty()
+  @IsOptional()
   id: string;
+
+  @IsMongoId()
+  @IsOptional()
+  from: string;
+
+  @IsMongoId()
+  @IsOptional()
+  caseId: string;
+
+  @IsString()
+  @IsOptional()
+  message: string;
 }
