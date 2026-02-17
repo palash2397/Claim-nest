@@ -19,6 +19,7 @@ import { CaseDocumentsModule } from './modules/case-documents/case-documents.mod
 import { CaseMailModule } from './modules/case-mail/case-mail.module';
 import { TimeLossModule } from './modules/time-loss/time-loss.module';
 import { ExcelModule } from './modules/excel/excel.module';
+import { FeeModule } from './modules/fee/fee.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ExcelModule } from './modules/excel/excel.module';
     CaseMailModule,
     TimeLossModule,
     ExcelModule,
+    FeeModule,
   ],
   controllers: [],
   providers: [],
