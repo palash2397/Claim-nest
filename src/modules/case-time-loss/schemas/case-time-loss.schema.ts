@@ -5,7 +5,6 @@ export type TimeLossDocument = TimeLoss & Document;
 
 @Schema({ timestamps: true })
 export class TimeLoss {
-
   /* ===== LINK TO CASE ===== */
 
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true, index: true })
@@ -41,6 +40,26 @@ export class TimeLoss {
   @Prop({ type: Date })
   disbursedDate: Date;
 
+  @Prop({ type: String })
+  notes: string;
+
+  @Prop({
+    type: [
+      {
+        fileName: String,
+        fileUrl: String,
+        uploadedAt: Date,
+        uploadedBy: { type: Types.ObjectId, ref: 'User' },
+      },
+    ],
+    default: [],
+  })
+  pos: {
+    fileName: string;
+    fileUrl: string;
+    uploadedAt: Date;
+    uploadedBy: Types.ObjectId;
+  }[];
   /* ===== AUDIT ===== */
 
   @Prop({ type: Types.ObjectId, ref: 'User' })

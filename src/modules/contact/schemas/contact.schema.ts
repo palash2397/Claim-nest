@@ -11,33 +11,42 @@ export const CONTACT_STATUS = [
   'Closed',
 ] as const;
 
+
 @Schema({ timestamps: true })
 export class Contact {
-  /* ===== BASIC INFO ===== */
 
   @Prop({ required: true })
-  name: string;
+  displayName: string;
 
   @Prop()
-  phone: string;
+  companyName: string;
+
+  @Prop()
+  primaryPhone: string;
+
+  @Prop()
+  secondaryPhone: string;
 
   @Prop()
   email: string;
 
-  /* ===== STATUS ===== */
+  @Prop()
+  addressLine1: string;
 
-  @Prop({
-    enum: CONTACT_STATUS,
-    default: 'Potential',
-  })
-  status: string;
+  @Prop()
+  city: string;
 
-  /* ===== ASSIGNMENT ===== */
+  @Prop()
+  state: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  assignedTo: Types.ObjectId;
+  @Prop()
+  zipCode: string;
 
-  /* ===== AUDIT ===== */
+  @Prop()
+  notes: string;
+
+  @Prop({ default: true })
+  isActive: boolean;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createdBy: Types.ObjectId;
@@ -45,5 +54,6 @@ export class Contact {
   @Prop({ type: Types.ObjectId, ref: 'User' })
   updatedBy: Types.ObjectId;
 }
+
 
 export const ContactSchema = SchemaFactory.createForClass(Contact);

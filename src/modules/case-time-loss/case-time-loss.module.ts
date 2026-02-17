@@ -7,6 +7,8 @@ import { TimeLoss, TimeLossSchema } from './schemas/case-time-loss.schema';
 import { Case, CaseSchema } from '../case/schemas/case.schema';
 import { User, UserSchema } from '../user/schemas/user.schema';
 
+import { AwsModule } from '../aws/aws.module';
+
 @Module({
   controllers: [CaseTimeLossController],
   providers: [CaseTimeLossService],
@@ -16,6 +18,7 @@ import { User, UserSchema } from '../user/schemas/user.schema';
       { name: Case.name, schema: CaseSchema },
       { name: User.name, schema: UserSchema },
     ]),
+    AwsModule,
   ],
 
   exports: [

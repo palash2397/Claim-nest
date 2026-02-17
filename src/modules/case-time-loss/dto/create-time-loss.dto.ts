@@ -35,4 +35,7 @@ export class CreateTimeLossDto {
   @IsOptional()
   @IsDateString()
   disbursedDate?: string;
+
+  @IsOptional()
+  notes?: string;
 }
