@@ -8,8 +8,10 @@ import {
   Param,
   UseGuards,
   Patch,
+  Req,
 } from '@nestjs/common';
 import { MessageService } from './message.service';
+import type { Request } from 'express';
 
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -21,8 +23,8 @@ export class MessageController {
 
   @Post('/create')
   @UseGuards(JwtAuthGuard)
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messageService.create(createMessageDto);
+  create(@Body() createMessageDto: CreateMessageDto, @Req() req: Request) {
+    return this.messageService.create(createMessageDto, req.user.id);
   }
 
   @Get('/find/all')

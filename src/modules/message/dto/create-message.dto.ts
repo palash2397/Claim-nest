@@ -1,15 +1,35 @@
-import { IsNotEmpty, IsString, IsMongoId } from 'class-validator';
+import {
+  IsDateString,
+  IsEnum,
+  IsMongoId,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateMessageDto {
-  @IsMongoId()
-  @IsNotEmpty()
-  from: string;
 
   @IsMongoId()
-  @IsNotEmpty()
   caseId: string;
+
+  @IsEnum(['Call', 'Text'])
+  type: 'Call' | 'Text';
+
+  @IsEnum(['Incoming', 'Outgoing'])
+  direction: 'Incoming' | 'Outgoing';
 
   @IsString()
   @IsNotEmpty()
-  message: string;
+  from: string;
+
+  @IsOptional()
+  @IsString()
+  to?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  notes: string;
+
+  @IsDateString()
+  communicationDate: string;
 }
