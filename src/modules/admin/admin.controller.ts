@@ -1,7 +1,7 @@
-import { Resolver } from '@nestjs/graphql';
+import { Controller } from '@nestjs/common';
 import { AdminService } from './admin.service';
 
-@Resolver('Admin')
-export class AdminResolver {
+@Controller('admin')
+export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 }

@@ -22,6 +22,7 @@ import { ExcelModule } from './modules/excel/excel.module';
 import { FeeModule } from './modules/fee/fee.module';
 import { AdminModule } from './modules/admin/admin.module';
 
+
 @Module({
   imports: [
     DatabaseModule,
@@ -48,7 +49,7 @@ import { AdminModule } from './modules/admin/admin.module';
     TimeLossModule,
     ExcelModule,
     FeeModule,
-    AdminModule,
+    AdminModule
   ],
   controllers: [],
   providers: [],
