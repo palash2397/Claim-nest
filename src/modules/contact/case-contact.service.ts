@@ -11,6 +11,9 @@ import { CaseContact, CaseContactDocument } from './schemas/case-contact.schema'
 import { Contact, ContactDocument } from './schemas/contact.schema';
 import { Case, CaseDocument } from '../case/schemas/case.schema';
 
+
+import { CreateCaseContactDto } from './dto/create-case-contact.dto';
+
 @Injectable()
 export class CaseContactService {
     constructor(
@@ -18,4 +21,13 @@ export class CaseContactService {
         @InjectModel(Contact.name) private contactModel: Model<ContactDocument>,
         @InjectModel(Case.name) private caseModel: Model<CaseDocument>,
     ) {}
+
+
+    async create(dto: CreateCaseContactDto) {
+       const caseDoc = await this.caseModel.findById(dto.caseId);
+       if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+       }
+        
+    }
 }
