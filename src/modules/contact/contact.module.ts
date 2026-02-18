@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { ContactController } from './contact.controller';
+
+
 import { CaseContactService } from './case-contact.service';
+import { CaseContactController } from './case-contact.controller';
 
 
 import { MongooseModule } from '@nestjs/mongoose';
@@ -15,7 +18,7 @@ import { Contact, ContactSchema } from './schemas/contact.schema';
       { name: Contact.name, schema: ContactSchema },
     ]),
   ],
-  controllers: [ContactController],
+  controllers: [ContactController, CaseContactController],
   providers: [ContactService, CaseContactService],
   exports: [
     ContactService,
