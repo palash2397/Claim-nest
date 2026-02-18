@@ -93,69 +93,6 @@ npm run start:prod
 npm run start:debug
 ```
 
-## API Documentation
-
-### Authentication Endpoints
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
-- `POST /auth/refresh` - Refresh JWT token
-
-### Case Management
-- `GET /cases` - List all cases
-- `POST /cases` - Create new case
-- `GET /cases/:id` - Get case details
-- `PUT /cases/:id` - Update case
-- `DELETE /cases/:id` - Delete case
-
-### Client Management
-- `GET /clients` - List all clients
-- `POST /clients` - Create new client
-- `GET /clients/:id` - Get client details
-- `PUT /clients/:id` - Update client information
-
-### Document Management
-- `POST /documents/upload` - Upload document to S3
-- `GET /documents/:id` - Download document
-- `DELETE /documents/:id` - Delete document
-
-## Project Structure
-
-```
-src/
-├── modules/
-│   ├── auth/           # Authentication & authorization
-│   ├── user/           # User management
-│   ├── case/           # Case management
-│   ├── client/         # Client management
-│   ├── case-documents/ # Document management
-│   ├── case-message/   # Case communications
-│   ├── case-mail/      # Email management
-│   ├── call-log/       # Call logging
-│   ├── activity-log/   # Activity tracking
-│   ├── fee/            # Fee management
-│   ├── time-loss/      # Time loss calculations
-│   ├── excel/          # Excel operations
-│   ├── aws/            # AWS S3 integration
-│   └── admin/          # Admin functionality
-├── common/
-│   ├── interfaces/     # Shared interfaces
-│   └── middleware/     # Custom middleware
-├── database/           # Database configuration
-├── utils/              # Utility functions
-├── app.module.ts       # Root module
-└── main.ts            # Application entry point
-```
-
-## Database Schema
-
-The application uses MongoDB with the following main collections:
-- **users**: User accounts and authentication
-- **cases**: Legal case information
-- **clients**: Client details and contacts
-- **documents**: File metadata and S3 references
-- **activity_logs**: System activity tracking
-- **fees**: Billing and fee information
-
 ## Testing
 
 ```bash
@@ -187,119 +124,14 @@ npm run build
 
 ## Deployment
 
-### Production Deployment
-
-1. **Build the application**:
 ```bash
+# Build the application
 npm run build
-```
 
-2. **Set production environment variables**:
-```env
-NODE_ENV=production
-MONGODB_URI=mongodb://your-production-db
-JWT_SECRET=your-production-secret
-# ... other production variables
-```
-
-3. **Run in production mode**:
-```bash
+# Run in production mode
 npm run start:prod
-```
-
-### Docker Deployment
-
-Create a `Dockerfile`:
-
-```dockerfile
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "run", "start:prod"]
-```
-
-### Cloud Deployment Options
-
-- **AWS**: Deploy using ECS, Lambda, or EC2
-- **Google Cloud**: Use Cloud Run or App Engine
-- **Azure**: Deploy to Container Instances or App Service
-- **Heroku**: Simple deployment with Git push
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow the existing code style and conventions
-- Write unit tests for new features
-- Update documentation for API changes
-- Use meaningful commit messages
-- Ensure all tests pass before submitting PR
-
-## Security Considerations
-
-- JWT tokens are used for authentication
-- Passwords are hashed using bcrypt
-- File uploads are validated and stored securely on S3
-- Input validation using class-validator
-- Role-based access control for sensitive operations
-
-## Performance
-
-- Database indexing on frequently queried fields
-- Efficient pagination for large datasets
-- Caching strategies for frequently accessed data
-- Optimized file upload/download streams
-- Connection pooling for database operations
-
-## Monitoring and Logging
-
-- HTTP request logging with Morgan
-- Activity logging for audit trails
-- Error tracking and reporting
-- Performance monitoring capabilities
-- Health check endpoints
-
-## API Rate Limiting
-
-Configure rate limiting to prevent abuse:
-```typescript
-// In your main.ts or app module
-import * as rateLimit from 'express-rate-limit';
-
-app.use(rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-}));
 ```
 
 ## License
 
 This project is proprietary software. All rights reserved.
-
-## Support
-
-For support and questions:
-- Create an issue in the repository
-- Contact the development team
-- Check the documentation for common solutions
-
-## Changelog
-
-### Version 0.0.1
-- Initial release
-- Basic CRUD operations for cases and clients
-- Authentication and authorization
-- Document management with AWS S3
-- Activity logging
-- Fee management
-- Excel import/export functionality
