@@ -4,6 +4,13 @@ import * as bcrypt from 'bcrypt';
 
 export type UserDocument = HydratedDocument<User>;
 
+export enum UserRole {
+  Admin = 'Admin',
+  User = 'User',
+  Assistant = 'Assistant',
+  Manager = 'Manager',
+}
+
 @Schema({ timestamps: true })
 export class User {
   @Prop({
@@ -26,10 +33,10 @@ export class User {
   password: string;
 
   @Prop({
-    enum: ["Admin", "User"],
-    default: 'User',
+    enum: UserRole,
+    default: UserRole.User,
   })
-  role: string;
+  role: UserRole;
 
 
   @Prop({
