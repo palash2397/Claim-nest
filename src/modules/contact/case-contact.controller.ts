@@ -27,4 +27,16 @@ export class CaseContactController {
   create(@Body() dto: CreateCaseContactDto) {
     return this.caseContactService.create(dto);
   }
+
+  @Get("/case/:caseId")
+  @UseGuards(JwtAuthGuard)
+  contactByCaseId(@Param('caseId') caseId: string) {
+    return this.caseContactService.contactByCaseId(caseId);
+  }
+
+  @Delete("/delete/:id")
+  @UseGuards(JwtAuthGuard)
+  remove(@Param('id') id: string) {
+    return this.caseContactService.remove(id);
+  }
 }
