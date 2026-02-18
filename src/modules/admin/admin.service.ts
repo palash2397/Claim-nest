@@ -30,7 +30,7 @@ export class AdminService {
 
   async assignRole(dto: AssignRoleDto) {
     try {
-      const userDoc = await this.userModel.findById(dto.userId);
+      const userDoc = await this.userModel.findById(dto.id);
       if (!userDoc) {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
