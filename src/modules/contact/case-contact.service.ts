@@ -62,4 +62,18 @@ export class CaseContactService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+
+  async contactByCaseId(caseId: string) {
+    try {
+      const caseContact = await this.caseContactModel.find({ caseId });
+      if (!caseContact) {
+        return new ApiResponse(404, {}, Msg.CASE_CONTACT_NOT_FOUND);
+      }
+      return new ApiResponse(200, caseContact, Msg.CASE_CONTACT_FETCHED);
+    } catch (error) {
+      console.error('Error fetching contact by case:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }

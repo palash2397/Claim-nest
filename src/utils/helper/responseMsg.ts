@@ -139,6 +139,15 @@ export const Msg = {
 
 
 
+  // Case Contact
+  CASE_CONTACT_FETCHED: `Case contact fetched successfully`,
+  CASE_CONTACT_NOT_FOUND: `Case contact not found`,
+  CASE_CONTACT_ALREADY_EXISTS: `Case contact already exists`,
+  CASE_CONTACT_UPDATED: `Case contact updated successfully`,
+  CASE_CONTACT_DELETED: `Case contact deleted successfully`,
+
+
+
   // Client
   CLIENT_CREATED: `Client created successfully`,
   CLIENT_FETCHED: `Client fetched successfully`,
