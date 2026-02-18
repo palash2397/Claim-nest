@@ -29,6 +29,11 @@ export class CreateContactDto {
   @IsString()
   addressLine1?: string;
 
+  
+  @IsOptional()
+  @IsString()
+  addressLine2?: string;
+
   @IsOptional()
   @IsString()
   city?: string;
