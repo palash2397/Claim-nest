@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type CaseContactDocument = CaseContact & Document;
 
@@ -13,22 +13,14 @@ export class CaseContact {
   contactId: Types.ObjectId;
 
   @Prop({ required: true })
-  roleOnCase: string; // Client, Employer, Doctor, Attorney
+  roleOnCase: string;
 
   @Prop({ default: false })
   isPrimary: boolean;
 
   @Prop()
-  caseSpecificNotes: string;
-
-  @Prop()
-  overridePhone: string;
-
-  @Prop()
-  overrideEmail: string;
-
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  createdBy: Types.ObjectId;
+  caseNotes: string;
 }
 
-export const CaseContactSchema = SchemaFactory.createForClass(CaseContact);
+export const CaseContactSchema =
+  SchemaFactory.createForClass(CaseContact);

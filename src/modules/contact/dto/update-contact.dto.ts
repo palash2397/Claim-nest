@@ -1,36 +1,10 @@
-import {
-  IsEmail,
-  IsEnum,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
-import { CONTACT_STATUS } from '../schemas/contact.schema';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsMongoId, IsNotEmpty } from 'class-validator';
+import { CreateContactDto } from './create-contact.dto';
 
-export class UpdateContactDto {
+export class UpdateContactDto extends PartialType(CreateContactDto) {
 
   @IsNotEmpty()
   @IsMongoId()
-  id?: string;
-
-  @IsOptional()
-  @IsString()
-  name?: string;
-
-  @IsOptional()
-  @IsString()
-  phone?: string;
-
-  @IsOptional()
-  @IsEmail()
-  email?: string;
-
-  @IsOptional()
-  @IsEnum(CONTACT_STATUS)
-  status?: string;
-
-  @IsOptional()
-  @IsMongoId()
-  assignedTo?: string;
+  id: string;
 }

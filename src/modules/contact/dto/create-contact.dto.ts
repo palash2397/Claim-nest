@@ -1,31 +1,46 @@
-import {
-  IsEmail,
-  IsEnum,
-  IsMongoId,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-} from 'class-validator';
-import { CONTACT_STATUS } from '../schemas/contact.schema';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { ContactType } from '../schemas/contact.schema';
 
 export class CreateContactDto {
-  @IsNotEmpty()
+
   @IsString()
-  name: string;
+  firstName: string;
+
+  @IsString()
+  lastName: string;
 
   @IsOptional()
   @IsString()
-  phone?: string;
+  company?: string;
 
   @IsOptional()
-  @IsEmail()
+  @IsString()
+  primaryPhone?: string;
+
+  @IsOptional()
+  @IsString()
+  secondaryPhone?: string;
+
+  @IsOptional()
+  @IsString()
   email?: string;
 
   @IsOptional()
-  @IsEnum(CONTACT_STATUS)
-  status?: string;
+  @IsString()
+  addressLine1?: string;
 
   @IsOptional()
-  @IsMongoId()
-  assignedTo?: string;
+  @IsString()
+  city?: string;
+
+  @IsOptional()
+  @IsString()
+  state?: string;
+
+  @IsOptional()
+  @IsString()
+  zipCode?: string;
+
+  @IsEnum(ContactType)
+  contactType: ContactType;
 }
