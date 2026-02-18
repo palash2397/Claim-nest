@@ -3,6 +3,13 @@ import { Document, Types } from 'mongoose';
 
 export type FeeDocument = Fee & Document;
 
+export enum PaymentMethod {
+  PICK_UP = 'Pick-Up',
+  DEPOSIT = 'Deposit',
+  WIRE = 'Wire',
+  MAIL = 'Mail',
+}
+
 @Schema({ timestamps: true })
 export class Fee {
 
@@ -15,8 +22,8 @@ export class Fee {
   @Prop()
   agreement: string;
 
-  @Prop({ enum: ['Pick-Up', 'Deposit'] })
-  paymentMethod: 'Pick-Up' | 'Deposit';
+  @Prop({ enum: PaymentMethod })
+  paymentMethod: PaymentMethod;
 
   @Prop()
   bank: string;
