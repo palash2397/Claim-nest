@@ -63,11 +63,22 @@ export class CaseContactService {
     }
   }
 
-
   async contactByCaseId(caseId: string) {
     try {
-      const caseContact = await this.caseContactModel.find({ caseId });
-      if (!caseContact) {
+      const caseDoc = await this.caseModel.findById(caseId);
+      if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+      }
+
+      console.log('caseDoc', caseDoc);
+
+      const caseContact = await this.caseContactModel
+        .find({
+          caseId: new mongoose.Types.ObjectId(caseId),
+        })
+        .populate('contactId', 'firstName lastName email phone');
+      console.log('caseContact', caseContact);
+      if (!caseContact || caseContact.length === 0) {
         return new ApiResponse(404, {}, Msg.CASE_CONTACT_NOT_FOUND);
       }
       return new ApiResponse(200, caseContact, Msg.CASE_CONTACT_FETCHED);
