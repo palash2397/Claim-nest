@@ -20,6 +20,7 @@ import { CaseMailModule } from './modules/case-mail/case-mail.module';
 import { TimeLossModule } from './modules/time-loss/time-loss.module';
 import { ExcelModule } from './modules/excel/excel.module';
 import { FeeModule } from './modules/fee/fee.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { FeeModule } from './modules/fee/fee.module';
     TimeLossModule,
     ExcelModule,
     FeeModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],
