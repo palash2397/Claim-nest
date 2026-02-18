@@ -76,4 +76,17 @@ export class CaseContactService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async remove(id: string) {
+    try {
+      const caseContact = await this.caseContactModel.findByIdAndDelete(id);
+      if (!caseContact) {
+        return new ApiResponse(404, {}, Msg.CASE_CONTACT_NOT_FOUND);
+      }
+      return new ApiResponse(200, {}, Msg.CASE_CONTACT_DELETED);
+    } catch (error) {
+      console.error('Error deleting case contact:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
