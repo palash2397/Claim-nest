@@ -19,6 +19,7 @@ export const Msg = {
   USER_DELETED: `User deleted successfully`,
   USER_UPDATED: `User updated successfully`,
   USER_ADDED: `User added successfully`,
+  USER_INACTIVE: `User account is temporarily inactive`,
 
 
   // Authentication

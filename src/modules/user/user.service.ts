@@ -41,6 +41,11 @@ export class UserService {
       if (!isPasswordValid) {
         return new ApiResponse(401, {}, Msg.INVALID_CREDENTIALS);
       }
+
+      if (!user.isActive) {
+        return new ApiResponse(401, {}, Msg.USER_INACTIVE);
+      }
+      
       const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET!, {
         expiresIn: '10d',
       });

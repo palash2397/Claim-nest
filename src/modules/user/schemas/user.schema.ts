@@ -31,6 +31,12 @@ export class User {
   })
   role: string;
 
+
+  @Prop({
+    default: true,
+  })
+  isActive: boolean;
+
   // 👇 instance method typing
   //   isPasswordCorrect?: (
   //     candidatePassword: string,
