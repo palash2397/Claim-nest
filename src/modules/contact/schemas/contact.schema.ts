@@ -3,41 +3,58 @@ import { Document, Types } from 'mongoose';
 
 export type ContactDocument = Contact & Document;
 
-export const CONTACT_STATUS = [
-  'Potential',
-  'Inquiry',
-  'Client',
-  'Callback',
-  'Closed',
-] as const;
+export enum ContactType {
+  CLIENT = 'Client',
+  ATTORNEY = 'Attorney',
+  EMPLOYER = 'Employer',
+  MEDICAL = 'Medical',
+  OTHER = 'Other',
+}
 
 @Schema({ timestamps: true })
 export class Contact {
-  /* ===== BASIC INFO ===== */
 
   @Prop({ required: true })
-  name: string;
+  firstName: string;
+
+  @Prop({ required: true })
+  lastName: string;
 
   @Prop()
-  phone: string;
+  company: string;
+
+  @Prop()
+  primaryPhone: string;
+
+  @Prop()
+  secondaryPhone: string;
 
   @Prop()
   email: string;
 
-  /* ===== STATUS ===== */
+  @Prop()
+  addressLine1: string;
+
+  @Prop()
+  addressLine2: string;
+
+  @Prop()
+  city: string;
+
+  @Prop()
+  state: string;
+
+  @Prop()
+  zipCode: string;
 
   @Prop({
-    enum: CONTACT_STATUS,
-    default: 'Potential',
+    enum: ContactType,
+    default: ContactType.OTHER,
   })
-  status: string;
+  contactType: string;
 
-  /* ===== ASSIGNMENT ===== */
-
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  assignedTo: Types.ObjectId;
-
-  /* ===== AUDIT ===== */
+  @Prop({ default: true })
+  isActive: boolean;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createdBy: Types.ObjectId;
