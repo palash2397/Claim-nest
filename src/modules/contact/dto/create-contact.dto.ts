@@ -41,6 +41,10 @@ export class CreateContactDto {
   @IsString()
   zipCode?: string;
 
+  @IsOptional()
+  @IsString()
+  status?: string;
+
   @IsEnum(ContactType)
   contactType: ContactType;
 }

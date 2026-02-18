@@ -22,12 +22,6 @@ export class ContactService {
 
   async create(dto: CreateContactDto, userId: string) {
     try {
-      const user = await this.userModel.findOne({ _id: dto.assignedTo });
-      console.log(' ------>', user);
-      if (!user) {
-        return new ApiResponse(404, {}, Msg.ASSIGNED_USER_NOT_FOUND);
-      }
-
       const data = {
         ...dto,
         createdBy: new Types.ObjectId(userId),
@@ -74,8 +68,6 @@ export class ContactService {
       console.log('id', id);
       const contact = await this.contactModel
         .findById(id)
-        .populate('assignedTo', 'name email')
-        .populate('createdBy', 'name email');
       if (!contact) {
         return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
       }
@@ -91,8 +83,6 @@ export class ContactService {
     try {
       const contacts = await this.contactModel
         .find()
-        .populate('assignedTo', 'name email')
-        .populate('createdBy', 'name email')
         .sort({ createdAt: -1 });
       if (!contacts || contacts.length === 0) {
         return new ApiResponse(404, {}, Msg.CONTACT_NOT_FOUND);
@@ -121,7 +111,6 @@ export class ContactService {
     try {
       const contacts = await this.contactModel
         .find()
-        .populate('assignedTo', 'name')
         .sort({ createdAt: -1 });
 
       if (!contacts || contacts.length === 0) {

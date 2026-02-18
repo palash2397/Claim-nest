@@ -11,6 +11,14 @@ export enum ContactType {
   OTHER = 'Other',
 }
 
+export enum ContactStatus {
+  POTENTIAL = 'Potential',
+  INQUIRY = 'Inquiry',
+  CLIENT = 'Client',
+  CALLBACK = 'Callback',
+  CLOSED = 'Closed',
+}
+
 @Schema({ timestamps: true })
 export class Contact {
 
@@ -55,6 +63,12 @@ export class Contact {
 
   @Prop({ default: true })
   isActive: boolean;
+
+  @Prop({
+    enum: ContactStatus,
+    default: ContactStatus.POTENTIAL,
+  })
+  status: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createdBy: Types.ObjectId;
