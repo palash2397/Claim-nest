@@ -13,31 +13,29 @@ import {
 
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Request } from 'express';
+
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { RoleGuard } from '../auth/roles/roles.guard';
+
+import { Roles } from '../auth/roles/roles.decorator';
+import { UserRole } from '../user/schemas/user.schema';
 
 import { CaseService } from './case.service';
 
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
-import { AddActivityDto } from './dto/add-activity.dto';
-import { AddNoteDto } from './dto/add-note.dto';
-import { AddMessageCallDto } from './dto/add-message.dto';
-import { AddTimeLossDto } from './dto/add-time-loss.dto';
-import { AddProtestAppealDto } from './dto/add-protest-appeal.dto';
 
 // import { FileInterceptor } from '@nestjs/platform-express';
 // import { multerConfig } from '../../common/middleware/multer';
 
-import { ApiResponse } from 'src/utils/helper/ApiResponse';
-import { Msg } from 'src/utils/helper/responseMsg';
 
+@UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('case')
 export class CaseController {
   constructor(private readonly caseService: CaseService) {}
 
   @Post('/create')
-  @UseGuards(JwtAuthGuard)
-  // @UseInterceptors(FileInterceptor('file', multerConfig('case')))
+  @Roles(UserRole.Admin)
   create(@Body() createCaseDto: CreateCaseDto, @Req() req: Request) {
 
     return this.caseService.create(createCaseDto, req.user.id);
