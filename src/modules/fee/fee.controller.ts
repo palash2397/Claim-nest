@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req, Patch } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, Patch, Get, Query } from '@nestjs/common';
 import { FeeService } from './fee.service';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
@@ -9,6 +9,7 @@ import { UserRole } from '../user/schemas/user.schema';
 
 import { CreateFeeDto } from './dto/create-fee.dto';
 import { UpdateFeeDto } from './dto/update-fee.dto';
+import { FilterFeeDto } from './dto/filter-fee.dto';
 
 @UseGuards(JwtAuthGuard, RoleGuard)
 
@@ -25,5 +26,10 @@ export class FeeController {
   @Patch("/update")
   update(@Body() dto: UpdateFeeDto) {
     return this.feeService.update(dto);
+  }
+
+  @Get("/all")
+  findAll(@Query() filter: FilterFeeDto) {
+    return this.feeService.findAll(filter);
   }
 }
