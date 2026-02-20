@@ -51,4 +51,13 @@ export class FeeService {
     }
     
   }
+
+  async update(dto: UpdateFeeDto){
+    try {
+        
+    } catch (error) {
+        console.log(`error while updating fee`, error);
+        return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }

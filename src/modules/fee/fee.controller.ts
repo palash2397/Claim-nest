@@ -16,7 +16,7 @@ import { UserRole } from '../user/schemas/user.schema';
 export class FeeController {
   constructor(private readonly feeService: FeeService) {}
 
-  @Post()
+  @Post("/create")
   create(@Body() dto: CreateFeeDto, @Req() req: any) {
     return this.feeService.create(dto, req.user.id);
   }
