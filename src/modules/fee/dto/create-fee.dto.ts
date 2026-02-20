@@ -8,6 +8,7 @@ import {
 
 import { PaymentMethod } from '../../../common/enums/payment-status.enum';
 import { FeeStatus } from '../../../common/enums/fee.enum';
+import { YesNo } from '../../../common/enums/yes-no.enum';
 
 export class CreateFeeDto {
 
@@ -15,8 +16,8 @@ export class CreateFeeDto {
   clientName: string;
 
   @IsOptional()
-  @IsEnum(['Yes', 'No'])
-  timeLoss?: 'Yes' | 'No';
+  @IsEnum(YesNo)
+  timeLoss?: YesNo;
 
   @IsOptional()
   @IsString()
