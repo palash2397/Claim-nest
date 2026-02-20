@@ -117,4 +117,29 @@ export class FeeService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async calendarData(start: Date, end: Date) {
+    try {
+      const data = await this.feeModel.find({
+        nextDueDate: {
+          $gte: start,
+          $lte: end,
+        },
+      });
+
+      if (!data || data.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+      return new ApiResponse(200, data, Msg.FEE_FETCHED);
+    } catch (error) {   
+      console.log(`error while getting calendar data`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+    // return this.feeModel.find({
+    //   nextDueDate: {
+    //     $gte: start,
+    //     $lte: end,
+    //   },
+    // });
+  }
 }
