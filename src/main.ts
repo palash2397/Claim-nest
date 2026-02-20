@@ -3,11 +3,9 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import morgan from 'morgan';
-
-
-
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -26,7 +24,6 @@ async function bootstrap() {
     }),
   );
 
-
   // cors
   app.enableCors({
     origin: '*',
@@ -36,6 +33,29 @@ async function bootstrap() {
 
   // Global Prefix
   app.setGlobalPrefix('/api/v1');
+
+  // Swagger
+  const config = new DocumentBuilder()
+    .setTitle('Claim Management API')
+    .setDescription('API documentation for Claim Management System')
+    .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+      'access-token',
+    )
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('/docs', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true, // keeps JWT token after refresh
+    },
+  });
 
   await app.listen(process.env.PORT ?? 4004);
   console.log(`🚀 Server is running on port ${process.env.PORT}`);
