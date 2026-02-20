@@ -55,7 +55,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup('/docs', app, document, {
+  SwaggerModule.setup(`${SWAGGER.GLOBAL_PREFIX}/docs`, app, document, {
     swaggerOptions: {
       persistAuthorization: true, // keeps JWT token after refresh
     },
