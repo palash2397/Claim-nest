@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req, Patch } from '@nestjs/common';
 import { FeeService } from './fee.service';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
@@ -22,7 +22,7 @@ export class FeeController {
     return this.feeService.create(dto, req.user.id);
   }
 
-  @Post("/update")
+  @Patch("/update")
   update(@Body() dto: UpdateFeeDto) {
     return this.feeService.update(dto);
   }

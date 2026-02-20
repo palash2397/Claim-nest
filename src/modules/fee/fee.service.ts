@@ -65,4 +65,17 @@ export class FeeService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async findOne(id: string) {
+    try {
+      const fee = await this.feeModel.findById(id);
+      if (!fee) {
+        return new ApiResponse(404, {}, Msg.FEE_NOT_FOUND);
+      }
+      return new ApiResponse(200, fee, Msg.FEE_FETCHED);
+    } catch (error) {
+      console.log(`error while finding fee`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
