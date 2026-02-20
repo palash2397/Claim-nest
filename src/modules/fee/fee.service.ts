@@ -68,7 +68,9 @@ export class FeeService {
 
   async findOne(id: string) {
     try {
-      const fee = await this.feeModel.findById(id);
+      const fee = await this.feeModel
+        .findById(id)
+        .populate('createdBy', 'name email');
       if (!fee) {
         return new ApiResponse(404, {}, Msg.FEE_NOT_FOUND);
       }
