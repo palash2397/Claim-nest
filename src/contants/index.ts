@@ -3,5 +3,6 @@ export default {
     TITLE: 'Claim Management API',
     DESCRIPTION: 'API documentation for Claim Management System',
     VERSION: '1.0',
+    SERVER_URL: 'https://node.aitechnotech.in/claim',
   },
 };
