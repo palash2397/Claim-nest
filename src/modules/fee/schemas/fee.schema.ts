@@ -11,6 +11,9 @@ export type FeeDocument = Fee & Document;
 @Schema({ timestamps: true })
 export class Fee {
 
+  // @Prop({ type: Types.ObjectId, ref: 'Case' })
+  // caseId: Types.ObjectId;
+
   @Prop({ required: true })
   clientName: string;
 

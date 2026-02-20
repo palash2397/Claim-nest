@@ -12,6 +12,10 @@ import { YesNo } from '../../../common/enums/yes-no.enum';
 
 export class CreateFeeDto {
 
+  // @IsOptional()
+  // @IsString()
+  // caseId?: string;
+
   @IsString()
   clientName: string;
 
