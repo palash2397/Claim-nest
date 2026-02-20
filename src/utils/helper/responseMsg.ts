@@ -231,7 +231,17 @@ export const Msg = {
 
  //Aws 
  AWS_ERROR: `Aws error`,
- 
+
+
+ //Fee
+ FEE_CREATED: `Fee created successfully`,
+ FEE_FETCHED: `Fee fetched successfully`,
+ FEE_LIST_FETCHED: `Fee list fetched successfully`,
+ FEE_NOT_FOUND: `Fee not found`,
+ FEE_ALREADY_EXISTS: `Fee already exists`,
+ FEE_UPDATED: `Fee updated successfully`,
+ FEE_DELETED: `Fee deleted successfully`,
+
  
 
 };
