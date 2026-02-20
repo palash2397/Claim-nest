@@ -51,4 +51,9 @@ export class FeeController {
   findOne(@Param('id') id: string) {
     return this.feeService.findOne(id);
   }
+
+  @Get('/calendar')
+  calendarData(@Query('start') start: string, @Query('end') end: string) {
+    return this.feeService.calendarData(new Date(start), new Date(end));
+  }
 }
