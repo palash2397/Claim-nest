@@ -22,6 +22,7 @@ import { ExcelModule } from './modules/excel/excel.module';
 import { FeeModule } from './modules/fee/fee.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { ConversationModule } from './modules/conversation/conversation.module';
+import { ChatMessageModule } from './modules/chat-message/chat-message.module';
 
 
 @Module({
@@ -51,7 +52,8 @@ import { ConversationModule } from './modules/conversation/conversation.module';
     ExcelModule,
     FeeModule,
     AdminModule,
-    ConversationModule
+    ConversationModule,
+    ChatMessageModule
   ],
   controllers: [],
   providers: [],
