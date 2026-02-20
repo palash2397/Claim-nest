@@ -3,6 +3,7 @@ import { Document, Types } from 'mongoose';
 
 import { PaymentMethod } from '../../../common/enums/payment-status.enum';
 import { FeeStatus } from '../../../common/enums/fee.enum';
+import { YesNo } from '../../../common/enums/yes-no.enum';
 
 export type FeeDocument = Fee & Document;
 
@@ -13,8 +14,8 @@ export class Fee {
   @Prop({ required: true })
   clientName: string;
 
-  @Prop({ enum: ['Yes', 'No'], default: 'No' })
-  timeLoss: 'Yes' | 'No';
+  @Prop({ enum: YesNo, default: YesNo.NO })
+  timeLoss: YesNo;
 
   @Prop()
   agreement: string;
