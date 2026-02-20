@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 import { PaymentMethod } from '../../../common/enums/payment-status.enum';
+import { FeeStatus } from '../../../common/enums/fee.enum';
 
 export type FeeDocument = Fee & Document;
 
@@ -38,10 +39,10 @@ export class Fee {
   nextDueDate: Date;
 
   @Prop({
-    enum: ['Fee Due', 'Time Loss Paid', 'On Hold'],
-    default: 'Fee Due',
+    enum: FeeStatus,
+    default: FeeStatus.FEE_DUE,
   })
-  status: 'Fee Due' | 'Time Loss Paid' | 'On Hold';
+  status: FeeStatus;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createdBy: Types.ObjectId;
