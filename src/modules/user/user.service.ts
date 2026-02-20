@@ -5,11 +5,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserDocument, User } from './schemas/user.schema';
 import { Msg } from '../../utils/helper/responseMsg';
+import { ApiResponse } from '../../utils/helper/ApiResponse';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 
-import { ApiResponse } from '../../utils/helper/ApiResponse';
 
 @Injectable()
 export class UserService {
