@@ -7,6 +7,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import morgan from 'morgan';
 
+import constants from './contants';
+const { SWAGGER } = constants;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -36,9 +39,9 @@ async function bootstrap() {
 
   // Swagger
   const config = new DocumentBuilder()
-    .setTitle('Claim Management API')
-    .setDescription('API documentation for Claim Management System')
-    .setVersion('1.0')
+    .setTitle(SWAGGER.TITLE)
+    .setDescription(SWAGGER.DESCRIPTION)
+    .setVersion(SWAGGER.VERSION)
     .addBearerAuth(
       {
         type: 'http',
