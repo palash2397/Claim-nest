@@ -1,14 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
+import { PaymentMethod } from '../../../common/enums/payment-status.enum';
+
 export type FeeDocument = Fee & Document;
 
-export enum PaymentMethod {
-  PICK_UP = 'Pick-Up',
-  DEPOSIT = 'Deposit',
-  WIRE = 'Wire',
-  MAIL = 'Mail',
-}
 
 @Schema({ timestamps: true })
 export class Fee {
