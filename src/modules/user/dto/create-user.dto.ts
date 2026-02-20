@@ -7,20 +7,25 @@ import {
   MaxLength,
 
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
+
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @MaxLength(50, {
-    message: 'Name cannot be more than 50 characters',
+    message: '',
   })
   name: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   @IsEmail({}, { message: 'Invalid email address' })
   email: string;
 
 
+  @ApiProperty()
   @IsNotEmpty()
   @MinLength(8, {
     message: 'Password must be at least 8 characters long',
@@ -28,6 +33,7 @@ export class CreateUserDto {
  
   password: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   role: string;
 
