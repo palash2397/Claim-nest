@@ -78,4 +78,28 @@ export class FeeService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async findAll(filter: FilterFeeDto) {
+    try {
+      const query: any = {};
+
+      if (filter.agreement) query.agreement = filter.agreement;
+      if (filter.paymentMethod) query.paymentMethod = filter.paymentMethod;
+      if (filter.timeLoss) query.timeLoss = filter.timeLoss;
+      if (filter.status) query.status = filter.status;
+
+      const fees = await this.feeModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .populate('createdBy', 'name email');
+
+      if (!fees || fees.length === 0) {
+        return new ApiResponse(404, {}, Msg.FEE_NOT_FOUND);
+      }
+      return new ApiResponse(200, fees, Msg.FEES_LIST_FETCHED);
+    } catch (error) {
+      console.log(`error while finding all fees`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }

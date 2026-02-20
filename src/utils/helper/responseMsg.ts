@@ -241,6 +241,7 @@ export const Msg = {
  FEE_ALREADY_EXISTS: `Fee already exists`,
  FEE_UPDATED: `Fee updated successfully`,
  FEE_DELETED: `Fee deleted successfully`,
+ FEES_LIST_FETCHED: `Fees list fetched successfully`,
 
  
 
