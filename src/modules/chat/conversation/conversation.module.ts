@@ -4,6 +4,7 @@ import { ConversationController } from './conversation.controller';
 
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConversationSchema, Conversation } from './dto/conversation.schema';
+import { User, UserSchema } from '../../user/schemas/user.schema';
 
 @Module({
   controllers: [ConversationController],
@@ -11,6 +12,7 @@ import { ConversationSchema, Conversation } from './dto/conversation.schema';
   imports: [
     MongooseModule.forFeature([
       { name: Conversation.name, schema: ConversationSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   exports: [

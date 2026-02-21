@@ -234,4 +234,9 @@ export const Msg = {
   CHAT_MESSAGE_UPDATED: `Chat message updated successfully`,
   CHAT_MESSAGE_DELETED: `Chat message deleted successfully`,
 
+
+
+  // target user
+  TARGET_USER_NOT_FOUND: `Target user not found`,
+
 };
