@@ -6,6 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { ProtestEnum } from '../../../common/enums/protest-enum';
 
 export class CreateProtestAppealDto {
   
@@ -26,8 +27,8 @@ export class CreateProtestAppealDto {
   deadline: string;
 
   @ApiProperty()
-  @IsEnum(['Protested', 'Appealed', 'No Action'])
-  status: 'Protested' | 'Appealed' | 'No Action';
+  @IsEnum(ProtestEnum)
+  status: ProtestEnum;
 
   @ApiProperty()
   @IsOptional()

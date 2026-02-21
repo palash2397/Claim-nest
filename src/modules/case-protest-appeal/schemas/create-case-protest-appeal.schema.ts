@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
+import { ProtestEnum } from '../../../common/enums/protest-enum';
+
 export type ProtestAppealDocument = ProtestAppeal & Document;
 
 @Schema({ timestamps: true })
@@ -23,10 +25,10 @@ export class ProtestAppeal {
   deadline: Date;
 
   @Prop({
-    enum: ['Protested', 'Appealed', 'No Action'],
+    enum: ProtestEnum,
     required: true,
   })
-  status: 'Protested' | 'Appealed' | 'No Action';
+  status: ProtestEnum;
 
   @Prop()
   outcome: string;
