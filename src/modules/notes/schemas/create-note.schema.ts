@@ -7,11 +7,16 @@ export const NOTE_TYPES = [
   'General',
   'Medical',
   'Legal',
-  'Client Communication',
+  'Client Contact',
+  'Vocational',
+  'TL',
+  'Legal',
+  `Strategy`,
+  `Other`,
   'Internal',
 ] as const;
 
-export const NOTE_VISIBILITY = ['Internal', 'Admin Only'] as const;
+export const NOTE_VISIBILITY = ['Internal', 'Admin-Only'] as const;
 
 @Schema({ timestamps: true })
 export class Note {

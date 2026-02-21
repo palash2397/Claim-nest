@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
+import { ExcelSheetType, ExcelStatus } from 'src/common/enums/excel.enum';
+
 export type ExcelDocument = Excel & Document;
 
 @Schema({ timestamps: true })
@@ -10,10 +12,10 @@ export class Excel {
   sheetName: string;
 
   @Prop({
-    enum: ['Contacts', 'Tasks', 'PNCs', 'Cases'],
+    enum: ExcelSheetType,
     required: true,
   })
-  sheetType: 'Contacts' | 'Tasks' | 'PNCs' | 'Cases';
+  sheetType: ExcelSheetType;
 
   @Prop({ required: true })
   fileName: string;
@@ -21,8 +23,8 @@ export class Excel {
   @Prop({ required: true })
   fileUrl: string;
 
-  @Prop({ default: 'Pending' })
-  status: 'Pending' | 'Processed' | 'Failed';
+  @Prop({ default: ExcelStatus.PENDING })
+  status: ExcelStatus;
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   uploadedBy: Types.ObjectId;
