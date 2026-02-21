@@ -4,6 +4,8 @@ import { ChatMessageController } from './chat-message.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { ChatMessageSchema, ChatMessage } from './schemas/chat-message.schema';
+import { ConversationSchema, Conversation } from '../conversation/schemas/conversation.schema';
+import { UserSchema, User } from 'src/modules/user/schemas/user.schema';
 
 @Module({
   controllers: [ChatMessageController],
@@ -11,6 +13,8 @@ import { ChatMessageSchema, ChatMessage } from './schemas/chat-message.schema';
   imports: [
     MongooseModule.forFeature([
       { name: ChatMessage.name, schema: ChatMessageSchema },
+      { name: Conversation.name, schema: ConversationSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   exports: [
