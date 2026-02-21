@@ -1,5 +1,5 @@
 export enum ProtestEnum {
-    Protested,
-    Appealed,
-    NoAction
+   Protested = "Protested",
+   Appealed = "Appealed",
+   NoAction = "NoAction"
 }

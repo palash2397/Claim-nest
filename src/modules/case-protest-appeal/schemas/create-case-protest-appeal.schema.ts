@@ -25,6 +25,7 @@ export class ProtestAppeal {
   deadline: Date;
 
   @Prop({
+    type: String,
     enum: ProtestEnum,
     required: true,
   })

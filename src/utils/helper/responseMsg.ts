@@ -223,4 +223,15 @@ export const Msg = {
   CONVERSATION_ALREADY_EXISTS: `Conversation already exists`,
   CONVERSATION_UPDATED: `Conversation updated successfully`,
   CONVERSATION_DELETED: `Conversation deleted successfully`,
+
+
+  // Chat
+  CHAT_MESSAGE_CREATED: `Chat message created successfully`,
+  CHAT_MESSAGE_FETCHED: `Chat message fetched successfully`,
+  CHAT_MESSAGE_LIST_FETCHED: `Chat message list fetched successfully`,
+  CHAT_MESSAGE_NOT_FOUND: `Chat message not found`,
+  CHAT_MESSAGE_ALREADY_EXISTS: `Chat message already exists`,
+  CHAT_MESSAGE_UPDATED: `Chat message updated successfully`,
+  CHAT_MESSAGE_DELETED: `Chat message deleted successfully`,
+
 };

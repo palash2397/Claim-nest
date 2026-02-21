@@ -36,13 +36,22 @@ export class ChatMessageService {
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
-      return this.chatMessageModel.create({
+      const chatData = await this.chatMessageModel.create({
         ...data,
         readBy: [data.senderId],
       });
+      return new ApiResponse(201, chatData, Msg.CHAT_MESSAGE_CREATED);
     } catch (error) {
       console.log(`Error creating chat message: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+
+// async getMessages(conversationId: string) {
+//     return this.chatMessageModel
+//       .find({ conversationId })
+//       .sort({ createdAt: 1 })
+//       .populate('senderId', 'name email');
+//   }
 }
