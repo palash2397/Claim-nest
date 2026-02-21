@@ -1,25 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
+import { CommunicationType } from '../../../common/enums/communication-type.enum';
+import { Direction } from '../../../common/enums/direction.enum';
+import { ContactRole } from '../../../common/enums/contact-role.enum';
+
 export type CallLogDocument = CallLog & Document;
 
 
-export enum CommunicationType {
-  CALL = 'Call',
-  TEXT = 'Text',
-}
 
-export enum Direction {
-  INCOMING = 'Incoming',
-  OUTGOING = 'Outgoing',
-}
-
-export enum ContactRole {
-  CLIENT = 'Client',
-  ATTORNEY = 'Attorney',
-  EMPLOYER = 'Employer',
-  OTHER = 'Other',
-}
 
 @Schema({ timestamps: true })
 export class CallLog {
