@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document as MongooseDocument, Types } from 'mongoose';
+import { DOCUMENT_CATEGORIES } from 'src/common/enums/document.enum';
 
 export type DocumentFileDocument = DocumentFile & MongooseDocument;
 
@@ -19,18 +20,10 @@ export class DocumentFile {
   fileUrl: string; // S3 URL
 
   @Prop({
-    enum: [
-      'IWJ Documents',
-      'Dept Letters',
-      'Draft Copies',
-      'Medical',
-      'Vocational',
-      'WSF',
-      'SI CFU',
-    ],
+    enum: DOCUMENT_CATEGORIES, 
     required: true,
   })
-  category: string;
+  category: DOCUMENT_CATEGORIES;
 
   @Prop()
   description?: string;
