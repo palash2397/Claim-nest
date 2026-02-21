@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 export type PaymentLedgerDocument = PaymentLedger & Document;
+import { TimeLossMethod } from '../../../common/enums/time-loss.enum';
 
 @Schema({ timestamps: true })
 export class PaymentLedger {
@@ -31,10 +32,10 @@ export class PaymentLedger {
   /* ===== PAYMENT METHOD ===== */
 
   @Prop({
-    enum: ['Deposit', 'Check', 'Wire', 'Other'],
+    enum: TimeLossMethod,
     required: true,
   })
-  method: 'Deposit' | 'Check' | 'Wire' | 'Other';
+  method: TimeLossMethod;
 
   @Prop()
   bank: string;

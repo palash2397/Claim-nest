@@ -9,6 +9,7 @@ import {
 } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
+import { TimeLossMethod } from '../../../common/enums/time-loss.enum';
 
 export class CreateTimeLossDto {
 
@@ -37,9 +38,9 @@ export class CreateTimeLossDto {
   @ApiProperty()
   paidOut: number;
 
-  @IsEnum(['Deposit', 'Check', 'Wire', 'Other'])
+  @IsEnum(TimeLossMethod)
   @ApiProperty()
-  method: 'Deposit' | 'Check' | 'Wire' | 'Other';
+  method: TimeLossMethod;
 
   @IsOptional()
   @IsString()

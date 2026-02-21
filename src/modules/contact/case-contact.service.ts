@@ -101,5 +101,19 @@ export class CaseContactService {
     }
   }
 
-  
+  async all() {
+    try {
+      const caseContact = await this.caseContactModel
+        .find()
+        .populate('contactId', 'firstName lastName email phone')
+        .populate('caseId', 'caseId');
+      if (!caseContact || caseContact.length === 0) {
+        return new ApiResponse(404, {}, Msg.CASE_CONTACT_NOT_FOUND);
+      }
+      return new ApiResponse(200, caseContact, Msg.CASE_CONTACT_FETCHED);
+    } catch (error) {
+      console.error('Error fetching all case contacts:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }

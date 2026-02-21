@@ -39,4 +39,10 @@ export class CaseContactController {
   remove(@Param('id') id: string) {
     return this.caseContactService.remove(id);
   }
+
+  @Get("/find/all")
+  @UseGuards(JwtAuthGuard)
+  all() {
+    return this.caseContactService.all();
+  }
 }
