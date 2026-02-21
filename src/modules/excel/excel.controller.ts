@@ -37,8 +37,9 @@ export class ExcelController {
 
   @Patch('/update')
   @UseGuards(JwtAuthGuard)
-  async updateExcel(@Body() dto: UpdateExcelDto) {
-    return this.excelService.updateExcel(dto);
+ @UseInterceptors(FileInterceptor('file'))
+  async updateExcel(@Body() dto: UpdateExcelDto,  @UploadedFile() file: Express.Multer.File | undefined) {
+    return this.excelService.updateExcel(dto, file);
   }
 
   @Get('/find/:id')

@@ -50,17 +50,35 @@ export class ExcelService {
     }
   }
 
-  async updateExcel(dto: UpdateExcelDto) {
+  async updateExcel(
+    dto: UpdateExcelDto | undefined,
+    file?: Express.Multer.File,
+  ) {
     try {
-      const record = await this.excelModel.findById(dto.id);
-      
+      const record = await this.excelModel.findById(dto?.id);
+
       if (!record) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
-      
+
+      if (file) {
+        const uploadResult = await this.awsService.uploadFile(
+          `excel/sheet/${Date.now()}-${file.originalname}`,
+          file.buffer,
+          file.mimetype,
+        );
+
+        if (!uploadResult) {
+          return new ApiResponse(500, {}, Msg.AWS_ERROR);
+        }
+
+        record.fileUrl = uploadResult.Location;
+        record.fileName = file.originalname;
+      }
+
       Object.assign(record, dto);
       await record.save();
-      
+
       return new ApiResponse(200, record, Msg.EXCEL_UPDATED_SUCCESSFULLY);
     } catch (error) {
       console.log(`Error updating excel: ${error}`);
