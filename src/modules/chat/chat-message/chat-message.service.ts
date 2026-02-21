@@ -47,11 +47,39 @@ export class ChatMessageService {
     }
   }
 
+  async getMessages(conversationId: string) {
+    try {
+      const conversation =
+        await this.conversationModel.findById(conversationId);
+      if (!conversation) {
+        return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
+      }
+      const messages = await this.chatMessageModel
+        .find({ conversationId: conversation._id })
+        .sort({ createdAt: 1 })
+        .populate('senderId', 'name email');
+      return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_FETCHED);
+    } catch (error) {
+      console.error('Error fetching chat messages:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 
-// async getMessages(conversationId: string) {
-//     return this.chatMessageModel
-//       .find({ conversationId })
-//       .sort({ createdAt: 1 })
-//       .populate('senderId', 'name email');
-//   }
+  async getById(conversationId: string, userId: string) {
+    try {
+      const conversation = await this.conversationModel.findOne({
+        _id: conversationId,
+        participants: userId,
+      });
+
+      if (!conversation) {
+        return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
+      }
+
+      return new ApiResponse(200, conversation, Msg.CHAT_MESSAGE_FETCHED);
+    } catch (error) {
+      console.error('Error fetching chat messages:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
