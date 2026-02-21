@@ -25,11 +25,10 @@ export class ProtestAppeal {
   deadline: Date;
 
   @Prop({
-    type: String,
     enum: ProtestEnum,
     required: true,
   })
-  status: ProtestEnum;
+  status: string;
 
   @Prop()
   outcome: string;

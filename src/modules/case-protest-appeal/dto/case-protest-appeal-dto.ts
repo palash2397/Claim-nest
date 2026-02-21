@@ -28,7 +28,7 @@ export class CreateProtestAppealDto {
 
   @ApiProperty()
   @IsEnum(ProtestEnum)
-  status: ProtestEnum;
+  status: string;
 
   @ApiProperty()
   @IsOptional()
