@@ -1,11 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
+import {
+  TaskCallStatus,
+  TaskPriority,
+  TaskStatus,
+  TaskType,
+} from '../../../common/enums/task.enum';
+
 export type TaskDocument = Task & Document;
 
 @Schema({ timestamps: true })
 export class Task {
-
   /* ===== CASE CONTEXT ===== */
 
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true, index: true })
@@ -28,29 +34,20 @@ export class Task {
   callReason: string;
 
   @Prop({
-    enum: ['Returned', 'No Callback Needed', 'Will Call Back'],
+    enum: TaskCallStatus,
   })
-  callStatus: 'Returned' | 'No Callback Needed' | 'Will Call Back';
+  callStatus: string;
 
   /* ===== TASK CLASSIFICATION ===== */
 
   @Prop({
-    enum: [
-      'Follow-Up Call',
-      'Document Review',
-      'Order Review',
-      'Medical Records',
-      'APF/WSF',
-      'Payment Follow-Up',
-      'Vocational Review',
-      'Other',
-    ],
+    enum: TaskType,
   })
   taskType: string;
 
   @Prop({
-    enum: ['Low', 'Medium', 'High', 'Critical'],
-    default: 'Medium',
+    enum: TaskPriority,
+    default: TaskPriority.MEDIUM,
   })
   priority: string;
 
@@ -60,11 +57,11 @@ export class Task {
   assignedTo: Types.ObjectId;
 
   @Prop({
-    enum: ['Pending', 'Completed', 'Cancelled'],
-    default: 'Pending',
+    enum: TaskStatus,
+    default: TaskStatus.PENDING,
     index: true,
   })
-  status: 'Pending' | 'Completed' | 'Cancelled';
+  status: string;
 
   @Prop({ type: Date })
   deadline: Date;
