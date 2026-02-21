@@ -9,6 +9,7 @@ import {
   Get,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -142,6 +143,13 @@ export class CaseController {
   @UseGuards(JwtAuthGuard)
   caseById(@Param('id') caseId: string) {
     return this.caseService.caseById(caseId);
+  }
+
+
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
+  remove(@Param('id') caseId: string) {
+    return this.caseService.remove(caseId);
   }
 
 }

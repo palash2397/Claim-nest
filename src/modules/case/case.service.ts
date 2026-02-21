@@ -370,4 +370,18 @@ export class CaseService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async remove(caseId: string){
+    try {
+      const caseDoc = await this.caseModel.findByIdAndDelete(caseId);
+      if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+      }
+      return new ApiResponse(200, {}, Msg.CASE_DELETED);
+    } catch (error) {
+      console.log(`Error removing case: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+      
+    }
+  }
 }

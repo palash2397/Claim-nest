@@ -89,6 +89,7 @@ export const Msg = {
   DOCUMENT_ADDED: `Document added successfully`,
 
   CASE_EMAIL_ADDED: `Case email added successfully`,
+  CASE_DELETED: `Case deleted successfully`,
 
   PROTEST_APPEAL_FETCHED: `Protest / Appeal fetched successfully`,
   PROTEST_APPEAL_UPDATED: `Protest / Appeal updated successfully`,
