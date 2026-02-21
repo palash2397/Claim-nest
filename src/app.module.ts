@@ -23,6 +23,7 @@ import { FeeModule } from './modules/fee/fee.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { ChatMessageModule } from './modules/chat/chat-message/chat-message.module';
 import { ConversationModule } from './modules/chat/conversation/conversation.module';
+import { EngineModule } from './modules/chat/engine/engine.module';
 
 
 @Module({
@@ -54,7 +55,8 @@ import { ConversationModule } from './modules/chat/conversation/conversation.mod
     AdminModule,
     MessageModule,
     ChatMessageModule,
-    ConversationModule
+    ConversationModule,
+    EngineModule
   ],
   controllers: [],
   providers: [],
