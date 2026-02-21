@@ -59,6 +59,7 @@ export class TaskService {
       task.callRecipient = dto.callRecipient || task.callRecipient;
       task.callReason = dto.callReason || task.callReason;
       task.callStatus = dto.callStatus || task.callStatus;
+      task.caseId = new mongoose.Types.ObjectId(dto.caseId || task.caseId.toString());
     //   task.deadline = dto.deadline || task.deadline;
       task.assignedTo = new mongoose.Types.ObjectId(dto.assignedTo || task.assignedTo.toString());
       task.updatedBy = new mongoose.Types.ObjectId(userId);

@@ -239,4 +239,8 @@ export const Msg = {
   // target user
   TARGET_USER_NOT_FOUND: `Target user not found`,
 
+
+  // participant
+  PARTICIPANT_NOT_FOUND: `Participant not found`,
+
 };
