@@ -10,8 +10,9 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-
-import { CommunicationType, Direction, ContactRole } from '../schemas/callLog.schema';
+import { CommunicationType } from '../../../common/enums/communication-type.enum';
+import { Direction } from '../../../common/enums/direction.enum';
+import { ContactRole } from '../../../common/enums/contact-role.enum';
 
 export class CreateCallLogDto {
 
