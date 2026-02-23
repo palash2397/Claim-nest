@@ -91,6 +91,13 @@ export class ChatMessageService {
 
   async markAsRead(messageIds: string[], userId: string) {
     try {
+      for (const messageId of messageIds) {
+        const message = await this.chatMessageModel.findById(messageId);
+        if (!message) {
+          return new ApiResponse(404, {}, Msg.CHAT_MESSAGE_NOT_FOUND);
+        }
+      }
+
       const messages = await this.chatMessageModel.updateMany(
         {
           _id: { $in: messageIds },

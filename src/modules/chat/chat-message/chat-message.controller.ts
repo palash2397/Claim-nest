@@ -35,6 +35,7 @@ export class ChatMessageController {
     @Query() query: GetMessagesDto,
     @Req() req: Request,
   ) {
+    console.log('req.user', req.user);
     const isAllowed = await this.conversationService.isParticipant(
       conversationId,
       req.user.id,
@@ -50,7 +51,7 @@ export class ChatMessageController {
     return this.chatMessageService.getMessages(conversationId, page, limit);
   }
 
-  @Patch('read')
+  @Patch('/message/read')
   async markAsRead(
     @Body() body: MarkReadDto,
     @Req() req: Request,
