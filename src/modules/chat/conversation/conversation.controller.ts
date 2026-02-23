@@ -1,8 +1,7 @@
-import { Controller, Post, Req, UseGuards, Body, Get } from '@nestjs/common';
+import { Controller, Post, Req, UseGuards, Body, Get, Patch, Param } from '@nestjs/common';
 import { ConversationService } from './conversation.service';
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt-auth.guard';
 import type { Request } from 'express';
-import { Param } from '@nestjs/common';
 import { IdParamDto } from './dto/id-param.dto';
 import { CreateGroupDto } from './dto/create-group.dto';
 
@@ -29,5 +28,11 @@ export class ConversationController {
   @Get("my")
   myConversations(@Req() req: Request) {
     return this.conversationService.myConversation(req.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch("mark-as-read/:conversationId")
+  markAsRead(@Req() req: Request, @Param("conversationId") conversationId: string) {
+    return this.conversationService.markConversationAsRead(conversationId, req.user.id);
   }
 }

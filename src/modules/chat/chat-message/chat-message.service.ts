@@ -121,6 +121,12 @@ export class ChatMessageService {
 
   async markConversationAsRead(conversationId: string, userId: string) {
     try {
+      const conversation =
+        await this.conversationModel.findById(conversationId);
+      if (!conversation) {
+        return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
+      }
+
       await this.chatMessageModel.updateMany(
         {
           conversationId,
