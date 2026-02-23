@@ -47,16 +47,20 @@ export class ChatMessageService {
     }
   }
 
-  async getMessages(conversationId: string) {
+  async getMessages(conversationId: string, page: number, limit: number) {
     try {
       const conversation =
         await this.conversationModel.findById(conversationId);
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
+      const skip = (page - 1) * limit;
+
       const messages = await this.chatMessageModel
-        .find({ conversationId: conversation._id })
-        .sort({ createdAt: 1 })
+        .find({ conversationId })
+        .sort({ createdAt: -1 }) // latest first
+        .skip(skip)
+        .limit(limit)
         .populate('senderId', 'name email');
       return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {
@@ -79,6 +83,25 @@ export class ChatMessageService {
       return new ApiResponse(200, conversation, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {
       console.error('Error fetching chat messages:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async markAsRead(messageIds: string[], userId: string) {
+    try {
+      const messages = await this.chatMessageModel.updateMany(
+        {
+          _id: { $in: messageIds },
+          readBy: { $ne: userId },
+        },
+        {
+          $push: { readBy: userId },
+        },
+      );
+
+      return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_MARKED_AS_READ);
+    } catch (error) {
+      console.error('Error marking chat messages as read:', error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
