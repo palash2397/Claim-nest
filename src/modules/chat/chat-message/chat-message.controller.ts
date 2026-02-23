@@ -61,4 +61,15 @@ export class ChatMessageController {
       req.user.id,
     );
   }
+
+  @Patch('/conversation/read/:id')
+  async markAllAsRead(
+    @Param('id') conversationId: string,
+    @Req() req: Request,
+  ) {
+    return this.chatMessageService.markConversationAsRead(
+      conversationId,
+      req.user.id,
+    );
+  }
 }

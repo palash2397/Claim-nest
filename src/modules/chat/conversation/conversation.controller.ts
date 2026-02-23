@@ -30,9 +30,9 @@ export class ConversationController {
     return this.conversationService.myConversation(req.user.id);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Patch("mark-as-read/:conversationId")
-  markAsRead(@Req() req: Request, @Param("conversationId") conversationId: string) {
-    return this.conversationService.markConversationAsRead(conversationId, req.user.id);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Patch("mark-as-read/:conversationId")
+  // markAsRead(@Req() req: Request, @Param("conversationId") conversationId: string) {
+  //   return this.conversationService.markConversationAsRead(conversationId, req.user.id);
+  // }
 }
