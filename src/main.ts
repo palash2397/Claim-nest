@@ -61,7 +61,7 @@ async function bootstrap() {
     },
   });
 
-  await app.listen(process.env.PORT ?? 4004);
+  await app.listen(process.env.PORT ?? 4004, '127.0.0.1');
   console.log(`🚀 Server is running on port ${process.env.PORT}`);
 }
 bootstrap();
