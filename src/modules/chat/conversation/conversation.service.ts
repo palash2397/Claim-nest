@@ -69,13 +69,11 @@ export class ConversationService {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
 
-      // Validate participants array
       if (!dto.participants || dto.participants.length === 0) {
         return new ApiResponse(400, {}, 'Participants array cannot be empty');
       }
 
       for (const participant of dto.participants) {
-        // Validate ObjectId format
         if (!Types.ObjectId.isValid(participant)) {
           return new ApiResponse(400, {}, 'Invalid participant ID format');
         }
@@ -88,8 +86,6 @@ export class ConversationService {
           return new ApiResponse(404, {}, Msg.PARTICIPANT_NOT_FOUND);
         }
       }
-
-      
 
       const conversationdoc = await this.conversationModel.create({
         type: ConversationType.GROUP,
