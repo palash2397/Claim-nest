@@ -30,9 +30,10 @@ export class ChatMessageService {
     content: string;
   }) {
     try {
-      const conversation = await this.conversationModel.findById(
-        data.conversationId,
-      );
+      const conversation = await this.conversationModel.findOne({
+        _id: data.conversationId,
+        participants: data.senderId,
+      });
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }

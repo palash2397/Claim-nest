@@ -1,32 +1,29 @@
 import {
   WebSocketGateway,
-  OnGatewayConnection,
   SubscribeMessage,
-  MessageBody,
   ConnectedSocket,
+  MessageBody,
+  OnGatewayConnection,
 } from '@nestjs/websockets';
 
 import { Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { ChatMessageService } from './chat-message/chat-message.service';
-import { ConversationService } from './conversation/conversation.service';
-import { Injectable } from '@nestjs/common';
 
 @WebSocketGateway({
   cors: { origin: '*' },
 })
-@Injectable()
 export class ChatGateway implements OnGatewayConnection {
+
   constructor(
     private jwtService: JwtService,
-    private messageService: ChatMessageService,
-    private conversationService: ConversationService,
+    private chatMessageService: ChatMessageService,
   ) {}
 
-  // 🔐 When user connects
+  // 🔐 1️⃣ Authenticate on connection
   async handleConnection(client: Socket) {
     try {
-      const token = client.handshake.auth.token;
+      const token = client.handshake.auth?.token;
 
       if (!token) {
         client.disconnect();
@@ -35,39 +32,26 @@ export class ChatGateway implements OnGatewayConnection {
 
       const payload = this.jwtService.verify(token);
 
-      // attach user to socket
       client.data.user = payload;
-    } catch (err) {
+
+    } catch (error) {
       client.disconnect();
     }
   }
 
-  // Join Room
+  // 🏠 2️⃣ Join Conversation Room
   @SubscribeMessage('joinConversation')
   async handleJoin(
     @MessageBody() conversationId: string,
     @ConnectedSocket() client: Socket,
   ) {
-    const user = client.data.user;
-
-    const isAllowed = await this.conversationService.isParticipant(
-      conversationId,
-      user.id,
-    );
-
-    if (!isAllowed) {
-      client.emit('error', 'Access denied');
-      return;
-    }
-
     client.join(conversationId);
   }
 
-  // Send Message
+  // 💬 3️⃣ Send Live Message
   @SubscribeMessage('sendMessage')
   async handleMessage(
-    @MessageBody()
-    data: {
+    @MessageBody() data: {
       conversationId: string;
       content: string;
     },
@@ -75,24 +59,21 @@ export class ChatGateway implements OnGatewayConnection {
   ) {
     const user = client.data.user;
 
-    const isAllowed = await this.conversationService.isParticipant(
-      data.conversationId,
-      user.id,
-    );
-
-    if (!isAllowed) {
-      client.emit('error', 'Access denied');
-      return;
-    }
-
-    const message = await this.messageService.create({
+    // Save message using your existing API logic
+    const response = await this.chatMessageService.create({
       conversationId: data.conversationId,
       senderId: user.id,
       content: data.content,
     });
 
-    client.to(data.conversationId).emit('receiveMessage', message);
+    // If message saved successfully
+    if (response.statusCode === 201) {
+      // Emit to others in room
+      client
+        .to(data.conversationId)
+        .emit('receiveMessage', response.data);
+    }
 
-    return message;
+    return response;
   }
 }
