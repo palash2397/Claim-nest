@@ -41,6 +41,10 @@ export class ChatMessageService {
         ...data,
         readBy: [data.senderId],
       });
+
+      await this.conversationModel.findByIdAndUpdate(data.conversationId, {
+        $set: { updatedAt: new Date() },
+      });
       return new ApiResponse(201, chatData, Msg.CHAT_MESSAGE_CREATED);
     } catch (error) {
       console.log(`Error creating chat message: ${error}`);
@@ -50,7 +54,8 @@ export class ChatMessageService {
 
   async getMessages(conversationId: string, page: number, limit: number) {
     try {
-      const conversation = await this.conversationModel.findById(conversationId);
+      const conversation =
+        await this.conversationModel.findById(conversationId);
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
@@ -72,11 +77,10 @@ export class ChatMessageService {
 
   async getById(conversationId: string, userId: string) {
     try {
-      const conversation = await this.conversationModel
-        .findOne({
-          _id: conversationId,
-          participants: userId,
-        })
+      const conversation = await this.conversationModel.findOne({
+        _id: conversationId,
+        participants: userId,
+      });
 
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
@@ -111,6 +115,25 @@ export class ChatMessageService {
       return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_MARKED_AS_READ);
     } catch (error) {
       console.error('Error marking chat messages as read:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async markConversationAsRead(conversationId: string, userId: string) {
+    try {
+      await this.chatMessageModel.updateMany(
+        {
+          conversationId,
+          readBy: { $ne: userId },
+        },
+        {
+          $push: { readBy: userId },
+        },
+      );
+
+      return new ApiResponse(200, {}, Msg.CONVERSATION_MARKED_AS_READ);
+    } catch (error) {
+      console.error('Error marking conversation as read:', error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }

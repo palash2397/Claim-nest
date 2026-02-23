@@ -224,6 +224,7 @@ export const Msg = {
   CONVERSATION_ALREADY_EXISTS: `Conversation already exists`,
   CONVERSATION_UPDATED: `Conversation updated successfully`,
   CONVERSATION_DELETED: `Conversation deleted successfully`,
+  CONVERSATION_MARKED_AS_READ: `Conversation marked as read successfully`,
 
 
   // Chat
@@ -235,7 +236,7 @@ export const Msg = {
   CHAT_MESSAGE_UPDATED: `Chat message updated successfully`,
   CHAT_MESSAGE_DELETED: `Chat message deleted successfully`,
   CHAT_MESSAGE_MARKED_AS_READ: `Chat message marked as read successfully`,
-
+  CHAT_ALREADY_EXIST: `Chat already exists`,
 
 
   // target user

@@ -10,6 +10,7 @@ import {
 } from './schemas/conversation.schema';
 
 import { User, UserDocument } from '../../user/schemas/user.schema';
+import { ChatMessage, ChatMessageDocument } from '../chat-message/schemas/chat-message.schema';
 
 import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
@@ -23,6 +24,8 @@ export class ConversationService {
     private conversationModel: Model<ConversationDocument>,
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
+    @InjectModel(ChatMessage.name)
+    private chatMessageModel: Model<ChatMessageDocument>,
   ) {}
 
   async createDirect(userId: string, targetUserId: string) {
@@ -46,7 +49,8 @@ export class ConversationService {
         $expr: { $eq: [{ $size: '$participants' }, 2] },
       });
 
-      if (existing) return new ApiResponse(200, existing, Msg.SUCCESS);
+      if (existing)
+        return new ApiResponse(200, existing, Msg.CHAT_ALREADY_EXIST);
 
       const conversationdoc = await this.conversationModel.create({
         type: ConversationType.DIRECT,
@@ -116,6 +120,15 @@ export class ConversationService {
         .find({ participants: userId })
         .populate('participants', 'name email')
         .sort({ updatedAt: -1 });
+
+      for (const conversation of conversations) {
+        const unreadCount = await this.chatMessageModel.countDocuments({
+          conversationId: conversation._id,
+          readBy: { $ne: userId },
+        });
+
+        conversation.unreadCount = unreadCount;
+      }
 
       return new ApiResponse(200, conversations, Msg.CONVERSATION_LIST_FETCHED);
     } catch (error) {

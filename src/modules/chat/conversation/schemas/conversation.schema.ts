@@ -21,6 +21,9 @@ export class Conversation {
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   createdBy: Types.ObjectId;
+
+  @Prop({ default: 0 })
+  unreadCount: number;
 }
 
 export const ConversationSchema =
