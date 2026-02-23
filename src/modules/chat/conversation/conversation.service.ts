@@ -69,7 +69,17 @@ export class ConversationService {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
 
+      // Validate participants array
+      if (!dto.participants || dto.participants.length === 0) {
+        return new ApiResponse(400, {}, 'Participants array cannot be empty');
+      }
+
       for (const participant of dto.participants) {
+        // Validate ObjectId format
+        if (!Types.ObjectId.isValid(participant)) {
+          return new ApiResponse(400, {}, 'Invalid participant ID format');
+        }
+
         const user = await this.userModel.findById(
           new Types.ObjectId(participant),
         );
@@ -79,10 +89,15 @@ export class ConversationService {
         }
       }
 
+      
+
       const conversationdoc = await this.conversationModel.create({
         type: ConversationType.GROUP,
         title: dto.title,
-        participants: [userId, ...dto.participants],
+        participants: [
+          new Types.ObjectId(userId),
+          ...dto.participants.map((p) => new Types.ObjectId(p)),
+        ],
         createdBy: userId,
       });
 

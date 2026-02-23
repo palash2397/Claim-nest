@@ -1,4 +1,4 @@
-import { IsMongoId, IsString } from 'class-validator';
+import { IsArray, IsString, IsMongoId, ArrayNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 
@@ -10,7 +10,9 @@ export class CreateGroupDto {
   title: string;
 
   
-  @ApiProperty()
-  @IsMongoId()
+  @ApiProperty({ type: [String] })
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsMongoId({ each: true })
   participants: string[];
 }
