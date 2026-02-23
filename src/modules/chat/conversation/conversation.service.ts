@@ -14,6 +14,8 @@ import { User, UserDocument } from '../../user/schemas/user.schema';
 import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
 
+import { CreateGroupDto } from './dto/create-group.dto';
+
 @Injectable()
 export class ConversationService {
   constructor(
@@ -59,7 +61,7 @@ export class ConversationService {
     }
   }
 
-  async createGroup(userId: string, title: string, participants: []) {
+  async createGroup(userId: string, dto: CreateGroupDto) {
     try {
       const user = await this.userModel.findById(new Types.ObjectId(userId));
 
@@ -67,7 +69,7 @@ export class ConversationService {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
 
-      for (const participant of participants) {
+      for (const participant of dto.participants) {
         const user = await this.userModel.findById(
           new Types.ObjectId(participant),
         );
@@ -79,8 +81,8 @@ export class ConversationService {
 
       const conversationdoc = await this.conversationModel.create({
         type: ConversationType.GROUP,
-        title,
-        participants: [userId, ...participants],
+        title: dto.title,
+        participants: [userId, ...dto.participants],
         createdBy: userId,
       });
 

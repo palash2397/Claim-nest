@@ -3,7 +3,7 @@ import { ConversationService } from './conversation.service';
 import { ConversationController } from './conversation.controller';
 
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConversationSchema, Conversation } from './dto/conversation.schema';
+import { Conversation, ConversationSchema } from './schemas/conversation.schema';
 import { User, UserSchema } from '../../user/schemas/user.schema';
 
 @Module({

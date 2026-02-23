@@ -6,6 +6,9 @@ import {
   ConversationSchema,
 } from './conversation/schemas/conversation.schema';
 
+import { ConversationController } from './conversation/conversation.controller';
+import { ChatMessageController } from './chat-message/chat-message.controller';
+
 import {
   ChatMessage,
   ChatMessageSchema,
@@ -20,7 +23,9 @@ import { ChatMessageService } from './chat-message/chat-message.service';
       { name: Conversation.name, schema: ConversationSchema },
       { name: ChatMessage.name, schema: ChatMessageSchema },
     ]),
+    ChatGateway
   ],
+  controllers:[ConversationController, ChatMessageController],
   providers: [ChatGateway, ConversationService, ChatMessageService],
 })
 export class ChatModule {}
