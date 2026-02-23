@@ -21,9 +21,9 @@ import { TimeLossModule } from './modules/time-loss/time-loss.module';
 import { ExcelModule } from './modules/excel/excel.module';
 import { FeeModule } from './modules/fee/fee.module';
 import { AdminModule } from './modules/admin/admin.module';
-import { ChatMessageModule } from './modules/chat/chat-message/chat-message.module';
-import { ConversationModule } from './modules/chat/conversation/conversation.module';
-
+// import { ChatMessageModule } from './modules/chat/chat-message/chat-message.module';
+// import { ConversationModule } from './modules/chat/conversation/conversation.module';
+import { ChatModule } from './modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -53,8 +53,9 @@ import { ConversationModule } from './modules/chat/conversation/conversation.mod
     FeeModule,
     AdminModule,
     MessageModule,
-    ChatMessageModule,
-    ConversationModule
+    // ChatMessageModule,
+    // ConversationModule,
+    ChatModule
   ],
   controllers: [],
   providers: [],

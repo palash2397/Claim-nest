@@ -75,11 +75,13 @@ export class ChatMessageService {
       const conversation = await this.conversationModel.findOne({
         _id: conversationId,
         participants: userId,
-      });
+      }).populate('readBy', 'name email');
 
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
+
+    
 
       return new ApiResponse(200, conversation, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {

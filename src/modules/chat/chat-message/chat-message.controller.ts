@@ -29,7 +29,7 @@ export class ChatMessageController {
     private readonly conversationService: ConversationService,
   ) {}
 
-  @Get(':conversationId')
+  @Get('/message/:conversationId')
   async getMessages(
     @Param('conversationId') conversationId: string,
     @Query() query: GetMessagesDto,
@@ -50,10 +50,10 @@ export class ChatMessageController {
     return this.chatMessageService.getMessages(conversationId, page, limit);
   }
 
-    @Patch('read')
+  @Patch('read')
   async markAsRead(
     @Body() body: MarkReadDto,
-    @Req() req,
+    @Req() req: Request,
   ) {
     return this.chatMessageService.markAsRead(
       body.messageIds,
