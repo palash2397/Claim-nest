@@ -50,8 +50,7 @@ export class ChatMessageService {
 
   async getMessages(conversationId: string, page: number, limit: number) {
     try {
-      const conversation =
-        await this.conversationModel.findById(conversationId);
+      const conversation = await this.conversationModel.findById(conversationId);
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
@@ -62,7 +61,8 @@ export class ChatMessageService {
         .sort({ createdAt: -1 }) // latest first
         .skip(skip)
         .limit(limit)
-        .populate('senderId', 'name email');
+        .populate('senderId', 'name email')
+        .populate('readBy', 'name email');
       return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {
       console.error('Error fetching chat messages:', error);
@@ -72,16 +72,15 @@ export class ChatMessageService {
 
   async getById(conversationId: string, userId: string) {
     try {
-      const conversation = await this.conversationModel.findOne({
-        _id: conversationId,
-        participants: userId,
-      }).populate('readBy', 'name email');
+      const conversation = await this.conversationModel
+        .findOne({
+          _id: conversationId,
+          participants: userId,
+        })
 
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
-
-    
 
       return new ApiResponse(200, conversation, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {
