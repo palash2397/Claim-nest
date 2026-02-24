@@ -21,6 +21,8 @@ import { ConversationService } from './conversation/conversation.service';
 import { ChatMessageService } from './chat-message/chat-message.service';
 import { User, UserSchema } from '../user/schemas/user.schema';
 
+import {AwsModule} from '../aws/aws.module';
+
 
 @Module({
   imports: [
