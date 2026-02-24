@@ -74,23 +74,16 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('sendMessage')
   async handleMessage(
-    @MessageBody()
-    data: {
-      conversationId: string;
-      content: string;
-    },
+    @MessageBody() data: any,
     @ConnectedSocket() client: Socket,
   ) {
     const user = client.data.user;
 
-    // Save message using your existing API logic
-    const response = await this.chatMessageService.create({
+    return await this.chatMessageService.create({
       conversationId: data.conversationId,
       senderId: user.id,
       content: data.content,
     });
-
-    return response;
   }
 
   @SubscribeMessage('typing')

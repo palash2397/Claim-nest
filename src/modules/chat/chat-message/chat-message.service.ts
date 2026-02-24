@@ -43,8 +43,16 @@ export class ChatMessageService {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
       const chatData = await this.chatMessageModel.create({
-        ...data,
+        conversationId: data.conversationId,
+        senderId: data.senderId,
+        content: data.content,
+        messageType: 'text',
         readBy: [data.senderId],
+      });
+
+      this.eventEmitter.emit('chat.message.created', {
+        conversationId: data.conversationId,
+        message: chatData,
       });
 
       await this.conversationModel.findByIdAndUpdate(data.conversationId, {
