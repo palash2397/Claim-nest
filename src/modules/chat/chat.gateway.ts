@@ -144,8 +144,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @OnEvent('chat.message.created')
   handleMessageCreated(payload: any) {
-    console.log('Full payload:', payload);
-
+    // console.log('Full payload:', payload);
     this.server
       .to(payload.conversationId)
       .emit('receiveMessage', payload.message);

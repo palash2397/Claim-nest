@@ -177,11 +177,16 @@ export class ChatMessageService {
         fileUrl: uploadResult.Location,
         fileName: file.originalname,
       });
-      
-      console.log("Event emitted:", conversationId);
+
+      // console.log("Event emitted:", conversationId);
+
+      const signedUrl = await this.awsService.getSignedFileUrl(msgFile.fileUrl);
+      msgFile.fileUrl = signedUrl;
+      msgFile.content = signedUrl;
       this.eventEmitter.emit('chat.message.created', {
         conversationId,
-        msgFile,
+        message: msgFile,
+       
       });
 
       return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);
