@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import {
   ChatMessage,
@@ -26,17 +26,14 @@ export class ChatMessageService {
     @InjectModel(Conversation.name)
     private conversationModel: Model<ConversationDocument>,
     private awsService: AwsService,
- 
+     private eventEmitter: EventEmitter2,
   ) {}
 
-  async create(
-    data: {
-      conversationId: string;
-      senderId: string;
-      content: string;
-    },
-    options?: { senderSocketId?: string },
-  ) {
+  async create(data: {
+    conversationId: string;
+    senderId: string;
+    content: string;
+  }) {
     try {
       const conversation = await this.conversationModel.findOne({
         _id: data.conversationId,
@@ -181,7 +178,6 @@ export class ChatMessageService {
         fileName: file.originalname,
       });
 
-     
       return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);
     } catch (error) {
       console.log(`error while creating file message: ${error}`);

@@ -94,7 +94,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         senderId: user.id,
         content: data.content,
       },
-      { senderSocketId: client.id },
     );
 
     return response;

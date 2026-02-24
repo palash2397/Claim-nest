@@ -24,6 +24,7 @@ import { AdminModule } from './modules/admin/admin.module';
 // import { ChatMessageModule } from './modules/chat/chat-message/chat-message.module';
 // import { ConversationModule } from './modules/chat/conversation/conversation.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -55,7 +56,8 @@ import { ChatModule } from './modules/chat/chat.module';
     MessageModule,
     // ChatMessageModule,
     // ConversationModule,
-    ChatModule
+    ChatModule,
+    EventEmitterModule.forRoot()
   ],
   controllers: [],
   providers: [],
