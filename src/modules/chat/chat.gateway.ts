@@ -4,23 +4,28 @@ import {
   ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
+  OnGatewayDisconnect,
+  WebSocketServer,
 } from '@nestjs/websockets';
 
-import { Socket } from 'socket.io';
+import { Socket, Server } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { ChatMessageService } from './chat-message/chat-message.service';
 
 @WebSocketGateway({
   cors: { origin: '*' },
 })
-export class ChatGateway implements OnGatewayConnection {
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+  @WebSocketServer()
+  server: Server;
+
+  private onlineUsers = new Map<string, string>();
 
   constructor(
     private jwtService: JwtService,
     private chatMessageService: ChatMessageService,
   ) {}
 
-  // 🔐 1️⃣ Authenticate on connection
   async handleConnection(client: Socket) {
     try {
       const token = client.handshake.auth?.token;
@@ -32,14 +37,29 @@ export class ChatGateway implements OnGatewayConnection {
 
       const payload = this.jwtService.verify(token);
 
-      client.data.user = payload;
+      // ✅ Add user to online list
+      this.onlineUsers.set(payload.id, client.id);
 
+      // ✅ Broadcast updated online users
+      this.server.emit('onlineUsers', Array.from(this.onlineUsers.keys()));
+
+      client.data.user = payload;
     } catch (error) {
       client.disconnect();
     }
   }
 
-  // 🏠 2️⃣ Join Conversation Room
+  handleDisconnect(client: Socket) {
+    const user = client.data.user;
+
+    if (user?.id) {
+      this.onlineUsers.delete(user.id);
+
+      // Broadcast updated online users
+      this.server.emit('onlineUsers', Array.from(this.onlineUsers.keys()));
+    }
+  }
+
   @SubscribeMessage('joinConversation')
   async handleJoin(
     @MessageBody() conversationId: string,
@@ -48,10 +68,10 @@ export class ChatGateway implements OnGatewayConnection {
     client.join(conversationId);
   }
 
-  // 💬 3️⃣ Send Live Message
   @SubscribeMessage('sendMessage')
   async handleMessage(
-    @MessageBody() data: {
+    @MessageBody()
+    data: {
       conversationId: string;
       content: string;
     },
@@ -69,9 +89,7 @@ export class ChatGateway implements OnGatewayConnection {
     // If message saved successfully
     if (response.statusCode === 201) {
       // Emit to others in room
-      client
-        .to(data.conversationId)
-        .emit('receiveMessage', response.data);
+      client.to(data.conversationId).emit('receiveMessage', response.data);
     }
 
     return response;
