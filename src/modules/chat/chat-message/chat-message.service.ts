@@ -177,7 +177,8 @@ export class ChatMessageService {
         fileUrl: uploadResult.Location,
         fileName: file.originalname,
       });
-
+      
+      console.log("Event emitted:", conversationId);
       this.eventEmitter.emit('chat.message.created', {
         conversationId,
         msgFile,

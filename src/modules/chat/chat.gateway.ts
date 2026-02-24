@@ -120,8 +120,32 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
+  // @OnEvent('chat.message.created')
+  // handleMessageCreated(payload: { conversationId: string; message: any }) {
+  //   console.log("Gateway received event:", payload.conversationId);
+
+  //   this.server
+  //     .to(payload.conversationId)
+  //     .emit('receiveMessage', payload.message);
+  // }
+
+  // @OnEvent('chat.message.created')
+  // handleMessageCreated(payload: any) {
+  //   console.log('Gateway received event:', payload.conversationId);
+
+  //   const room = this.server.sockets.adapter.rooms.get(payload.conversationId);
+
+  //   console.log('Users inside room:', room);
+
+  //   this.server
+  //     .to(payload.conversationId)
+  //     .emit('receiveMessage', payload.message);
+  // }
+
   @OnEvent('chat.message.created')
-  handleMessageCreated(payload: { conversationId: string; message: any }) {
+  handleMessageCreated(payload: any) {
+    console.log('Full payload:', payload);
+
     this.server
       .to(payload.conversationId)
       .emit('receiveMessage', payload.message);
