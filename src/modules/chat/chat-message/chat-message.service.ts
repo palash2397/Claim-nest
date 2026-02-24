@@ -26,7 +26,7 @@ export class ChatMessageService {
     @InjectModel(Conversation.name)
     private conversationModel: Model<ConversationDocument>,
     private awsService: AwsService,
-     private eventEmitter: EventEmitter2,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async create(data: {
@@ -176,6 +176,11 @@ export class ChatMessageService {
         messageType: 'file',
         fileUrl: uploadResult.Location,
         fileName: file.originalname,
+      });
+
+      this.eventEmitter.emit('chat.message.created', {
+        conversationId,
+        msgFile,
       });
 
       return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);

@@ -13,16 +13,12 @@ import { JwtService } from '@nestjs/jwt';
 import { ChatMessageService } from './chat-message/chat-message.service';
 import { Injectable } from '@nestjs/common';
 
-import {
-  CHAT_MESSAGE_CREATED_EVENT,
-  ChatMessageCreatedPayload,
-} from './chat.events';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @WebSocketGateway({
   cors: { origin: '*' },
 })
-
-@Injectable()   
+@Injectable()
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
@@ -88,13 +84,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = client.data.user;
 
     // Save message using your existing API logic
-    const response = await this.chatMessageService.create(
-      {
-        conversationId: data.conversationId,
-        senderId: user.id,
-        content: data.content,
-      },
-    );
+    const response = await this.chatMessageService.create({
+      conversationId: data.conversationId,
+      senderId: user.id,
+      content: data.content,
+    });
 
     return response;
   }
@@ -126,5 +120,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
-
+  @OnEvent('chat.message.created')
+  handleMessageCreated(payload: { conversationId: string; message: any }) {
+    this.server
+      .to(payload.conversationId)
+      .emit('receiveMessage', payload.message);
+  }
 }
