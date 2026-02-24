@@ -35,6 +35,7 @@ import {AwsModule} from '../aws/aws.module';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
+    AwsModule,
   ],
   controllers:[ConversationController, ChatMessageController],
   providers: [ChatGateway, ConversationService, ChatMessageService],
