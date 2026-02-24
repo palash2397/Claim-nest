@@ -167,7 +167,7 @@ export class ChatMessageService {
         file.mimetype,
       );
 
-      await this.chatMessageModel.create({
+      const msgFile =  await this.chatMessageModel.create({
         conversationId,
         senderId: new Types.ObjectId(userId),
         content: uploadResult.Location,
@@ -176,6 +176,8 @@ export class ChatMessageService {
         fileUrl: uploadResult.Location,
         fileName: file.originalname,
       });
+
+     return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);
     } catch (error) {
       console.log(`error while creating file message: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
