@@ -5,7 +5,6 @@ export type ChatMessageDocument = ChatMessage & Document;
 
 @Schema({ timestamps: true })
 export class ChatMessage {
-
   @Prop({ type: Types.ObjectId, ref: 'Conversation', required: true })
   conversationId: Types.ObjectId;
 
@@ -17,7 +16,16 @@ export class ChatMessage {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   readBy: Types.ObjectId[];
+
+  @Prop({ default: 'text' })
+  messageType: 'text' | 'file';
+
+  @Prop()
+  fileUrl: string;
+
+  @Prop()
+  fileName: string;
+
 }
 
-export const ChatMessageSchema =
-  SchemaFactory.createForClass(ChatMessage);
+export const ChatMessageSchema = SchemaFactory.createForClass(ChatMessage);

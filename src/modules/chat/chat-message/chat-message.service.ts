@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 import {
   ChatMessage,
   ChatMessageDocument,
 } from './schemas/chat-message.schema';
+
+
 
 import {
   Conversation,
@@ -15,6 +17,8 @@ import {
 import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
 
+import { AwsService } from 'src/modules/aws/aws.service';
+
 @Injectable()
 export class ChatMessageService {
   constructor(
@@ -22,6 +26,7 @@ export class ChatMessageService {
     private chatMessageModel: Model<ChatMessageDocument>,
     @InjectModel(Conversation.name)
     private conversationModel: Model<ConversationDocument>,
+    private awsService: AwsService,
   ) {}
 
   async create(data: {
@@ -140,6 +145,39 @@ export class ChatMessageService {
       return new ApiResponse(200, {}, Msg.CONVERSATION_MARKED_AS_READ);
     } catch (error) {
       console.error('Error marking conversation as read:', error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async createFileMessage(
+    conversationId: string,
+    file: Express.Multer.File,
+    userId: string,
+  ) {
+    try {
+      const conversation =
+        await this.conversationModel.findById(conversationId);
+      if (!conversation) {
+        return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
+      }
+
+      const uploadResult = await this.awsService.uploadFile(
+        `chat/conversation/${conversationId}/${Date.now()}-${file.originalname}`,
+        file.buffer,
+        file.mimetype,
+      );
+
+      await this.chatMessageModel.create({
+        conversationId,
+        senderId: new Types.ObjectId(userId),
+        content: uploadResult.Location,
+        readBy: [new Types.ObjectId(userId)],
+        messageType: 'file',
+        fileUrl: uploadResult.Location,
+        fileName: file.originalname,
+      });
+    } catch (error) {
+      console.log(`error while creating file message: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
