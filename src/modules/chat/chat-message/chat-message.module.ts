@@ -8,12 +8,14 @@ import { ConversationSchema, Conversation } from '../conversation/schemas/conver
 import { UserSchema, User } from 'src/modules/user/schemas/user.schema';
 
 import { ConversationModule } from '../conversation/conversation.module';
+import { AwsModule } from 'src/modules/aws/aws.module';
 
 @Module({
   controllers: [ChatMessageController],
   providers: [ChatMessageService],
   imports: [
     ConversationModule,
+    AwsModule,
     MongooseModule.forFeature([
       { name: ChatMessage.name, schema: ChatMessageSchema },
       { name: Conversation.name, schema: ConversationSchema },
