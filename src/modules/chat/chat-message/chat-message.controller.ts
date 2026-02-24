@@ -7,6 +7,9 @@ import {
   Patch,
   Req,
   UseGuards,
+  Post,
+  UploadedFile,
+  UseInterceptors
 } from '@nestjs/common';
 import { ChatMessageService } from './chat-message.service';
 
@@ -20,6 +23,7 @@ import { Msg } from 'src/utils/helper/responseMsg';
 import type { Request } from 'express';
 
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('chat-message')
 @UseGuards(JwtAuthGuard)
@@ -52,14 +56,8 @@ export class ChatMessageController {
   }
 
   @Patch('/message/read')
-  async markAsRead(
-    @Body() body: MarkReadDto,
-    @Req() req: Request,
-  ) {
-    return this.chatMessageService.markAsRead(
-      body.messageIds,
-      req.user.id,
-    );
+  async markAsRead(@Body() body: MarkReadDto, @Req() req: Request) {
+    return this.chatMessageService.markAsRead(body.messageIds, req.user.id);
   }
 
   @Patch('/conversation/read/:id')
@@ -69,6 +67,22 @@ export class ChatMessageController {
   ) {
     return this.chatMessageService.markConversationAsRead(
       conversationId,
+      req.user.id,
+    );
+  }
+
+  @Post('/message/file/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(
+    @Param('id') conversationId: string,
+    @Req() req: Request,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+
+    console.log('file', file);
+    return this.chatMessageService.createFileMessage(
+      conversationId,
+      file,
       req.user.id,
     );
   }
