@@ -94,4 +94,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     return response;
   }
+
+  @SubscribeMessage('typing')
+  handleTyping(
+    @MessageBody() data: { conversationId: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const user = client.data.user;
+
+    // Notify others in room (except sender)
+    client.to(data.conversationId).emit('userTyping', {
+      userId: user.id,
+      conversationId: data.conversationId,
+    });
+  }
 }
