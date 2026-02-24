@@ -108,4 +108,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       conversationId: data.conversationId,
     });
   }
+
+  @SubscribeMessage('stopTyping')
+  handleStopTyping(
+    @MessageBody() data: { conversationId: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const user = client.data.user;
+
+    client.to(data.conversationId).emit('userStoppedTyping', {
+      userId: user.id,
+      conversationId: data.conversationId,
+    });
+  }
 }
