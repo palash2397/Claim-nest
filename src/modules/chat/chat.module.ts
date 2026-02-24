@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+
 import {
   Conversation,
   ConversationSchema,
@@ -26,6 +27,7 @@ import {AwsModule} from '../aws/aws.module';
 
 @Module({
   imports: [
+
     MongooseModule.forFeature([
       { name: Conversation.name, schema: ConversationSchema },
       { name: ChatMessage.name, schema: ChatMessageSchema },

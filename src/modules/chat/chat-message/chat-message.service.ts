@@ -2,14 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 
-import { ChatGateway } from '../chat.gateway';
 
 import {
   ChatMessage,
   ChatMessageDocument,
 } from './schemas/chat-message.schema';
-
-
 
 import {
   Conversation,
@@ -29,13 +26,17 @@ export class ChatMessageService {
     @InjectModel(Conversation.name)
     private conversationModel: Model<ConversationDocument>,
     private awsService: AwsService,
+ 
   ) {}
 
-  async create(data: {
-    conversationId: string;
-    senderId: string;
-    content: string;
-  }) {
+  async create(
+    data: {
+      conversationId: string;
+      senderId: string;
+      content: string;
+    },
+    options?: { senderSocketId?: string },
+  ) {
     try {
       const conversation = await this.conversationModel.findOne({
         _id: data.conversationId,
@@ -52,6 +53,7 @@ export class ChatMessageService {
       await this.conversationModel.findByIdAndUpdate(data.conversationId, {
         $set: { updatedAt: new Date() },
       });
+
       return new ApiResponse(201, chatData, Msg.CHAT_MESSAGE_CREATED);
     } catch (error) {
       console.log(`Error creating chat message: ${error}`);
@@ -169,7 +171,7 @@ export class ChatMessageService {
         file.mimetype,
       );
 
-      const msgFile =  await this.chatMessageModel.create({
+      const msgFile = await this.chatMessageModel.create({
         conversationId,
         senderId: new Types.ObjectId(userId),
         content: uploadResult.Location,
@@ -179,7 +181,8 @@ export class ChatMessageService {
         fileName: file.originalname,
       });
 
-     return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);
+     
+      return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);
     } catch (error) {
       console.log(`error while creating file message: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
