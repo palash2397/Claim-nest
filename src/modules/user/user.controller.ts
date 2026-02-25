@@ -1,5 +1,7 @@
-import { Controller, Post, Body, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
+
+import type { Request } from 'express';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
@@ -24,8 +26,8 @@ export class UserController {
 
   @Get('/all')
   @UseGuards(JwtAuthGuard,RoleGuard)
-  all() {
-    return this.userService.all();
+  all(@Req() req: Request) {
+    return this.userService.all(req.user.id);
   }
 
   @Get('/byId/:id')

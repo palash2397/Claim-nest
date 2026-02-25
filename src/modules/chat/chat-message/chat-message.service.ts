@@ -82,6 +82,14 @@ export class ChatMessageService {
         .limit(limit)
         .populate('senderId', 'name email')
         .populate('readBy', 'name email');
+
+      for (const message of messages) {
+           if(message.messageType === 'file') {
+            const signedUrl = await this.awsService.getSignedFileUrl(message.fileUrl);
+            message.fileUrl = signedUrl;
+            message.content = signedUrl;
+           }
+      }
       return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {
       console.error('Error fetching chat messages:', error);
