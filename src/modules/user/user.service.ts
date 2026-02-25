@@ -10,7 +10,6 @@ import { ApiResponse } from '../../utils/helper/ApiResponse';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 
-
 @Injectable()
 export class UserService {
   @InjectModel('User') private readonly userModel: Model<UserDocument>;
@@ -24,7 +23,7 @@ export class UserService {
       }
       const newUser = new this.userModel({ name, email, password, role });
       await newUser.save();
-      return new ApiResponse(201, newUser , Msg.USER_REGISTER);
+      return new ApiResponse(201, newUser, Msg.USER_REGISTER);
     } catch (error) {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
@@ -45,17 +44,21 @@ export class UserService {
       if (!user.isActive) {
         return new ApiResponse(401, {}, Msg.USER_INACTIVE);
       }
-      
-      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET!, {
-        expiresIn: '10d',
-      });
+
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET!,
+        {
+          expiresIn: '10d',
+        },
+      );
 
       const userData = {
         _id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
-        token
+        token,
       };
       return new ApiResponse(200, userData, Msg.LOGIN_SUCCESS);
     } catch (error) {
@@ -63,11 +66,13 @@ export class UserService {
     }
   }
 
-  async all() {
+  async all(userId: string) {
     try {
-      const users = await this.userModel.find({ role: 'User' }).lean();
+      const users = await this.userModel
+        .find({ role: 'User', _id: { $ne: userId } })
+        .lean();
 
-      if(!users || users.length === 0) {
+      if (!users || users.length === 0) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
       return new ApiResponse(200, users, Msg.DATA_FETCHED);
@@ -79,7 +84,7 @@ export class UserService {
   async getById(id: string) {
     try {
       const user = await this.userModel.findById(id).lean();
-      if(!user) {
+      if (!user) {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
       return new ApiResponse(200, user, Msg.USER_FETCHED);
