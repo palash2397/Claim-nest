@@ -3,30 +3,17 @@ import { Document, Types } from 'mongoose';
 
 export type NoteDocument = Note & Document;
 
-export const NOTE_TYPES = [
-  'General',
-  'Medical',
-  'Legal',
-  'Client Contact',
-  'Vocational',
-  'TL',
-  'Legal',
-  `Strategy`,
-  `Other`,
-  'Internal',
-] as const;
-
-export const NOTE_VISIBILITY = ['Internal', 'Admin-Only'] as const;
+import { NOTE_TYPES, NOTE_VISIBILITY } from 'src/common/enums/case-note.enum';
 
 @Schema({ timestamps: true })
 export class Note {
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
   caseId: Types.ObjectId;
 
-  @Prop({ enum: NOTE_TYPES, default: 'General' })
+  @Prop({ enum: NOTE_TYPES, default: NOTE_TYPES.General })
   noteType: string;
 
-  @Prop({ enum: NOTE_VISIBILITY, default: 'Internal' })
+  @Prop({ enum: NOTE_VISIBILITY, default: NOTE_VISIBILITY.Internal })
   visibility: string;
 
   @Prop({ required: true })

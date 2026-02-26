@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { NOTE_TYPES, NOTE_VISIBILITY } from '../schemas/create-note.schema';
+import { NOTE_TYPES, NOTE_VISIBILITY } from 'src/common/enums/case-note.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateNoteDto {
