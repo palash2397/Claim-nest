@@ -27,7 +27,7 @@ export class UserController {
   @Get('/all')
   @UseGuards(JwtAuthGuard,RoleGuard)
   all(@Req() req: Request) {
-    return this.userService.all(req.user.id);
+    return this.userService.all(req.user!.id);
   }
 
   @Get('/byId/:id')

@@ -137,7 +137,8 @@ export class ConversationService {
         });
 
         result.push({
-          _id: conversation._id.toString(), // ✅ convert
+          _id: conversation._id.toString(), 
+          type: conversation.type,
           participants: conversation.participants.map((p: any) => p.toString()),
           lastMessage: lastMessage
             ? {

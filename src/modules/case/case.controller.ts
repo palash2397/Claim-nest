@@ -39,7 +39,7 @@ export class CaseController {
   @Roles(UserRole.Admin)
   create(@Body() createCaseDto: CreateCaseDto, @Req() req: Request) {
 
-    return this.caseService.create(createCaseDto, req.user.id);
+    return this.caseService.create(createCaseDto, req.user!.id);
   }
 
   @Patch('/update/:id')
@@ -50,7 +50,7 @@ export class CaseController {
     @Param('id') caseId: string,
   ) {
 
-    return this.caseService.update(updateCaseDto, req.user.id, caseId);
+    return this.caseService.update(updateCaseDto, req.user!.id, caseId);
   }
 
   // @Post('/:id/activity')

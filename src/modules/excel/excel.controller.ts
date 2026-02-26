@@ -32,13 +32,16 @@ export class ExcelController {
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.excelService.uploadExcel(dto, file, req.user.id);
+    return this.excelService.uploadExcel(dto, file, req.user!.id);
   }
 
   @Patch('/update')
   @UseGuards(JwtAuthGuard)
- @UseInterceptors(FileInterceptor('file'))
-  async updateExcel(@Body() dto: UpdateExcelDto,  @UploadedFile() file: Express.Multer.File | undefined) {
+  @UseInterceptors(FileInterceptor('file'))
+  async updateExcel(
+    @Body() dto: UpdateExcelDto,
+    @UploadedFile() file: Express.Multer.File | undefined,
+  ) {
     return this.excelService.updateExcel(dto, file);
   }
 
@@ -60,6 +63,3 @@ export class ExcelController {
     return this.excelService.deleteExcel(id);
   }
 }
-
-
-

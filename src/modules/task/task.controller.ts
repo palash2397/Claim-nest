@@ -25,7 +25,7 @@ export class TaskController {
   @Post('/create')
   @UseGuards(JwtAuthGuard)
   create(@Body() dto: CreateTaskDto, @Req() req: Request) {
-    return this.taskService.create(dto, req.user.id);
+    return this.taskService.create(dto, req.user!.id);
   }
 
   @Get('/all')
@@ -37,7 +37,7 @@ export class TaskController {
   @Patch('/update')
   @UseGuards(JwtAuthGuard)
   update(@Body() dto: UpdateTaskDto, @Req() req: Request) {
-    return this.taskService.update(dto, req.user.id);
+    return this.taskService.update(dto, req.user!.id);
   }
 
   @Get('/:id')

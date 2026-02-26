@@ -28,7 +28,7 @@ export class CaseDocumentsController {
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.caseDocumentsService.upload(dto, req.user.id, file);
+    return this.caseDocumentsService.upload(dto, req.user!.id, file);
   }
 
   @Get("/find/:caseId")

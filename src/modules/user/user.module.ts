@@ -4,14 +4,21 @@ import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 
+// import { PassportModule } from '@nestjs/passport';
+// import { MicrosoftStrategy } from './strategies/microsoft.strategy';
+
 @Module({
   controllers: [UserController],
   providers: [UserService],
-  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
-  exports: [UserService, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
+  ],
+  exports: [
+    UserService,
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+  ],
 })
 export class UserModule {}
-
 
 // nest g module modules/user
 // nest g resource user

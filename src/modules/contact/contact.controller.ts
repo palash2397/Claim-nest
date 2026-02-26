@@ -26,13 +26,13 @@ export class ContactController {
   @Post('/create')
   @UseGuards(JwtAuthGuard)
   async create(@Body() dto: CreateContactDto, @Req() req: Request) {
-    return this.contactService.create(dto, req.user.id);
+    return this.contactService.create(dto, req.user!.id);
   }
 
   @Patch('/update')
   @UseGuards(JwtAuthGuard)
   async update(@Body() dto: UpdateContactDto, @Req() req: Request) {
-    return this.contactService.update(dto, req.user.id);
+    return this.contactService.update(dto, req.user!.id);
   }
 
   @Delete('/delete/:id')
