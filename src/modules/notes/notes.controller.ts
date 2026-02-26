@@ -12,6 +12,7 @@ export class NotesController {
   @Post("/create")
   @UseGuards(JwtAuthGuard)
   create(@Body() dto: CreateNoteDto, @Req() req: any) {
+    console.log(req.body);
     return this.notesService.create(dto, req.user.id);
   }
 
