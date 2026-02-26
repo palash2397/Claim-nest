@@ -8,6 +8,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 
+import { Model, Types } from 'mongoose';
+
 import { Socket, Server } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { ChatMessageService } from './chat-message/chat-message.service';
@@ -80,7 +82,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = client.data.user;
 
     return await this.chatMessageService.create({
-      conversationId: data.conversationId,
+      conversationId: new Types.ObjectId(data.conversationId),
       senderId: user.id,
       content: data.content,
     });

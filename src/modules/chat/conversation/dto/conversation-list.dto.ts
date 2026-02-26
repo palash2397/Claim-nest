@@ -1,8 +1,7 @@
 export interface ConversationListItem {
   _id: string;
-  participants: any[];
-  lastMessage?: any;
-  unreadCount?: number;
-  updatedAt?: Date;
-  createdAt?: Date;
+  participants: string[];
+  lastMessage: any | null;
+  unreadCount: number;
+
 }

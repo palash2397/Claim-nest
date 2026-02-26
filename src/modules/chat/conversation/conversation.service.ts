@@ -19,6 +19,7 @@ import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
 
 import { CreateGroupDto } from './dto/create-group.dto';
+import { ConversationListItem } from './dto/conversation-list.dto';
 
 @Injectable()
 export class ConversationService {
@@ -111,6 +112,51 @@ export class ConversationService {
     }
   }
 
+  // async myConversation(userId: string): Promise<ConversationListItem[]> {
+  //   try {
+  //     // const user = await this.userModel.findById(new Types.ObjectId(userId));
+  //     const conversations = await this.conversationModel
+  //       .find({ participants: userId })
+  //       .sort({ updatedAt: -1 })
+  //       .lean();
+
+  //     const result: ConversationListItem[] = [];
+
+  //     for (const conversation of conversations) {
+  //       console.log("conversation ---->", conversation);
+  //       const lastMessage = await this.chatMessageModel
+  //         .findOne({ conversationId: conversation._id })
+  //         .sort({ createdAt: -1 })
+  //         .lean();
+
+  //       console.log("lastMessage ---->", lastMessage);
+
+  //       const unreadCount = await this.chatMessageModel.countDocuments({
+  //         conversationId: conversation._id,
+  //         readBy: { $ne: userId },
+  //       });
+
+  //       result.push({
+  //         _id: conversation._id.toString(), // ✅ convert
+  //         participants: conversation.participants.map((p: any) => p.toString()),
+  //         lastMessage: lastMessage
+  //           ? {
+  //               ...lastMessage,
+  //               _id: lastMessage._id.toString(),
+  //             }
+  //           : null,
+  //         unreadCount,
+  //       });
+  //     }
+  //     return result;
+
+  //     // throw new ApiResponse(200, result, Msg.CONVERSATION_FETCHED);;
+  //   } catch (error) {
+  //     console.log(`Error fetching my conversation: ${error.message}`);
+  //     throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
+  //   }
+  // }
+
   async myConversation(userId: string) {
     try {
       const user = await this.userModel.findById(new Types.ObjectId(userId));
@@ -132,6 +178,9 @@ export class ConversationService {
           .sort({ createdAt: -1 })
           .lean();
 
+
+        // console.log("lastMessage ---->", lastMessage);
+
         const unreadCount = await this.chatMessageModel.countDocuments({
           conversationId: conversation._id,
           readBy: { $ne: userId },
@@ -146,8 +195,8 @@ export class ConversationService {
 
       return new ApiResponse(200, conversations, Msg.CONVERSATION_LIST_FETCHED);
     } catch (error) {
-      console.log(`Error fetching my conversation: ${error}`);
-      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+      console.log(`Error fetching my conversation: ${error.message}`);
+      throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
 

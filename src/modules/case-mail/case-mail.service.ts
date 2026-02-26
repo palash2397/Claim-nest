@@ -35,7 +35,7 @@ export class CaseMailService {
       }
 
       const email = await this.caseEmailModel.create({
-        caseId: dto.caseId,
+        caseId: new Types.ObjectId(dto.caseId),
         direction: dto.direction,
         from: dto.from,
         to: dto.to,
@@ -52,7 +52,7 @@ export class CaseMailService {
 
       if (dto.followUpRequired) {
         createdTask = await this.taskModel.create({
-          caseId: dto.caseId,
+          caseId: new Types.ObjectId(dto.caseId),
           taskTitle: `Email Follow-Up: ${dto.subject}`,
           internalNotes: dto.summary,
           assignedTo: caseDoc.assignedManager,
@@ -87,7 +87,7 @@ export class CaseMailService {
   async findByCaseId(caseId: string) {
     try {
       const emails = await this.caseEmailModel
-        .find({ caseId })
+        .find({ caseId: new Types.ObjectId(caseId) })
         .populate('linkedTaskId')
         .sort({ emailDate: -1 });
       if (!emails || emails.length === 0) {

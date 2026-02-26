@@ -30,7 +30,7 @@ export class ChatMessageService {
   ) {}
 
   async create(data: {
-    conversationId: string;
+    conversationId: any;
     senderId: string;
     content: string;
   }) {
