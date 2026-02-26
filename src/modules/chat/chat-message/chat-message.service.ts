@@ -29,11 +29,7 @@ export class ChatMessageService {
     private eventEmitter: EventEmitter2,
   ) {}
 
-  async create(data: {
-    conversationId: any;
-    senderId: string;
-    content: string;
-  }) {
+  async create(data: { conversationId: any; senderId: any; content: string }) {
     try {
       const conversation = await this.conversationModel.findOne({
         _id: data.conversationId,
@@ -84,11 +80,13 @@ export class ChatMessageService {
         .populate('readBy', 'name email');
 
       for (const message of messages) {
-           if(message.messageType === 'file') {
-            const signedUrl = await this.awsService.getSignedFileUrl(message.fileUrl);
-            message.fileUrl = signedUrl;
-            message.content = signedUrl;
-           }
+        if (message.messageType === 'file') {
+          const signedUrl = await this.awsService.getSignedFileUrl(
+            message.fileUrl,
+          );
+          message.fileUrl = signedUrl;
+          message.content = signedUrl;
+        }
       }
       return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_FETCHED);
     } catch (error) {
@@ -143,19 +141,22 @@ export class ChatMessageService {
 
   async markConversationAsRead(conversationId: string, userId: string) {
     try {
-      const conversation =
-        await this.conversationModel.findById(conversationId);
+      const conversation = await this.conversationModel.findOne({
+        _id: new Types.ObjectId(conversationId),
+        participants: new Types.ObjectId(userId),
+      });
+
       if (!conversation) {
         return new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
       }
 
       await this.chatMessageModel.updateMany(
         {
-          conversationId,
-          readBy: { $ne: userId },
+          conversationId: new Types.ObjectId(conversationId),
+          readBy: { $ne: new Types.ObjectId(userId) },
         },
         {
-          $push: { readBy: userId },
+          $addToSet: { readBy: new Types.ObjectId(userId) },
         },
       );
 
@@ -202,7 +203,6 @@ export class ChatMessageService {
       this.eventEmitter.emit('chat.message.created', {
         conversationId,
         message: msgFile,
-       
       });
 
       return new ApiResponse(200, msgFile, Msg.CHAT_MESSAGE_CREATED);

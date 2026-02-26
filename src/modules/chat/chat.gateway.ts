@@ -83,7 +83,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     return await this.chatMessageService.create({
       conversationId: new Types.ObjectId(data.conversationId),
-      senderId: user.id,
+      senderId: new Types.ObjectId(user.id),
       content: data.content,
     });
   }

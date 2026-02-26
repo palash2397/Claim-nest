@@ -112,72 +112,22 @@ export class ConversationService {
     }
   }
 
-  // async myConversation(userId: string): Promise<ConversationListItem[]> {
-  //   try {
-  //     // const user = await this.userModel.findById(new Types.ObjectId(userId));
-  //     const conversations = await this.conversationModel
-  //       .find({ participants: userId })
-  //       .sort({ updatedAt: -1 })
-  //       .lean();
-
-  //     const result: ConversationListItem[] = [];
-
-  //     for (const conversation of conversations) {
-  //       console.log("conversation ---->", conversation);
-  //       const lastMessage = await this.chatMessageModel
-  //         .findOne({ conversationId: conversation._id })
-  //         .sort({ createdAt: -1 })
-  //         .lean();
-
-  //       console.log("lastMessage ---->", lastMessage);
-
-  //       const unreadCount = await this.chatMessageModel.countDocuments({
-  //         conversationId: conversation._id,
-  //         readBy: { $ne: userId },
-  //       });
-
-  //       result.push({
-  //         _id: conversation._id.toString(), // ✅ convert
-  //         participants: conversation.participants.map((p: any) => p.toString()),
-  //         lastMessage: lastMessage
-  //           ? {
-  //               ...lastMessage,
-  //               _id: lastMessage._id.toString(),
-  //             }
-  //           : null,
-  //         unreadCount,
-  //       });
-  //     }
-  //     return result;
-
-  //     // throw new ApiResponse(200, result, Msg.CONVERSATION_FETCHED);;
-  //   } catch (error) {
-  //     console.log(`Error fetching my conversation: ${error.message}`);
-  //     throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
-  //   }
-  // }
-
-  async myConversation(userId: string) {
+  async myConversation(userId: string): Promise<ConversationListItem[]> {
     try {
-      const user = await this.userModel.findById(new Types.ObjectId(userId));
-
-      if (!user) {
-        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
-      }
-
+      // const user = await this.userModel.findById(new Types.ObjectId(userId));
       const conversations = await this.conversationModel
         .find({ participants: userId })
         .sort({ updatedAt: -1 })
         .lean();
 
-      const result = [];
+      const result: ConversationListItem[] = [];
 
       for (const conversation of conversations) {
+        // console.log("conversation ---->", conversation);
         const lastMessage = await this.chatMessageModel
           .findOne({ conversationId: conversation._id })
           .sort({ createdAt: -1 })
           .lean();
-
 
         // console.log("lastMessage ---->", lastMessage);
 
@@ -186,19 +136,66 @@ export class ConversationService {
           readBy: { $ne: userId },
         });
 
-        // result.push({
-        //   ...conversation,
-        //   lastMessage,
-        //   unreadCount,
-        // });
+        result.push({
+          _id: conversation._id.toString(), // ✅ convert
+          participants: conversation.participants.map((p: any) => p.toString()),
+          lastMessage: lastMessage
+            ? {
+                ...lastMessage,
+                _id: lastMessage._id.toString(),
+              }
+            : null,
+          unreadCount,
+        });
       }
+      return result;
 
-      return new ApiResponse(200, conversations, Msg.CONVERSATION_LIST_FETCHED);
+      // throw new ApiResponse(200, result, Msg.CONVERSATION_FETCHED);;
     } catch (error) {
       console.log(`Error fetching my conversation: ${error.message}`);
       throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  // async myConversation(userId: string) {
+  //   try {
+  //     const user = await this.userModel.findById(new Types.ObjectId(userId));
+
+  //     if (!user) {
+  //       return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
+  //     }
+
+  //     const conversations = await this.conversationModel
+  //       .find({ participants: userId })
+  //       .sort({ updatedAt: -1 })
+  //       .lean();
+
+  //     const result = {};
+
+  //     for (const conversation of conversations) {
+  //       const lastMessage = await this.chatMessageModel
+  //         .findOne({ conversationId: conversation._id })
+  //         .sort({ createdAt: -1 })
+  //         .lean();
+
+
+  //        console.log("lastMessage ---->", lastMessage);
+
+  //       const unreadCount = await this.chatMessageModel.countDocuments({
+  //         conversationId: conversation._id,
+  //         readBy: { $ne: userId },
+  //       });
+
+       
+       
+  //     }
+
+  //     return new ApiResponse(200, conversations, Msg.CONVERSATION_LIST_FETCHED);
+  //   } catch (error) {
+  //     console.log(`Error fetching my conversation: ${error.message}`);
+  //     throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
+  //   }
+  // }
 
   async isParticipant(conversationId: string, userId: string) {
     const conversation = await this.conversationModel.findOne({
