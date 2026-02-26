@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 
 export type UserDocument = HydratedDocument<User>;
 
-import { UserRole } from 'src/common/enums/user-role.enum';
+import { UserRole, UserType } from 'src/common/enums/user-role.enum';
 
 @Schema({ timestamps: true })
 export class User {
