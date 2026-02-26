@@ -36,4 +36,22 @@ export class CreateNoteDto {
   @ApiProperty()
   @IsOptional()
   createTask?: boolean; // for later automation
+
+  @ApiProperty()
+  @IsOptional()
+  assignTo?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  taskTitle?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  taskType?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  priority?: string;
+
+
 }

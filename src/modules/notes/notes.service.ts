@@ -53,12 +53,12 @@ export class NotesService {
 
         createdTask = await this.taskModel.create({
           caseId: dto.caseId,
-          taskTitle: `Follow up: ${dto.title}`,
+          taskTitle: dto.taskTitle,
           internalNotes: dto.details,
-          assignedTo: caseDoc.assignedManager,
+          assignedTo: dto.assignTo,
           status: 'Pending',
-          priority: 'Medium',
-          taskType: 'Follow-Up Call',
+          priority: dto.priority,
+          taskType: dto.taskType,
           linkToCalendar: false,
           sourceModule: 'Note',
           sourceId: note._id,
