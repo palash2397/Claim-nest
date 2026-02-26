@@ -49,7 +49,7 @@ export class NotesService {
         }
 
         createdTask = await this.taskModel.create({
-          caseId: dto.caseId,
+          caseId: new Types.ObjectId(dto.caseId),
           taskTitle: dto.taskTitle,
           internalNotes: dto.details,
           assignedTo: dto.assignTo,
