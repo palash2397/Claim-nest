@@ -19,7 +19,7 @@ import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
 
 import { Roles } from '../auth/roles/roles.decorator';
-import { UserRole } from '../user/schemas/user.schema';
+import { UserRole } from 'src/common/enums/user-role.enum';
 
 import { CaseService } from './case.service';
 

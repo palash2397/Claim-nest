@@ -5,7 +5,8 @@ import { Model, Types } from 'mongoose';
 import { ApiResponse } from '../../utils/helper/ApiResponse';
 import { Msg } from '../../utils/helper/responseMsg';
 
-import { User, UserDocument, UserRole } from '../user/schemas/user.schema';
+import { User, UserDocument } from '../user/schemas/user.schema';
+import { UserRole } from 'src/common/enums/user-role.enum';
 import { AssignRoleDto } from './dto/assign-role.dto';
 
 @Injectable()

@@ -34,7 +34,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from './roles.decorator';
-import { UserRole } from '../../user/schemas/user.schema';
+import { UserRole } from 'src/common/enums/user-role.enum';
 import { ApiResponse } from '../../../utils/helper/ApiResponse';
 
 @Injectable()

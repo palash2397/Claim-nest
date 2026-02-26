@@ -7,7 +7,7 @@ import { AssignRoleDto } from './dto/assign-role.dto';
 
 
 import { Roles } from '../auth/roles/roles.decorator';
-import { UserRole } from '../user/schemas/user.schema';
+import { UserRole } from 'src/common/enums/user-role.enum';
 
 @UseGuards(JwtAuthGuard, RoleGuard)
 @Controller('admin')
