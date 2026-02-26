@@ -53,5 +53,9 @@ export class CreateNoteDto {
   @IsOptional()
   priority?: string;
 
+  @ApiProperty()
+  @IsOptional()
+  linkToCalendar?: boolean;
+
 
 }

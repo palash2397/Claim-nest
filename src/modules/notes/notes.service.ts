@@ -43,12 +43,9 @@ export class NotesService {
 
       // 2️⃣ If Create Task Checked
       if (dto.createTask) {
-        if (!caseDoc.assignedManager) {
-          return new ApiResponse(
-            400,
-            {},
-            Msg.CASE_HAS_NO_ASSIGNED_MANAGER,
-          );
+        const assignToUser = await this.userModel.findById(dto.assignTo);
+        if (!assignToUser) {
+          return new ApiResponse(404, {}, Msg.ASSIGN_TO_USER_NOT_FOUND);
         }
 
         createdTask = await this.taskModel.create({
@@ -59,7 +56,7 @@ export class NotesService {
           status: 'Pending',
           priority: dto.priority,
           taskType: dto.taskType,
-          linkToCalendar: false,
+          linkToCalendar: dto.linkToCalendar,
           sourceModule: 'Note',
           sourceId: note._id,
           createdBy: new Types.ObjectId(userId),

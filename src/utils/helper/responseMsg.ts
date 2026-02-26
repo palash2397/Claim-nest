@@ -239,8 +239,9 @@ export const Msg = {
   CHAT_ALREADY_EXIST: `Chat already exists`,
 
 
-  // target user
+
   TARGET_USER_NOT_FOUND: `Target user not found`,
+  ASSIGN_TO_USER_NOT_FOUND: `Assign to user not found`,
 
 
   // participant
