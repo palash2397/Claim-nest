@@ -10,10 +10,10 @@ export class Note {
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
   caseId: Types.ObjectId;
 
-  @Prop({ enum: NOTE_TYPES, default: NOTE_TYPES.General })
+  @Prop({ default: `General` })
   noteType: string;
 
-  @Prop({ enum: NOTE_VISIBILITY, default: NOTE_VISIBILITY.Internal })
+  @Prop({  default: `Internal` })
   visibility: string;
 
   @Prop({ required: true })
