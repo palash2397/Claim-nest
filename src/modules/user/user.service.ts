@@ -25,6 +25,7 @@ export class UserService {
       await newUser.save();
       return new ApiResponse(201, newUser, Msg.USER_REGISTER);
     } catch (error) {
+      console.log(`register error ---->`, error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }

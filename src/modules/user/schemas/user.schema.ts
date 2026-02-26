@@ -21,7 +21,9 @@ export class User {
   email: string;
 
   @Prop({
-    required: [true, 'Password is required'],
+    required: function () {
+      return this.provider === UserType.Local;
+    },
     minlength: [8, 'Password must be at least 8 characters long'],
     select: false,
   })
@@ -38,6 +40,28 @@ export class User {
     default: true,
   })
   isActive: boolean;
+
+
+   @Prop({
+    enum: UserType,
+    default: UserType.Local,
+  })
+  provider: string;
+
+  @Prop({
+    unique: true,
+    sparse: true,
+  })
+  microsoftId?: string;
+
+  @Prop()
+  microsoftAccessToken?: string;
+
+  @Prop()
+  microsoftRefreshToken?: string;
+
+  @Prop()
+  microsoftTokenExpiry?: Date;
 
   // 👇 instance method typing
   //   isPasswordCorrect?: (
