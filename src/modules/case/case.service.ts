@@ -72,27 +72,21 @@ export class CaseService {
 
   async update(dto: UpdateCaseDto, userId: string, caseId: string) {
     try {
-      const caseDoc = await this.caseModel.findById(caseId);
-      console.log('caseDoc', caseDoc);
-      if (!caseDoc) {
+      const updatedCase = await this.caseModel.findByIdAndUpdate(
+        caseId,
+        { $set: dto },
+        {
+          new: true,
+          runValidators: true,
+          omitUndefined: true,
+        },
+      );
+
+      if (!updatedCase) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
 
-      Object.keys(dto).forEach((field) => {
-        // caseDoc.auditLogs.push({
-        //   action: 'updated',
-        //   field,
-        //   oldValue: String(caseDoc[field]),
-        //   newValue: String(dto[field]),
-        //   performedBy: new mongoose.Types.ObjectId(userId),
-        //   performedAt: new Date(),
-        // });
-
-        caseDoc[field] = dto[field];
-      });
-
-      await caseDoc.save();
-      return new ApiResponse(200, caseDoc, Msg.DATA_UPDATED);
+      return new ApiResponse(200, updatedCase, Msg.DATA_UPDATED);
     } catch (error) {
       console.log('Error updating case:', error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
@@ -371,7 +365,7 @@ export class CaseService {
     }
   }
 
-  async remove(caseId: string){
+  async remove(caseId: string) {
     try {
       const caseDoc = await this.caseModel.findByIdAndDelete(caseId);
       if (!caseDoc) {
@@ -381,7 +375,6 @@ export class CaseService {
     } catch (error) {
       console.log(`Error removing case: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
-      
     }
   }
 }
