@@ -10,7 +10,10 @@ import {
 } from './schemas/conversation.schema';
 
 import { User, UserDocument } from '../../user/schemas/user.schema';
-import { ChatMessage, ChatMessageDocument } from '../chat-message/schemas/chat-message.schema';
+import {
+  ChatMessage,
+  ChatMessageDocument,
+} from '../chat-message/schemas/chat-message.schema';
 
 import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
@@ -118,16 +121,27 @@ export class ConversationService {
 
       const conversations = await this.conversationModel
         .find({ participants: userId })
-        .populate('participants', 'name email')
-        .sort({ updatedAt: -1 });
+        .sort({ updatedAt: -1 })
+        .lean();
+
+      const result = [];
 
       for (const conversation of conversations) {
+        const lastMessage = await this.chatMessageModel
+          .findOne({ conversationId: conversation._id })
+          .sort({ createdAt: -1 })
+          .lean();
+
         const unreadCount = await this.chatMessageModel.countDocuments({
           conversationId: conversation._id,
           readBy: { $ne: userId },
         });
 
-        conversation.unreadCount = unreadCount;
+        // result.push({
+        //   ...conversation,
+        //   lastMessage,
+        //   unreadCount,
+        // });
       }
 
       return new ApiResponse(200, conversations, Msg.CONVERSATION_LIST_FETCHED);
