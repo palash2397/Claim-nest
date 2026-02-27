@@ -72,13 +72,14 @@ export class ChatMessageService {
       const skip = (page - 1) * limit;
 
       const messages = await this.chatMessageModel
-        .find({ conversationId })
+        .find({ conversationId: new Types.ObjectId(conversationId) })
         .sort({ createdAt: -1 }) // latest first
         .skip(skip)
         .limit(limit)
         .populate('senderId', 'name email')
         .populate('readBy', 'name email');
-
+      
+      console.log(messages)
       for (const message of messages) {
         if (message.messageType === 'file') {
           const signedUrl = await this.awsService.getSignedFileUrl(
