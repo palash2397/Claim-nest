@@ -116,7 +116,10 @@ export class ConversationService {
     try {
       // const user = await this.userModel.findById(new Types.ObjectId(userId));
       const conversations = await this.conversationModel
-        .find({ participants: userId })
+        .find({
+          participants: userId,
+          deletedFor: { $ne: userId },
+        })
         .sort({ updatedAt: -1 })
         .lean();
 
@@ -137,7 +140,7 @@ export class ConversationService {
         });
 
         result.push({
-          _id: conversation._id.toString(), 
+          _id: conversation._id.toString(),
           title: conversation.title,
           type: conversation.type,
           participants: conversation.participants.map((p: any) => p.toString()),
@@ -159,9 +162,20 @@ export class ConversationService {
     }
   }
 
-  async deleteConversation(conversationId: string, userId: string){
+  async deleteConversation(conversationId: string, userId: string) {
     try {
-      
+      const consversation = this.conversationModel.findByIdAndUpdate(
+        conversationId,
+        {
+          $addToSet: { deletedFor: userId },
+        },
+      );
+
+      if (!consversation) {
+        throw new ApiResponse(404, {}, Msg.CONVERSATION_NOT_FOUND);
+      }
+
+      return new ApiResponse(200, { conversationId }, Msg.CONVERSATION_DELETED);
     } catch (error) {
       console.log(`error while deleting conversation: ${error.message}`);
       throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
@@ -189,7 +203,6 @@ export class ConversationService {
   //         .sort({ createdAt: -1 })
   //         .lean();
 
-
   //        console.log("lastMessage ---->", lastMessage);
 
   //       const unreadCount = await this.chatMessageModel.countDocuments({
@@ -197,8 +210,6 @@ export class ConversationService {
   //         readBy: { $ne: userId },
   //       });
 
-       
-       
   //     }
 
   //     return new ApiResponse(200, conversations, Msg.CONVERSATION_LIST_FETCHED);
