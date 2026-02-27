@@ -5,17 +5,18 @@ import {
   Get,
   Param,
   UseGuards,
+  Res,
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 
-import type { Request } from 'express';
+import type { Request, Response } from 'express';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
 
 import { AuthGuard } from '@nestjs/passport';
-import { Response } from 'express';
+// import { Response } from 'express';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
@@ -44,5 +45,15 @@ export class UserController {
   @UseGuards(JwtAuthGuard, RoleGuard)
   getById(@Param('id') id: string) {
     return this.userService.getById(id);
+  }
+
+  @Get('auth/microsoft')
+  @UseGuards(AuthGuard('microsoft'))
+  async microsoftLogin() {}
+
+  @Get('auth/microsoft/callback')
+  @UseGuards(AuthGuard('microsoft'))
+  async microsoftCallback(@Req() req: Request, @Res() res: Response) {
+    return this.userService.handleMicrosoftLogin(req.user, res);
   }
 }
