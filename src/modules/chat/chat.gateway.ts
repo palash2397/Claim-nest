@@ -79,13 +79,22 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @MessageBody() data: any,
     @ConnectedSocket() client: Socket,
   ) {
-    const user = client.data.user;
+    try {
+      const user = client.data.user;
 
-    return await this.chatMessageService.create({
-      conversationId: new Types.ObjectId(data.conversationId),
-      senderId: new Types.ObjectId(user.id),
-      content: data.content,
-    });
+      // console.log(user);
+
+     const userDoc = await this.chatMessageService.create({
+        conversationId: new Types.ObjectId(data.conversationId),
+        senderId: new Types.ObjectId(user.id),
+        content: data.content,
+      });
+      console.log("userDoc ----------->", userDoc);
+
+      return userDoc
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   @SubscribeMessage('typing')
@@ -115,33 +124,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
-  // @OnEvent('chat.message.created')
-  // handleMessageCreated(payload: { conversationId: string; message: any }) {
-  //   console.log("Gateway received event:", payload.conversationId);
-
-  //   this.server
-  //     .to(payload.conversationId)
-  //     .emit('receiveMessage', payload.message);
-  // }
-
-  // @OnEvent('chat.message.created')
-  // handleMessageCreated(payload: any) {
-  //   console.log('Gateway received event:', payload.conversationId);
-
-  //   const room = this.server.sockets.adapter.rooms.get(payload.conversationId);
-
-  //   console.log('Users inside room:', room);
-
-  //   this.server
-  //     .to(payload.conversationId)
-  //     .emit('receiveMessage', payload.message);
-  // }
 
   @OnEvent('chat.message.created')
   handleMessageCreated(payload: any) {
     // console.log('Full payload:', payload);
     this.server
-      .to(payload.conversationId)
+      .to(payload.conversationId.toString())
       .emit('receiveMessage', payload.message);
   }
 }
