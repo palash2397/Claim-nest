@@ -151,6 +151,7 @@ export const Msg = {
   // Message
   MESSAGE_UPDATED: `Message updated successfully`,
   MESSAGE_NOT_FOUND: `Message not found`,
+  MESSAGES_NOT_FOUND: `Messages not found`,
   MESSAGE_DELETED: `Message deleted successfully`,
   MESSAGE_NOT_DELETED: `Message not deleted`,
   MESSAGE_CREATED: `Message created successfully`,

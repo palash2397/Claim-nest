@@ -78,8 +78,11 @@ export class ChatMessageService {
         .limit(limit)
         .populate('senderId', 'name email')
         .populate('readBy', 'name email');
-      
-      console.log(messages)
+
+      if (!messages || messages.length === 0) {
+        return new ApiResponse(404, [], Msg.MESSAGES_NOT_FOUND);
+      }
+
       for (const message of messages) {
         if (message.messageType === 'file') {
           const signedUrl = await this.awsService.getSignedFileUrl(
