@@ -138,6 +138,7 @@ export class ConversationService {
 
         result.push({
           _id: conversation._id.toString(), 
+          title: conversation.title,
           type: conversation.type,
           participants: conversation.participants.map((p: any) => p.toString()),
           lastMessage: lastMessage
