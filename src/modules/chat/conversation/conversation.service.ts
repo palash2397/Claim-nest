@@ -178,7 +178,7 @@ export class ConversationService {
       return new ApiResponse(200, { conversationId }, Msg.CONVERSATION_DELETED);
     } catch (error) {
       console.log(`error while deleting conversation: ${error.message}`);
-      throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
 

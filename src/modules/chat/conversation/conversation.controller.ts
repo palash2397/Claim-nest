@@ -43,6 +43,7 @@ export class ConversationController {
   // }
 
   @Patch(':conversationId/delete')
+  @UseGuards(JwtAuthGuard)
   async deleteConversation(
     @Param('conversationId') conversationId: string,
     @Req() req: Request,
