@@ -4,14 +4,15 @@ import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './schemas/user.schema';
 
-// import { PassportModule } from '@nestjs/passport';
-// import { MicrosoftStrategy } from './strategies/microsoft.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { MicrosoftStrategy } from './strategies/microsoft.strategy';
 
 @Module({
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, MicrosoftStrategy],
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
+    PassportModule.register({ session: false }),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   exports: [
     UserService,

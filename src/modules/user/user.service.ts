@@ -93,4 +93,42 @@ export class UserService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async handleMicrosoftLogin(microsoftUser: any, res: any) {
+    const { microsoftId, email, name, accessToken, refreshToken } =
+      microsoftUser;
+
+    let user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      user = await this.userModel.create({
+        name,
+        email,
+        provider: 'microsoft',
+        microsoftId,
+        microsoftAccessToken: accessToken,
+        microsoftRefreshToken: refreshToken,
+      });
+    } else {
+      user.microsoftAccessToken = accessToken;
+      user.microsoftRefreshToken = refreshToken;
+      user.microsoftId = microsoftId;
+      user.provider = 'microsoft';
+      await user.save();
+    }
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET!,
+      { expiresIn: '1h' },
+    );
+
+    // Option 1: return JSON
+    return { accessToken: token };
+
+    // Option 2: redirect frontend with token
+    // return res.redirect(
+    //   `http://localhost:5173/login-success?token=${token}`,
+    // );
+  }
 }
