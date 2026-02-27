@@ -6,7 +6,6 @@ export type ConversationDocument = Conversation & Document;
 
 @Schema({ timestamps: true })
 export class Conversation {
-
   @Prop({ enum: ConversationType, required: true })
   type: ConversationType;
 
@@ -24,7 +23,9 @@ export class Conversation {
 
   @Prop({ default: 0 })
   unreadCount: number;
+
+  @Prop({ type: [String], default: [] })
+  deletedFor: string[];
 }
 
-export const ConversationSchema =
-  SchemaFactory.createForClass(Conversation);
+export const ConversationSchema = SchemaFactory.createForClass(Conversation);

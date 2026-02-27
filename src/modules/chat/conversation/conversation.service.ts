@@ -159,6 +159,15 @@ export class ConversationService {
     }
   }
 
+  async deleteConversation(conversationId: string, userId: string){
+    try {
+      
+    } catch (error) {
+      console.log(`error while deleting conversation: ${error.message}`);
+      throw new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
   // async myConversation(userId: string) {
   //   try {
   //     const user = await this.userModel.findById(new Types.ObjectId(userId));
