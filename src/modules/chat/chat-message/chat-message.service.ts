@@ -55,7 +55,7 @@ export class ChatMessageService {
         $set: { updatedAt: new Date() },
       });
 
-      return new ApiResponse(201, chatData, Msg.CHAT_MESSAGE_CREATED);
+      return chatData;
     } catch (error) {
       console.log(`Error creating chat message: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
