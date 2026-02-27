@@ -16,7 +16,6 @@ import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
 
 import { AuthGuard } from '@nestjs/passport';
-// import { Response } from 'express';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';

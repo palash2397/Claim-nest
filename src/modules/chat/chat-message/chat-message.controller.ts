@@ -42,7 +42,7 @@ export class ChatMessageController {
     console.log('req.user', req.user);
     const isAllowed = await this.conversationService.isParticipant(
       conversationId,
-      req.user.id,
+      req.user!.id,
     );
 
     if (!isAllowed) {
@@ -57,7 +57,7 @@ export class ChatMessageController {
 
   @Patch('/message/read')
   async markAsRead(@Body() body: MarkReadDto, @Req() req: Request) {
-    return this.chatMessageService.markAsRead(body.messageIds, req.user.id);
+    return this.chatMessageService.markAsRead(body.messageIds, req.user!.id);
   }
 
   @Patch('/conversation/read/:id')
@@ -67,7 +67,7 @@ export class ChatMessageController {
   ) {
     return this.chatMessageService.markConversationAsRead(
       conversationId,
-      req.user.id,
+      req.user!.id,
     );
   }
 
@@ -83,7 +83,7 @@ export class ChatMessageController {
     return this.chatMessageService.createFileMessage(
       conversationId,
       file,
-      req.user.id,
+      req.user!.id,
     );
   }
 }

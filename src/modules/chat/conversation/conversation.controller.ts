@@ -13,21 +13,21 @@ export class ConversationController {
   @UseGuards(JwtAuthGuard)
   @Post("/direct/:id")
   create(@Req() req: Request, @Param() params: IdParamDto) {
-    return this.conversationService.createDirect(req.user.id, params.id);
+    return this.conversationService.createDirect(req.user!.id, params.id);
   }
 
 
   @UseGuards(JwtAuthGuard)
   @Post("/group")
   createGroup(@Req() req: Request, @Body() dto: CreateGroupDto) {
-    return this.conversationService.createGroup(req.user.id, dto);
+    return this.conversationService.createGroup(req.user!.id, dto);
   }
 
 
   @UseGuards(JwtAuthGuard)
   @Get("my")
   myConversations(@Req() req: Request) {
-    return this.conversationService.myConversation(req.user.id);
+    return this.conversationService.myConversation(req.user!.id);
   }
 
   // @UseGuards(JwtAuthGuard)
