@@ -14,9 +14,16 @@ export class Message {
   @Prop({ type: Types.ObjectId, ref: 'Case', required: true })
   regarding: Types.ObjectId;
 
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  assignTo: Types.ObjectId; 
+
   // Message content
   @Prop({ required: true, trim: true })
   message: string;
+
+
+  @Prop({ default: false })
+  status: boolean;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
