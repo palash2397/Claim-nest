@@ -22,7 +22,7 @@ export class MessageService {
 
   async create(dto: CreateMessageDto) {
     try {
-      const { from, caseId, message } = dto;
+      const { from, caseId, message, assignTo, status } = dto;
       const user = await this.userModel.findById(from);
 
       if (!user) {
@@ -39,6 +39,8 @@ export class MessageService {
         from,
         regarding: caseId,
         message,
+        status,
+        assignTo,
       });
 
       await messageDoc.save();
@@ -52,7 +54,7 @@ export class MessageService {
 
   async update(dto: UpdateMessageDto) {
     try {
-      const { id, from, caseId, message } = dto;
+      const { id, from, caseId, message, status, assignTo } = dto;
 
       const msg = await this.messageModel.findById(id);
    
@@ -63,6 +65,8 @@ export class MessageService {
       msg.from = new Types.ObjectId(from) || msg.from;
       msg.regarding = new Types.ObjectId(caseId) || msg.regarding;
       msg.message = message || msg.message;
+      msg.status = status || msg.status;
+      msg.assignTo = new Types.ObjectId(assignTo) || msg.assignTo;
       await msg.save();
 
       return new ApiResponse(200, {}, Msg.MESSAGE_UPDATED);

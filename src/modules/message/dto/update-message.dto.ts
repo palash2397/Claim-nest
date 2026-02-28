@@ -22,4 +22,14 @@ export class UpdateMessageDto {
   @IsString()
   @IsOptional()
   message: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  status: string;
+
+  @ApiProperty()
+  @IsMongoId()
+  @IsOptional()
+  assignTo: string;
 }

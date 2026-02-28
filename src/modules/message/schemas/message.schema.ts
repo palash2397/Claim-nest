@@ -22,8 +22,8 @@ export class Message {
   message: string;
 
 
-  @Prop({ default: false })
-  status: boolean;
+  @Prop({ required: true })
+  status: string;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
