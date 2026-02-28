@@ -118,15 +118,25 @@ export class ChatMessageService {
   }
 
   async markAsRead(messageId: string, userId: string) {
- try {
-     await this.chatMessageModel.findByIdAndUpdate(messageId, {
-       $addToSet: { readBy: userId },
-     });
- } catch (error) {
-   console.log (`error while mark as read`, error)
-   return new ApiResponse(500, {}, Msg.SERVER_ERROR)
-  
- }
+    try {
+      await this.chatMessageModel.findByIdAndUpdate(messageId, {
+        $addToSet: { readBy: new Types.ObjectId(userId) },
+      });
+    } catch (error) {
+      console.log(`error while mark as read`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async markAsDelivered(messageId: string, userId: string) {
+    try {
+      await this.chatMessageModel.findByIdAndUpdate(messageId, {
+        $addToSet: { deliveredTo: new Types.ObjectId(userId) },
+      });
+    } catch (error) {
+      console.log(`error while mark as delivered`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
   }
   async markConversationAsRead(conversationId: string, userId: string) {
     try {

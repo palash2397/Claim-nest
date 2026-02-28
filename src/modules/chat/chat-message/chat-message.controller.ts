@@ -15,12 +15,12 @@ import { ChatMessageService } from './chat-message.service';
 
 import { ConversationService } from '../conversation/conversation.service';
 import { GetMessagesDto } from './dto/get-messages.dto';
-import { MarkReadDto } from './dto/mark-read.dto';
+
 
 import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
 
-import type { Request } from 'express';
+import type {  Request } from 'express';
 
 import { JwtAuthGuard } from 'src/modules/auth/jwt/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -56,8 +56,8 @@ export class ChatMessageController {
   }
 
   @Patch('/message/read')
-  async markAsRead(@Body() body: MarkReadDto, @Req() req: Request) {
-    return this.chatMessageService.markAsRead(body.messageIds, req.user!.id);
+  async markAsRead(@Body() messageId: string, @Req() req: Request) {
+    return this.chatMessageService.markAsRead(messageId, req.user!.id);
   }
 
   @Patch('/conversation/read/:id')
