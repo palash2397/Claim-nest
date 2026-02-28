@@ -14,9 +14,13 @@ export class ChatMessage {
   @Prop({ required: true })
   content: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User', default: [] }] })
   readBy: Types.ObjectId[];
 
+  @Prop({ type: [Types.ObjectId], ref: 'User', default: [] })
+  deliveredTo: Types.ObjectId[];
+
+  
   @Prop({ default: 'text' })
   messageType: 'text' | 'file';
 
@@ -25,7 +29,6 @@ export class ChatMessage {
 
   @Prop()
   fileName: string;
-
 }
 
 export const ChatMessageSchema = SchemaFactory.createForClass(ChatMessage);

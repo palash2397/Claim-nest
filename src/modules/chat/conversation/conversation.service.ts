@@ -164,8 +164,11 @@ export class ConversationService {
 
   async deleteConversation(conversationId: string, userId: string) {
     try {
-      const consversation = this.conversationModel.findByIdAndUpdate(
-        conversationId,
+
+      // console.log("conversationId ---->", conversationId);
+      // console.log("userId ---->", userId);
+      const consversation = await this.conversationModel.findByIdAndUpdate(
+        { _id: new Types.ObjectId(conversationId) },
         {
           $addToSet: { deletedFor: userId },
         },
