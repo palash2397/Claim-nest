@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 import morgan from 'morgan';
 
 import constants from './contants';
@@ -33,6 +34,8 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+  
+  app.useWebSocketAdapter(new IoAdapter(app));
 
   // Global Prefix
   app.setGlobalPrefix('/api/v1');

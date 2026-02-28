@@ -138,6 +138,7 @@ export class ChatMessageService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+  
   async markConversationAsRead(conversationId: string, userId: string) {
     try {
       const conversation = await this.conversationModel.findOne({

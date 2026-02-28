@@ -123,6 +123,7 @@ export class ConversationService {
         .sort({ updatedAt: -1 })
         .lean();
 
+      
       const result: ConversationListItem[] = [];
 
       for (const conversation of conversations) {

@@ -72,6 +72,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
   ) {
     client.join(conversationId);
+
+    console.log('Joining room:', conversationId);
+    // client.join(conversationId);
+
+    const room = this.server.sockets.adapter.rooms.get(conversationId);
+    console.log('Room after join:', room);
   }
 
   @SubscribeMessage('sendMessage')
@@ -84,18 +90,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       // console.log(user);
 
-     const userDoc = await this.chatMessageService.create({
+      const userDoc = await this.chatMessageService.create({
         conversationId: new Types.ObjectId(data.conversationId),
         senderId: new Types.ObjectId(user.id),
         content: data.content,
       });
-      console.log("userDoc ----------->", userDoc);
+      // console.log('userDoc ----------->', userDoc);
 
-      return userDoc
+      return userDoc;
     } catch (error) {
       console.log(error);
     }
   }
+
 
   @SubscribeMessage('typing')
   handleTyping(
@@ -124,12 +131,52 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
+  // @OnEvent('chat.message.created')
+  // handleMessageCreated(payload: any) {
+  //   // console.log('Full payload:', payload);
+  //   this.server
+  //     .to(payload.conversationId.toString())
+  //     .emit('receiveMessage', payload.message);
+  // }
 
   @OnEvent('chat.message.created')
-  handleMessageCreated(payload: any) {
-    // console.log('Full payload:', payload);
+  async handleMessageCreated(payload: any) {
+    // Emit new message to room
     this.server
       .to(payload.conversationId.toString())
       .emit('receiveMessage', payload.message);
   }
+
+  // @SubscribeMessage('messageDelivered')
+  // async handleDelivered(
+  //   @MessageBody() data: { messageId: string; conversationId: string },
+  //   @ConnectedSocket() client: Socket,
+  // ) {
+  //   const user = client.data.user;
+
+  //   await this.chatMessageService.markAsDelivered(data.messageId, user.id);
+
+  //   this.server.to(data.conversationId).emit('messageDelivered', {
+  //     messageId: data.messageId,
+  //     userId: user.id,
+  //   });
+  // }
+
+
+
+  // @SubscribeMessage('messageRead')
+  // async handleRead(
+  //   @MessageBody() data: { messageId: string; conversationId: string },
+  //   @ConnectedSocket() client: Socket,
+  // ) {
+  //   const user = client.data.user;
+  //   await this.chatMessageService.markAsRead(data.messageId, user.id);
+
+  //   this.server.to(data.conversationId).emit('messageRead', {
+  //     messageId: data.messageId,
+  //     userId: user.id,
+  //   });
+    
+  //   return { success: true };
+  // }
 }

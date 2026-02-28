@@ -48,6 +48,7 @@ export class ConversationController {
     @Param('conversationId') conversationId: string,
     @Req() req: Request,
   ) {
+    
     return this.conversationService.deleteConversation(
       conversationId,
       req.user!.id,
