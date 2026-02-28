@@ -117,32 +117,17 @@ export class ChatMessageService {
     }
   }
 
-  async markAsRead(messageIds: string[], userId: string) {
-    try {
-      for (const messageId of messageIds) {
-        const message = await this.chatMessageModel.findById(messageId);
-        if (!message) {
-          return new ApiResponse(404, {}, Msg.CHAT_MESSAGE_NOT_FOUND);
-        }
-      }
-
-      const messages = await this.chatMessageModel.updateMany(
-        {
-          _id: { $in: messageIds },
-          readBy: { $ne: userId },
-        },
-        {
-          $push: { readBy: userId },
-        },
-      );
-
-      return new ApiResponse(200, messages, Msg.CHAT_MESSAGE_MARKED_AS_READ);
-    } catch (error) {
-      console.error('Error marking chat messages as read:', error);
-      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
-    }
+  async markAsRead(messageId: string, userId: string) {
+ try {
+     await this.chatMessageModel.findByIdAndUpdate(messageId, {
+       $addToSet: { readBy: userId },
+     });
+ } catch (error) {
+   console.log (`error while mark as read`, error)
+   return new ApiResponse(500, {}, Msg.SERVER_ERROR)
+  
+ }
   }
-
   async markConversationAsRead(conversationId: string, userId: string) {
     try {
       const conversation = await this.conversationModel.findOne({
