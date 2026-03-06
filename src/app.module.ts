@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {AppController} from './app.controller';
+import { AppController } from './app.controller';
 
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
@@ -61,9 +61,9 @@ import { MicrosoftModule } from './modules/microsoft/microsoft.module';
     // ConversationModule,
     ChatModule,
     EventEmitterModule.forRoot(),
-    MicrosoftModule
+    MicrosoftModule,
   ],
-  controllers: [ AppController ],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {}
