@@ -63,7 +63,7 @@ import { MicrosoftModule } from './modules/microsoft/microsoft.module';
     EventEmitterModule.forRoot(),
     MicrosoftModule
   ],
-  controllers: [],
+  controllers: [ AppController ],
   providers: [],
 })
 export class AppModule {}
