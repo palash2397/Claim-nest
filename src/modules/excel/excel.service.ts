@@ -25,8 +25,10 @@ export class ExcelService {
     userId: string,
   ) {
     try {
+      const key = `excel/sheet/${Date.now()}-${file.originalname}`;
+
       const uploadResult = await this.awsService.uploadFile(
-        `excel/sheet/${Date.now()}-${file.originalname}`,
+        key,
         file.buffer,
         file.mimetype,
       );
