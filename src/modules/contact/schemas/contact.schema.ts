@@ -1,28 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-
+import { ContactType, ContactStatus } from '../../../common/enums/contact.enum';
 
 export type ContactDocument = Contact & Document;
 
-export enum ContactType {
-  CLIENT = 'Client',
-  ATTORNEY = 'Attorney',
-  EMPLOYER = 'Employer',
-  MEDICAL = 'Medical',
-  OTHER = 'Other',
-}
-
-export enum ContactStatus {
-  POTENTIAL = 'Potential',
-  INQUIRY = 'Inquiry',
-  CLIENT = 'Client',
-  CALLBACK = 'Callback',
-  CLOSED = 'Closed',
-}
-
 @Schema({ timestamps: true })
 export class Contact {
-
   @Prop({ required: true })
   firstName: string;
 
