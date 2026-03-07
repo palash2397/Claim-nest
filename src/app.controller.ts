@@ -4,6 +4,11 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   getHello() {
-    return "Api is running!";
+    return 'backend is running!';
+  }
+
+  @Get('health')
+  health() {
+    return 'OK';
   }
 }
