@@ -40,10 +40,15 @@ export class CaseDocumentsService {
         file.mimetype,
       );
 
+
+      if (uploadResult) {
+        
+      }
+
       const doc = await this.documentFileModel.create({
         caseId: dto.caseId,
         fileName: file.originalname,
-        fileUrl: uploadResult.Location,
+        fileUrl: key,
         category: dto.category,
         description: dto.description,
         uploadedBy: new Types.ObjectId(userId),
