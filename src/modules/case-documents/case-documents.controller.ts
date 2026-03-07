@@ -36,4 +36,11 @@ export class CaseDocumentsController {
   async findByCaseId(@Param('caseId') caseId: string) {
     return this.caseDocumentsService.findByCaseId(caseId);
   }
+
+
+  // @Get("/find/document/:id")
+  // @UseGuards(JwtAuthGuard)
+  // async findById(@Param('id') id: string) {
+  //   return this.caseDocumentsService.findById(id);
+  // }
 }
