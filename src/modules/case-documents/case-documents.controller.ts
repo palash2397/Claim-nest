@@ -43,4 +43,13 @@ export class CaseDocumentsController {
   async findById(@Param('id') id: string) {
     return this.caseDocumentsService.findById(id);
   }
+
+
+  @Get("/all")
+  @UseGuards(JwtAuthGuard)
+  async findAll() {
+    return this.caseDocumentsService.findAll();
+  }
+
+
 }
