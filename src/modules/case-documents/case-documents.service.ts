@@ -25,6 +25,10 @@ export class CaseDocumentsService {
 
   async upload(dto: AddDocumentDto, userId: string, file: Express.Multer.File) {
     try {
+      //  if (!file) {
+      //   return new ApiResponse(400, {}, Msg.FILE_REQUIRED);
+      //  }
+
       const caseDoc = await this.caseModel.findById(dto.caseId);
 
       if (!caseDoc) {

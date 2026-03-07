@@ -48,6 +48,13 @@ export const Msg = {
   // Id
   ID_REQUIRED: `Id is required`,
 
+  // file
+  PDF_REQUIRED: `PDF file is required`,
+  CSV_REQUIRED: `CSV file is required`,
+  EXCEL_REQUIRED: `Excel file is required`,
+  IMAGE_REQUIRED: `Image file is required`,
+  FILE_REQUIRED: `File is required`,
+
   // Profile
   USERNAME_EXISTS: `Username already exists`,
 
