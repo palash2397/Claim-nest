@@ -40,7 +40,7 @@ async function bootstrap() {
   // Global Prefix
   app.setGlobalPrefix(Global.PREFIX);
 
-  // Swagger
+  // Swagger Documentation
   const config = new DocumentBuilder()
     .setTitle(SWAGGER.TITLE)
     .setDescription(SWAGGER.DESCRIPTION)
