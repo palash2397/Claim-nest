@@ -25,6 +25,20 @@ export class AwsService {
     }
   }
 
+  async deleteFile(key: string) {
+    try {
+      return await this.s3
+        .deleteObject({
+          Bucket: process.env.AWS_S3_BUCKET!,
+          Key: key,
+        })
+        .promise();
+    } catch (error) {
+      console.log(`Error deleting file: ${error}`);
+      throw error;
+    }
+  }
+
   async getSignedFileUrl(key: string, expiresIn = 3600) {
     const contentType = mime.lookup(key) || 'application/octet-stream';
 
@@ -37,4 +51,3 @@ export class AwsService {
     });
   }
 }
-
