@@ -42,7 +42,7 @@ export class CaseDocumentsService {
 
 
       if (uploadResult) {
-        
+        return new ApiResponse(500, {}, Msg.AWS_ERROR);
       }
 
       const doc = await this.documentFileModel.create({
