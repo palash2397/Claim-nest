@@ -25,9 +25,9 @@ export class CaseDocumentsService {
 
   async upload(dto: AddDocumentDto, userId: string, file: Express.Multer.File) {
     try {
-       if (!file) {
+      if (!file) {
         return new ApiResponse(400, {}, Msg.FILE_REQUIRED);
-       }
+      }
 
       const caseDoc = await this.caseModel.findById(dto.caseId);
 
@@ -44,8 +44,7 @@ export class CaseDocumentsService {
         file.mimetype,
       );
 
-
-      if (uploadResult) {
+      if (!uploadResult) {
         return new ApiResponse(500, {}, Msg.AWS_ERROR);
       }
 
@@ -68,20 +67,20 @@ export class CaseDocumentsService {
     }
   }
 
-  async findByCaseId(id: string){
+  async findByCaseId(id: string) {
     try {
-        const docs = await this.documentFileModel.find({caseId: id});
-        if (!docs || docs.length === 0) {
-            return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
-        }
+      const docs = await this.documentFileModel.find({ caseId: id });
+      if (!docs || docs.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
 
-        for (const doc of docs) {
-            doc.fileUrl = await this.awsService.getSignedFileUrl(doc.fileUrl);
-        }
-        return new ApiResponse(200, docs, Msg.SUCCESS);
+      for (const doc of docs) {
+        doc.fileUrl = await this.awsService.getSignedFileUrl(doc.fileUrl);
+      }
+      return new ApiResponse(200, docs, Msg.SUCCESS);
     } catch (error) {
-        console.log(`error while finding documents: ${error}`);
-        return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+      console.log(`error while finding documents: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
 }
