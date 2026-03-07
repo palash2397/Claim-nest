@@ -41,7 +41,7 @@ export class ExcelService {
         sheetName: dto.sheetName,
         sheetType: dto.sheetType,
         fileName: file.originalname,
-        fileUrl: uploadResult.Location,
+        fileUrl: key,
         status: 'Pending',
         uploadedBy: new Types.ObjectId(userId),
       });
