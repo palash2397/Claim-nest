@@ -8,6 +8,7 @@ import {
   Get,
   Param,
   UploadedFile,
+  Delete,
 } from '@nestjs/common';
 import { CaseDocumentsService } from './case-documents.service';
 import { AddDocumentDto } from './dto/create-document.dto';
@@ -49,6 +50,12 @@ export class CaseDocumentsController {
   @UseGuards(JwtAuthGuard)
   async findAll() {
     return this.caseDocumentsService.findAll();
+  }
+
+  @Delete("/:id")
+  @UseGuards(JwtAuthGuard)
+  async deleteById(@Param('id') id: string) {
+    return this.caseDocumentsService.deleteById(id);
   }
 
 
