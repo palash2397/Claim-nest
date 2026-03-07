@@ -31,9 +31,11 @@ export class CaseDocumentsService {
         return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
       }
 
+      const key = `cases/${dto.caseId}/${Date.now()}-${file.originalname}`;
+
       // Upload to S3 (later replace with real service)
       const uploadResult = await this.awsService.uploadFile(
-        `cases/${dto.caseId}/${Date.now()}-${file.originalname}`,
+        key,
         file.buffer,
         file.mimetype,
       );
