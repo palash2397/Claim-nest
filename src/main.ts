@@ -9,7 +9,7 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import morgan from 'morgan';
 
 import constants from './contants';
-const { SWAGGER } = constants;
+const { SWAGGER, Global } = constants;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -38,7 +38,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   // Global Prefix
-  app.setGlobalPrefix('/api/v1');
+  app.setGlobalPrefix(Global.PREFIX);
 
   // Swagger
   const config = new DocumentBuilder()
@@ -58,7 +58,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
 
-  SwaggerModule.setup(`${SWAGGER.GLOBAL_PREFIX}/docs`, app, document, {
+  SwaggerModule.setup(`${Global.PREFIX}/docs`, app, document, {
     swaggerOptions: {
       persistAuthorization: true, // keeps JWT token after refresh
     },

@@ -5,11 +5,12 @@ export default {
     TITLE: 'Claim Management API',
     DESCRIPTION: 'API documentation for Claim Management System',
     VERSION: '1.0',
-    SERVER_URL: 'https://api.iwjapp.com',
+    SERVER_URL: 'https://api.iwjapp.com'
   },
 
-  Global:{
+  Global: {
     PREFIX: '/api/v1',
+  },
 
-  }
+
 };
