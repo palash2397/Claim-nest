@@ -25,6 +25,10 @@ export class ExcelService {
     userId: string,
   ) {
     try {
+      if (!file) {
+        return new ApiResponse(400, {}, Msg.CSV_REQUIRED);
+      }
+
       const key = `excel/sheet/${Date.now()}-${file.originalname}`;
 
       const uploadResult = await this.awsService.uploadFile(
