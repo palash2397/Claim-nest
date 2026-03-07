@@ -86,7 +86,14 @@ export class CaseDocumentsService {
 
   async findById(id: string) {
     try {
+      const caseDoc = await this.caseModel.findById(id);
+      if (!caseDoc) {
+        return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
+      }
       
+      caseDoc.lastActivity = 'Document viewed';
+      await caseDoc.save();
+      return new ApiResponse(200, caseDoc, Msg.SUCCESS);
     } catch (error) {
       console.log(`error while finding document: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
