@@ -46,6 +46,7 @@ export class ExcelService {
 
       return new ApiResponse(200, record, Msg.EXCEL_UPLOADED_SUCCESSFULLY);
     } catch (error) {
+      console.log(`Error uploading excel: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
@@ -82,7 +83,6 @@ export class ExcelService {
       return new ApiResponse(200, record, Msg.EXCEL_UPDATED_SUCCESSFULLY);
     } catch (error) {
       console.log(`Error updating excel: ${error}`);
-
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
@@ -98,6 +98,7 @@ export class ExcelService {
 
       return new ApiResponse(200, sheet, Msg.EXCEL_FETCHED_SUCCESSFULLY);
     } catch (error) {
+      console.log(`Error fetching excel: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
@@ -114,6 +115,7 @@ export class ExcelService {
       }
       return new ApiResponse(200, sheets, Msg.SUCCESS);
     } catch (error) {
+      console.log(`Error fetching excel: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
@@ -126,6 +128,7 @@ export class ExcelService {
       }
       return new ApiResponse(200, record, Msg.EXCEL_DELETED_SUCCESSFULL);
     } catch (error) {
+      console.log(`Error deleting excel: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }

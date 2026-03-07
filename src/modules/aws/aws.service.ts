@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { S3 } from 'aws-sdk';
 import * as mime from 'mime-types';
 
-
 // aws setup
 @Injectable()
 export class AwsService {
@@ -11,14 +10,19 @@ export class AwsService {
   });
 
   async uploadFile(key: string, buffer: Buffer, mimeType: string) {
-    return this.s3
-      .upload({
-        Bucket: process.env.AWS_S3_BUCKET!,
-        Key: key,
-        Body: buffer,
-        ContentType: mimeType,
-      })
-      .promise();
+    try {
+      return this.s3
+        .upload({
+          Bucket: process.env.AWS_S3_BUCKET!,
+          Key: key,
+          Body: buffer,
+          ContentType: mimeType,
+        })
+        .promise();
+    } catch (error) {
+      console.log(`Error uploading file: ${error}`);
+      throw error;
+    }
   }
 
   async getSignedFileUrl(key: string, expiresIn = 3600) {
@@ -33,7 +37,6 @@ export class AwsService {
     });
   }
 }
-
 
 // export class AwsService {
 //   private s3 = new S3({
@@ -54,7 +57,6 @@ export class AwsService {
 //       })
 //       .promise();
 //   }
-
 
 //   async getSignedFileUrl(key: string, expiresIn = 3600) {
 //     const contentType =
