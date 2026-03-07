@@ -3,7 +3,7 @@ import { Document, Types } from 'mongoose';
 
 import { CommunicationType } from '../../../common/enums/communication-type.enum';
 import { Direction } from '../../../common/enums/direction.enum';
-import { ContactRole } from '../../../common/enums/contact-role.enum';
+import { ContactRole } from '../../../common/enums/contact.enum';
 
 export type CallLogDocument = CallLog & Document;
 
