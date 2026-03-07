@@ -101,4 +101,37 @@ export class CaseDocumentsService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async deleteById(id: string) {
+    try {
+      const doc = await this.documentFileModel.findByIdAndDelete(id);
+      if (!doc) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+
+      await this.awsService.deleteFile(doc.fileUrl);
+
+      return new ApiResponse(200, {}, Msg.DATA_DELETED);
+    } catch (error) {
+      console.log(`error while deleting document: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async findAll() {
+    try {
+      const docs = await this.documentFileModel.find();
+      if (!docs || docs.length === 0) {
+        return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
+      }
+
+      for (const doc of docs) {
+        doc.fileUrl = await this.awsService.getSignedFileUrl(doc.fileUrl);
+      }
+      return new ApiResponse(200, docs, Msg.SUCCESS);
+    } catch (error) {
+      console.log(`error while finding documents: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
