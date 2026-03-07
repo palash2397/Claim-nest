@@ -83,4 +83,13 @@ export class CaseDocumentsService {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
+
+  async findById(id: string) {
+    try {
+      
+    } catch (error) {
+      console.log(`error while finding document: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
