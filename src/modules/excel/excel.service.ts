@@ -128,6 +128,9 @@ export class ExcelService {
       if (!record) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
+      
+      await this.awsService.deleteFile(record.fileUrl);
+      
       return new ApiResponse(200, record, Msg.EXCEL_DELETED_SUCCESSFULL);
     } catch (error) {
       console.log(`Error deleting excel: ${error}`);
