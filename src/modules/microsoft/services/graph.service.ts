@@ -4,9 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../../user/schemas/user.schema';
 
-
- import { Msg } from 'src/utils/helper/responseMsg';
- import { ApiResponse } from 'src/utils/helper/ApiResponse';
+import { Msg } from 'src/utils/helper/responseMsg';
+import { ApiResponse } from 'src/utils/helper/ApiResponse';
 
 @Injectable()
 export class GraphService {
@@ -45,6 +44,8 @@ export class GraphService {
 
       return data.access_token;
     } catch (error) {
+      console.log(`error while getting refresh access token`, error);
+      //   new ApiResponse(500, {}, Msg.SERVER_ERROR);
       throw new UnauthorizedException('Unable to refresh Microsoft token');
     }
   }
