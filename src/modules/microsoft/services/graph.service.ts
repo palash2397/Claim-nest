@@ -49,4 +49,23 @@ export class GraphService {
       throw new UnauthorizedException('Unable to refresh Microsoft token');
     }
   }
+
+  async getAccessToken(userId: string): Promise<string | ApiResponse> {
+    const user = await this.userModel.findById(userId);
+
+    if (!user?.microsoftAccessToken) {
+      return new ApiResponse(401, {}, 'Microsoft account not connected');
+    }
+
+    const now = Date.now();
+
+    if (
+      user.microsoftTokenExpiry &&
+      user.microsoftTokenExpiry.getTime() > now + 60000
+    ) {
+      return user.microsoftAccessToken;
+    }
+
+    return this.refreshAccessToken(user);
+  }
 }
