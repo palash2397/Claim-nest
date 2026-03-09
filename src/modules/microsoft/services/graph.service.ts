@@ -5,4 +5,11 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from '../../user/schemas/user.schema';
 
 @Injectable()
-export class GraphService {}
+export class GraphService {
+//   constructor(
+//     @InjectModel(User.name)
+//     private userModel: Model<UserDocument>,
+//   ) {}
+
+//   private graphBaseUrl = 'https://graph.microsoft.com/v1.0';
+}
