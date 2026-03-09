@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { ContactType } from '../schemas/contact.schema';
+import { ContactType } from 'src/common/enums/contact.enum';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateContactDto {
