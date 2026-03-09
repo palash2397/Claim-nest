@@ -4,6 +4,7 @@ import { MicrosoftController } from './microsoft.controller';
 import { OutlookService } from './outlook/outlook.service';
 import { CalenderService } from './calender/calender.service';
 import { OnedriveService } from './onedrive/onedrive.service';
+import { GraphService } from './services/graph.service';
 
 @Module({
   controllers: [MicrosoftController],
@@ -12,7 +13,8 @@ import { OnedriveService } from './onedrive/onedrive.service';
     OutlookService,
     CalenderService,
     OnedriveService,
+    GraphService,
   ],
-  exports: [MicrosoftService, OutlookService, CalenderService, OnedriveService],
+  exports: [MicrosoftService, OutlookService, CalenderService, OnedriveService, GraphService],
 })
 export class MicrosoftModule {}
