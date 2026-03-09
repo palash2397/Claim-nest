@@ -54,7 +54,7 @@ export class GraphService {
     const user = await this.userModel.findById(userId);
 
     if (!user?.microsoftAccessToken) {
-      return new ApiResponse(401, {}, 'Microsoft account not connected');
+      return new ApiResponse(401, {}, Msg.MICROSOFT_ACCOUNT_NOT_CONNECTED);
     }
 
     const now = Date.now();
