@@ -255,4 +255,15 @@ export const Msg = {
   // participant
   PARTICIPANT_NOT_FOUND: `Participant not found`,
 
+
+  // Microsoft
+  MICROSOFT_ACCOUNT_NOT_CONNECTED: `Microsoft account not connected`,
+  MICROSOFT_ACCOUNT_ALREADY_CONNECTED: `Microsoft account already connected`,
+  MICROSOFT_ACCOUNT_DISCONNECTED: `Microsoft account disconnected successfully`,
+  MICROSOFT_ACCOUNT_CONNECTED: `Microsoft account connected successfully`,
+  MICROSOFT_ACCOUNT_CONNECTION_FAILED: `Microsoft account connection failed`,
+  MICROSOFT_ACCOUNT_CONNECTION_ERROR: `Microsoft account connection error`,
+  MICROSOFT_ACCOUNT_CONNECTION_TIMEOUT: `Microsoft account connection timeout`,
+  
+
 };
