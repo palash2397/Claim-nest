@@ -6,7 +6,11 @@ import { CalenderService } from './calender/calender.service';
 import { OnedriveService } from './onedrive/onedrive.service';
 import { GraphService } from './services/graph.service';
 
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from '../user/schemas/user.schema';
+
 @Module({
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
   controllers: [MicrosoftController],
   providers: [
     MicrosoftService,
@@ -15,6 +19,12 @@ import { GraphService } from './services/graph.service';
     OnedriveService,
     GraphService,
   ],
-  exports: [MicrosoftService, OutlookService, CalenderService, OnedriveService, GraphService],
+  exports: [
+    MicrosoftService,
+    OutlookService,
+    CalenderService,
+    OnedriveService,
+    GraphService,
+  ],
 })
 export class MicrosoftModule {}
