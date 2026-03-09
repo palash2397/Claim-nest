@@ -68,4 +68,33 @@ export class GraphService {
 
     return this.refreshAccessToken(user);
   }
+
+  async graphRequest(
+    userId: string,
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    endpoint: string,
+    data?: any,
+  ) {
+    const accessToken = await this.getAccessToken(userId);
+
+    try {
+      const response = await axios({
+        method,
+        url: `${this.graphBaseUrl}${endpoint}`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        data,
+      });
+
+      return response.data;
+    } catch (error) {
+      //   throw new UnauthorizedException('Microsoft Graph API request failed');
+
+      console.log(`error while getting graph request`, error);
+
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
 }
