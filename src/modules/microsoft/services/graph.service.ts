@@ -4,6 +4,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from '../../user/schemas/user.schema';
 
+
+// import { Msg } from 'src/utils/helper/responseMsg';
+
 @Injectable()
 export class GraphService {
   constructor(
@@ -12,4 +15,36 @@ export class GraphService {
   ) {}
 
   private graphBaseUrl = 'https://graph.microsoft.com/v1.0';
+
+  private async refreshAccessToken(user: UserDocument): Promise<string> {
+    if (!user.microsoftRefreshToken) {
+      throw new UnauthorizedException('Refresh token missing');
+    }
+
+    try {
+      const response = await axios.post(
+        `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/token`,
+        new URLSearchParams({
+          client_id: process.env.MICROSOFT_CLIENT_ID!,
+          client_secret: process.env.MICROSOFT_CLIENT_SECRET!,
+          refresh_token: user.microsoftRefreshToken,
+          grant_type: 'refresh_token',
+          scope: 'https://graph.microsoft.com/.default offline_access',
+        }),
+      );
+
+      const data = response.data;
+
+      user.microsoftAccessToken = data.access_token;
+      user.microsoftRefreshToken =
+        data.refresh_token || user.microsoftRefreshToken;
+      user.microsoftTokenExpiry = new Date(Date.now() + data.expires_in * 1000);
+
+      await user.save();
+
+      return data.access_token;
+    } catch (error) {
+      throw new UnauthorizedException('Unable to refresh Microsoft token');
+    }
+  }
 }
