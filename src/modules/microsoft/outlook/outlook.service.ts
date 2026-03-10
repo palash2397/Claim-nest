@@ -12,4 +12,35 @@ export class OutlookService {
       '/me/messages?$top=25&$select=subject,from,receivedDateTime,bodyPreview',
     );
   }
+
+  async sendEmail(
+    userId: string,
+    to: string,
+    subject: string,
+    content: string,
+  ) {
+    const payload = {
+      message: {
+        subject,
+        body: {
+          contentType: 'HTML',
+          content,
+        },
+        toRecipients: [
+          {
+            emailAddress: {
+              address: to,
+            },
+          },
+        ],
+      },
+    };
+
+    return this.graphService.graphRequest(
+      userId,
+      'POST',
+      '/me/sendMail',
+      payload,
+    );
+  }
 }
