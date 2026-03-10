@@ -12,8 +12,11 @@ import type { Request } from 'express';
 import { OutlookService } from './outlook/outlook.service';
 import { MicrosoftService } from './microsoft.service';
 
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+
 @Controller('microsoft')
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard)
+// @UseGuards(AuthGuard('jwt'))
 export class MicrosoftController {
   constructor(
     private readonly microsoftService: MicrosoftService,
