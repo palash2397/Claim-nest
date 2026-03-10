@@ -7,8 +7,9 @@ import {
   Req,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { OutlookService } from './outlook/outlook.service';
+import type { Request } from 'express';
 
+import { OutlookService } from './outlook/outlook.service';
 import { MicrosoftService } from './microsoft.service';
 
 @Controller('microsoft')
@@ -18,4 +19,9 @@ export class MicrosoftController {
     private readonly microsoftService: MicrosoftService,
     private readonly outlookService: OutlookService,
   ) {}
+
+  @Get('emails')
+  async getEmails(@Req() req: Request) {
+    return this.outlookService.getEmails(req.user!.id);
+  }
 }
