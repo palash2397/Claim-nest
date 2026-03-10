@@ -27,4 +27,17 @@ export class MicrosoftController {
   async getEmails(@Req() req: Request) {
     return this.outlookService.getEmails(req.user!.id);
   }
+
+  @Post('send-email')
+  async sendEmail(
+    @Req() req: Request,
+    @Body() body: { to: string; subject: string; content: string },
+  ) {
+    return this.outlookService.sendEmail(
+      req.user!.id,
+      body.to,
+      body.subject,
+      body.content,
+    );
+  }
 }
