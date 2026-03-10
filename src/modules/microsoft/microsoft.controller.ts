@@ -6,6 +6,9 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { OutlookService } from './outlook/outlook.service';
+
 import { MicrosoftService } from './microsoft.service';
 
 @Controller('microsoft')
