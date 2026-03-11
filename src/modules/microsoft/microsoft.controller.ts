@@ -10,6 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
 
 import { OutlookService } from './outlook/outlook.service';
+import { CalenderService } from './calender/calender.service';
 import { MicrosoftService } from './microsoft.service';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
@@ -21,8 +22,11 @@ export class MicrosoftController {
   constructor(
     private readonly microsoftService: MicrosoftService,
     private readonly outlookService: OutlookService,
+    private readonly calenderService: CalenderService,
   ) {}
 
+
+  // Outlook endpoints
   @Get('emails')
   async getEmails(@Req() req: Request) {
     return this.outlookService.getEmails(req.user!.id);
@@ -40,4 +44,7 @@ export class MicrosoftController {
       body.content,
     );
   }
+  
+  // Calender endpoints
+
 }
