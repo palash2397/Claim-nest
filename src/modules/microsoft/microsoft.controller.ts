@@ -19,7 +19,7 @@ export class MicrosoftController {
   ) {}
 
   // Outlook endpoints
-  @Get('emails')
+  @Get('emails/all')
   async getEmails(@Req() req: Request) {
     return this.outlookService.getEmails(req.user!.id);
   }
