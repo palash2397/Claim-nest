@@ -15,4 +15,39 @@ export class CalenderService {
       '/me/events?$select=subject,organizer,start,end,location',
     );
   }
+
+  async createEvent(
+    userId: string,
+    payload: {
+      subject: string;
+      content: string;
+      start: string;
+      end: string;
+      attendees: string[];
+    },
+  ) {
+    const event = {
+      subject: payload.subject,
+      body: {
+        contentType: 'HTML',
+        content: payload.content,
+      },
+      start: {
+        dateTime: payload.start,
+        timeZone: 'UTC',
+      },
+      end: {
+        dateTime: payload.end,
+        timeZone: 'UTC',
+      },
+      attendees: payload.attendees.map((email) => ({
+        emailAddress: {
+          address: email,
+        },
+        type: 'required',
+      })),
+    };
+
+    return this.graphService.graphRequest(userId, 'POST', '/me/events', event);
+  }
 }
