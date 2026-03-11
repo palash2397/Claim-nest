@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UseGuards,
-  Req,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
 
@@ -25,7 +18,6 @@ export class MicrosoftController {
     private readonly calenderService: CalenderService,
   ) {}
 
-
   // Outlook endpoints
   @Get('emails')
   async getEmails(@Req() req: Request) {
@@ -44,10 +36,25 @@ export class MicrosoftController {
       body.content,
     );
   }
-  
+
   // Calender endpoints
   @Get('calendar/events')
   async getEvents(@Req() req: Request) {
     return this.calenderService.getEvents(req.user!.id);
+  }
+
+  @Post('calendar/events')
+  async createEvent(
+    @Req() req: Request,
+    @Body()
+    body: {
+      subject: string;
+      content: string;
+      start: string;
+      end: string;
+      attendees: string[];
+    },
+  ) {
+    return this.calenderService.createEvent(req.user!.id, body);
   }
 }
