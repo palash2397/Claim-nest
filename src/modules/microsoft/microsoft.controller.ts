@@ -46,5 +46,8 @@ export class MicrosoftController {
   }
   
   // Calender endpoints
-
+  @Get('calendar/events')
+  async getEvents(@Req() req: Request) {
+    return this.calenderService.getEvents(req.user!.id);
+  }
 }
