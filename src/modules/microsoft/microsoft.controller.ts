@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Req,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
 
@@ -8,6 +17,7 @@ import { MicrosoftService } from './microsoft.service';
 import { OnedriveService } from './onedrive/onedrive.service';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('microsoft')
 @UseGuards(JwtAuthGuard)
@@ -64,5 +74,18 @@ export class MicrosoftController {
   @Get('onedrive/files')
   async getFiles(@Req() req: Request) {
     return this.onedriveService.listFiles(req.user!.id);
-  } 
+  }
+
+  @Post('onedrive/upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(
+    @Req() req: Request,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.onedriveService.uploadFile(
+      req.user!.id,
+      file.originalname,
+      file.buffer,
+    );
+  }
 }
