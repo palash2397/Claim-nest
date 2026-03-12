@@ -17,6 +17,7 @@ export class MicrosoftController {
     private readonly microsoftService: MicrosoftService,
     private readonly outlookService: OutlookService,
     private readonly calenderService: CalenderService,
+    private readonly onedriveService: OnedriveService,
   ) {}
 
   // Outlook endpoints
