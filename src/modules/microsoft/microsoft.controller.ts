@@ -4,9 +4,11 @@ import {
   Post,
   Body,
   UseGuards,
+  Delete,
   Req,
   UploadedFile,
   UseInterceptors,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import type { Request } from 'express';
@@ -87,5 +89,10 @@ export class MicrosoftController {
       file.originalname,
       file.buffer,
     );
+  }
+
+  @Delete('onedrive/:id')
+  async deleteFile(@Req() req: Request, @Param('id') id: string) {
+    return this.onedriveService.deleteFile(req.user!.id, id);
   }
 }
