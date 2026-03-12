@@ -59,4 +59,10 @@ export class MicrosoftController {
   ) {
     return this.calenderService.createEvent(req.user!.id, body);
   }
+
+  // Onedrive endpoints
+  @Get('onedrive/files')
+  async getFiles(@Req() req: Request) {
+    return this.onedriveService.listFiles(req.user!.id);
+  } 
 }
