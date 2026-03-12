@@ -95,4 +95,9 @@ export class MicrosoftController {
   async deleteFile(@Req() req: Request, @Param('id') id: string) {
     return this.onedriveService.deleteFile(req.user!.id, id);
   }
+
+  @Get('status')
+  async getMicrosoftStatus(@Req() req: Request) {
+    return this.microsoftService.microsoftStatus(req.user!.id);
+  }
 }
