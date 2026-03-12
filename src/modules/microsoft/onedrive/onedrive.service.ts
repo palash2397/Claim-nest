@@ -12,4 +12,13 @@ export class OnedriveService {
       '/me/drive/root/children',
     );
   }
+
+  async uploadFile(userId: string, fileName: string, fileBuffer: Buffer) {
+    return this.graphService.graphRequest(
+      userId,
+      'PUT',
+      `/me/drive/root:/${fileName}:/content`,
+      fileBuffer,
+    );
+  }
 }
