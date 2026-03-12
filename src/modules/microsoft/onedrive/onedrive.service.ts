@@ -13,16 +13,20 @@ export class OnedriveService {
     );
   }
 
-  async uploadFile(
-    userId: string,
-    fileName: string,
-    fileBuffer: Buffer,
-  ) {
+  async uploadFile(userId: string, fileName: string, fileBuffer: Buffer) {
     return this.graphService.graphRequest(
       userId,
       'PUT',
       `/me/drive/root:/${fileName}:/content`,
       fileBuffer,
+    );
+  }
+
+  async deleteFile(userId: string, itemId: string) {
+    return this.graphService.graphRequest(
+      userId,
+      'DELETE',
+      `/me/drive/items/${itemId}`,
     );
   }
 }
