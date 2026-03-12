@@ -10,8 +10,27 @@ export class MicrosoftService {
     @InjectModel(User.name)
     private userModel: Model<UserDocument>,
   ) {}
-}
 
+  async microsoftStatus(userId: string) {
+    const user = await this.userModel
+      .findById(userId)
+      .select('email microsoftAccessToken microsoftRefreshToken');
+
+    if (!user) {
+      return {
+        connected: false,
+      };
+    }
+
+    const connected =
+      !!user.microsoftAccessToken && !!user.microsoftRefreshToken;
+
+    return {
+      connected,
+      email: connected ? user.email : null,
+    };
+  }
+}
 
 // nest g s service-name
 // nest g s modules/microsoft/outlook.service.ts
