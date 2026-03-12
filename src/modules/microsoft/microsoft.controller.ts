@@ -5,6 +5,7 @@ import type { Request } from 'express';
 import { OutlookService } from './outlook/outlook.service';
 import { CalenderService } from './calender/calender.service';
 import { MicrosoftService } from './microsoft.service';
+import { OnedriveService } from './onedrive/onedrive.service';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 
