@@ -1,5 +1,8 @@
 import 'dotenv/config';
 
+import * as session from 'express-session';
+import * as passport from 'passport';
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -15,6 +18,26 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(morgan('dev'));
+
+  // 🔥 TRUST PROXY (IMPORTANT for nginx + cookies)
+  app.set('trust proxy', 1);
+
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'super-secret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: true, // 🔥 MUST be true (HTTPS)
+        httpOnly: true,
+        sameSite: 'none', // 🔥 REQUIRED for Microsoft redirect
+      },
+    }),
+  );
+
+  // 🔥 PASSPORT INIT
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   // enable global validation for DTOs
   app.useGlobalPipes(
@@ -34,7 +57,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
-  
+
   app.useWebSocketAdapter(new IoAdapter(app));
 
   // Global Prefix
@@ -68,5 +91,3 @@ async function bootstrap() {
   console.log(`🚀 Server is running on port ${process.env.PORT}`);
 }
 bootstrap();
-
-
