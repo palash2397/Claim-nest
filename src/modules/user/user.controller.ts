@@ -52,6 +52,7 @@ export class UserController {
   // async microsoftLogin() {}
 
   @Get('auth/microsoft')
+   @UseGuards(AuthGuard('microsoft'))
   async microsoftLogin(@Req() req: any, @Res() res: any) {
     req.session.oauth = 'microsoft';
 
