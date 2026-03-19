@@ -70,6 +70,7 @@ export class UserController {
   async microsoftCallback(@Req() req: Request, @Res() res: Response) {
     console.log('SESSION:', req.session);
     console.log('USER:', req.user);
+    console.log('SESSION KEYS:', Object.keys(req.session));
 
     if (!req.user) {
       return res.status(401).json({ message: 'Microsoft auth failed' });
