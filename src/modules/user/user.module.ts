@@ -11,7 +11,7 @@ import { MicrosoftStrategy } from './strategies/microsoft.strategy';
   controllers: [UserController],
   providers: [UserService, MicrosoftStrategy],
   imports: [
-    PassportModule.register({ session: false }),
+    PassportModule.register({ session: true }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   exports: [
