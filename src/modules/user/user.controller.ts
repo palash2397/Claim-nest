@@ -48,7 +48,7 @@ export class UserController {
   }
 
   @Get('auth/microsoft')
-  @UseGuards(AuthGuard('microsoft'))
+  // @UseGuards(AuthGuard('microsoft'))
   async microsoftLogin() {}
 
   // @Get('auth/microsoft')
