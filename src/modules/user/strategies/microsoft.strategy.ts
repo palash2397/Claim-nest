@@ -39,6 +39,8 @@ export class MicrosoftStrategy extends PassportStrategy(
     refreshToken: string,
     done: Function,
   ) {
+
+     console.log('✅ Microsoft profile:', profile);
     const user = {
       microsoftId: profile.oid,
       email: profile._json.preferred_username,

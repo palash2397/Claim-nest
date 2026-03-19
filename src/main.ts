@@ -26,7 +26,7 @@ async function bootstrap() {
     session({
       secret: process.env.SESSION_SECRET || 'super-secret',
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
       cookie: {
         secure: true, // 🔥 MUST be true (HTTPS)
         httpOnly: true,
