@@ -46,13 +46,39 @@ export class UserController {
     return this.userService.getById(id);
   }
 
+  // @Get('auth/microsoft')
+  // @UseGuards(AuthGuard('microsoft'))
+  // async microsoftLogin() {}
+
   @Get('auth/microsoft')
-  @UseGuards(AuthGuard('microsoft'))
-  async microsoftLogin() {}
+  async microsoftLogin(@Req() req: any, @Res() res: any) {
+    // 🔥 FORCE SESSION CREATION
+    req.session.oauth = 'microsoft';
+
+    console.log('SESSION CREATED:', req.sessionID);
+
+    // 🔥 manually call passport
+    return new Promise((resolve, reject) => {
+      const passport = require('passport');
+
+      passport.authenticate('microsoft')(req, res, (err) => {
+        if (err) {
+          console.log('AUTH ERROR:', err);
+          return reject(err);
+        }
+        resolve(true);
+      });
+    });
+  }
 
   @Get('auth/microsoft/callback')
   @UseGuards(AuthGuard('microsoft'))
   async microsoftCallback(@Req() req: Request, @Res() res: Response) {
+    console.log('USER:', req.user);
+
+    if (!req.user) {
+      return res.status(401).json({ message: 'Microsoft auth failed' });
+    }
     return this.userService.handleMicrosoftLogin(req.user, res);
   }
 }
