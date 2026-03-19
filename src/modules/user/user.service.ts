@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
+import { Response } from 'express';
+
+import axios from "axios"
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserDocument, User } from './schemas/user.schema';
@@ -130,5 +134,97 @@ export class UserService {
     // return res.redirect(
     //   `http://localhost:5173/login-success?token=${token}`,
     // );
+  }
+
+
+    // 🔥 STEP 1: Generate Microsoft login URL
+  getMicrosoftAuthUrl(res: Response) {
+    const params = new URLSearchParams({
+      client_id: process.env.MICROSOFT_CLIENT_ID!,
+      response_type: 'code',
+      redirect_uri: process.env.MICROSOFT_CALLBACK_URL!,
+      response_mode: 'query',
+      scope: 'openid profile email User.Read',
+    });
+
+    const url = `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/authorize?${params}`;
+
+    return res.redirect(url);
+  }
+
+  // 🔥 STEP 2: Handle callback
+  async handleMicrosoftCallback(code: string, res: Response) {
+    try {
+      if (!code) {
+        return res.status(400).json({ message: 'No code provided' });
+      }
+
+      // 🔥 1. Exchange code → token
+      const tokenRes = await axios.post(
+        `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/token`,
+        new URLSearchParams({
+          client_id: process.env.MICROSOFT_CLIENT_ID!,
+          client_secret: process.env.MICROSOFT_CLIENT_SECRET!,
+          code,
+          redirect_uri: process.env.MICROSOFT_CALLBACK_URL!,
+          grant_type: 'authorization_code',
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+
+      const { access_token } = tokenRes.data;
+
+      // 🔥 2. Get user profile
+      const userRes = await axios.get(
+        'https://graph.microsoft.com/v1.0/me',
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        },
+      );
+
+      const profile = userRes.data;
+
+      const email = profile.mail || profile.userPrincipalName;
+
+      // 🔥 3. Find or create user
+      let user = await this.userModel.findOne({ email });
+
+      if (!user) {
+        user = await this.userModel.create({
+          name: profile.displayName,
+          email,
+          provider: 'microsoft',
+        });
+      }
+
+      // 🔥 4. Generate JWT
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' },
+      );
+
+      // 🔥 5. Return token
+      return res.json({ accessToken: token });
+
+      // OR redirect frontend:
+      // return res.redirect(`https://your-frontend.com?token=${token}`);
+
+    } catch (error) {
+      console.error(
+        'MICROSOFT AUTH ERROR:',
+        error.response?.data || error,
+      );
+
+      return res.status(500).json({
+        message: 'Microsoft login failed',
+      });
+    }
   }
 }
