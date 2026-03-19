@@ -66,7 +66,7 @@ export class UserController {
   }
 
   @Get('auth/microsoft/callback')
-  @UseGuards(AuthGuard('microsoft'))
+  // @UseGuards(AuthGuard('microsoft'))
   async microsoftCallback(@Req() req: Request, @Res() res: Response) {
     console.log('USER:', req.user);
 
