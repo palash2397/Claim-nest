@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 
 import { Response } from 'express';
 
-import axios from "axios"
+import axios from 'axios';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserDocument, User } from './schemas/user.schema';
@@ -136,8 +136,7 @@ export class UserService {
     // );
   }
 
-
-    // 🔥 STEP 1: Generate Microsoft login URL
+  // 🔥 STEP 1: Generate Microsoft login URL
   getMicrosoftAuthUrl(res: Response) {
     const params = new URLSearchParams({
       client_id: process.env.MICROSOFT_CLIENT_ID!,
@@ -179,14 +178,11 @@ export class UserService {
       const { access_token } = tokenRes.data;
 
       // 🔥 2. Get user profile
-      const userRes = await axios.get(
-        'https://graph.microsoft.com/v1.0/me',
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
+      const userRes = await axios.get('https://graph.microsoft.com/v1.0/me', {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
         },
-      );
+      });
 
       const profile = userRes.data;
 
@@ -215,15 +211,16 @@ export class UserService {
 
       // OR redirect frontend:
       // return res.redirect(`https://your-frontend.com?token=${token}`);
-
     } catch (error) {
-      console.error(
-        'MICROSOFT AUTH ERROR:',
-        error.response?.data || error,
-      );
+      console.error('FULL MICROSOFT ERROR:', {
+        data: error.response?.data,
+        status: error.response?.status,
+        headers: error.response?.headers,
+      });
 
       return res.status(500).json({
         message: 'Microsoft login failed',
+        error: error.response?.data || error.message,
       });
     }
   }
