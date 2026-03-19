@@ -9,6 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import passport from 'passport';
 
 import type { Request, Response } from 'express';
 
@@ -52,22 +53,22 @@ export class UserController {
 
   @Get('auth/microsoft')
   async microsoftLogin(@Req() req: any, @Res() res: any) {
-    // 🔥 FORCE SESSION CREATION
+    // 🔥 FORCE SESSION
     req.session.oauth = 'microsoft';
 
     console.log('SESSION CREATED:', req.sessionID);
 
-    // 🔥 manually call passport
-    return new Promise((resolve, reject) => {
-      const passport = require('passport');
+    // 🔥 VERY IMPORTANT → SAVE SESSION FIRST
+    req.session.save((err) => {
+      if (err) {
+        console.log('SESSION SAVE ERROR:', err);
+        return res.status(500).send('Session error');
+      }
 
-      passport.authenticate('microsoft')(req, res, (err) => {
-        if (err) {
-          console.log('AUTH ERROR:', err);
-          return reject(err);
-        }
-        resolve(true);
-      });
+      console.log('SESSION SAVED:', req.sessionID);
+
+      // 🔥 NOW call passport AFTER session saved
+      passport.authenticate('microsoft')(req, res);
     });
   }
 
