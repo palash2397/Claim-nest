@@ -98,7 +98,7 @@ async function bootstrap() {
 
   SwaggerModule.setup(`${Global.PREFIX}/docs`, app, document, {
     swaggerOptions: {
-      persistAuthorization: true, // keeps JWT token after refresh
+      persistAuthorization: true, 
     },
   });
 
