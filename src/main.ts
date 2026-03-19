@@ -24,13 +24,14 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'super-secret',
+      name: 'connect.sid',
+      secret: process.env.SESSION_SECRET || 'secret',
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: true, // 🔥 MUST
       cookie: {
-        secure: true, // 🔥 MUST be true (HTTPS)
+        secure: true,
         httpOnly: true,
-        sameSite: 'none', // 🔥 REQUIRED for Microsoft redirect
+        sameSite: 'none',
       },
     }),
   );
