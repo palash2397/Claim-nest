@@ -3,6 +3,9 @@ import 'dotenv/config';
 import session from 'express-session';
 import passport from 'passport';
 
+import { createClient } from 'redis';
+import { RedisStore } from 'connect-redis';
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -14,21 +17,29 @@ import morgan from 'morgan';
 import constants from './contants';
 const { SWAGGER, Global } = constants;
 
+const redisClient = createClient({
+  url: 'redis://127.0.0.1:6379',
+});
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(morgan('dev'));
 
-  // 🔥 TRUST PROXY (IMPORTANT for nginx + cookies)
-  app.set('trust proxy', 1);
+   // 🔥 CONNECT REDIS FIRST
+  await redisClient.connect();
 
+  // 🔥 SESSION (FIRST)
   app.use(
     session({
+      store: new RedisStore({ client: redisClient }),
+
       name: 'connect.sid',
       secret: process.env.SESSION_SECRET || 'secret',
+
       resave: false,
-      saveUninitialized: true, // 🔥 MUST
-      proxy: true,
+      saveUninitialized: false,
+
       cookie: {
         secure: true,
         httpOnly: true,
@@ -37,17 +48,7 @@ async function bootstrap() {
     }),
   );
 
-  app.use((req: any, res: any, next: any) => {
-    if (!req.session) {
-      return next();
-    }
 
-    if (!req.session.initialized) {
-      req.session.initialized = true;
-    }
-
-    next();
-  });
 
   // 🔥 PASSPORT INIT
   app.use(passport.initialize());

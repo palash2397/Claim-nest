@@ -8,59 +8,26 @@ export class MicrosoftStrategy extends PassportStrategy(
   'microsoft',
 ) {
   constructor() {
-    // super({
-    //   identityMetadata: `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/v2.0/.well-known/openid-configuration`,
-    //   clientID: process.env.MICROSOFT_CLIENT_ID as string,
-    //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
-    //   responseType: 'code',
-    //   responseMode: 'query',
-    //   redirectUrl: process.env.MICROSOFT_CALLBACK_URL as string,
-    //   allowHttpForRedirectUrl: false, // only for local dev
-    //   passReqToCallback: true,
-    //   scope: [
-    //     'openid',
-    //     'profile',
-    //     'email',
-    //     'offline_access',
-    //     'User.Read',
-    //     'Mail.ReadWrite',
-    //     'Mail.Send',
-    //     'Calendars.ReadWrite',
-    //     'Files.ReadWrite',
-    //   ],
-    // });
-
     super({
       identityMetadata: `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/v2.0/.well-known/openid-configuration`,
       clientID: process.env.MICROSOFT_CLIENT_ID as string,
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
-
       responseType: 'code',
       responseMode: 'query',
-
       redirectUrl: process.env.MICROSOFT_CALLBACK_URL as string,
-
-      allowHttpForRedirectUrl: false,
-
-      passReqToCallback: false,
-
-      // 🔥 CRITICAL FIXES
-      validateIssuer: false,
-      nonceLifetime: 0, // disable nonce validation
-      nonceMaxAmount: 5,
-
-      useCookieInsteadOfSession: true,
-
-      cookieEncryptionKeys: [
-        {
-          key: '32characterslongsecretkey1234567', // MUST be 32 chars
-          iv: '12characters', // MUST be 12 chars
-        },
+      allowHttpForRedirectUrl: false, // only for local dev
+      passReqToCallback: true,
+      scope: [
+        'openid',
+        'profile',
+        'email',
+        'offline_access',
+        'User.Read',
+        'Mail.ReadWrite',
+        'Mail.Send',
+        'Calendars.ReadWrite',
+        'Files.ReadWrite',
       ],
-
-      clockSkew: 300,
-
-      scope: ['openid', 'profile', 'email', 'offline_access', 'User.Read'],
     });
   }
 
