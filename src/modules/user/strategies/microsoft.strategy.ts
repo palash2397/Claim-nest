@@ -15,7 +15,7 @@ export class MicrosoftStrategy extends PassportStrategy(
       responseType: 'code',
       responseMode: 'query',
       redirectUrl: process.env.MICROSOFT_CALLBACK_URL as string,
-      allowHttpForRedirectUrl: true, // only for local dev
+      allowHttpForRedirectUrl: false, // only for local dev
       passReqToCallback: false,
       scope: [
         'openid',
