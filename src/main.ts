@@ -36,6 +36,18 @@ async function bootstrap() {
     }),
   );
 
+  app.use((req: any, res: any, next: any) => {
+    if (!req.session) {
+      return next();
+    }
+
+    if (!req.session.initialized) {
+      req.session.initialized = true;
+    }
+
+    next();
+  });
+
   // 🔥 PASSPORT INIT
   app.use(passport.initialize());
   app.use(passport.session());

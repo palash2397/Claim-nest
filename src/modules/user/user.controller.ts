@@ -47,30 +47,30 @@ export class UserController {
     return this.userService.getById(id);
   }
 
-  // @Get('auth/microsoft')
-  // @UseGuards(AuthGuard('microsoft'))
-  // async microsoftLogin() {}
-
   @Get('auth/microsoft')
-  async microsoftLogin(@Req() req: any, @Res() res: any) {
-    // 🔥 FORCE SESSION
-    req.session.oauth = 'microsoft';
+  @UseGuards(AuthGuard('microsoft'))
+  async microsoftLogin() {}
 
-    console.log('SESSION CREATED:', req.sessionID);
+  // @Get('auth/microsoft')
+  // async microsoftLogin(@Req() req: any, @Res() res: any) {
+  //   // 🔥 FORCE SESSION
+  //   req.session.oauth = 'microsoft';
 
-    // 🔥 VERY IMPORTANT → SAVE SESSION FIRST
-    req.session.save((err) => {
-      if (err) {
-        console.log('SESSION SAVE ERROR:', err);
-        return res.status(500).send('Session error');
-      }
+  //   console.log('SESSION CREATED:', req.sessionID);
 
-      console.log('SESSION SAVED:', req.sessionID);
+  //   // 🔥 VERY IMPORTANT → SAVE SESSION FIRST
+  //   req.session.save((err) => {
+  //     if (err) {
+  //       console.log('SESSION SAVE ERROR:', err);
+  //       return res.status(500).send('Session error');
+  //     }
 
-      // 🔥 NOW call passport AFTER session saved
-      passport.authenticate('microsoft')(req, res);
-    });
-  }
+  //     console.log('SESSION SAVED:', req.sessionID);
+
+  //     // 🔥 NOW call passport AFTER session saved
+  //     passport.authenticate('microsoft')(req, res);
+  //   });
+  // }
 
   @Get('auth/microsoft/callback')
   @UseGuards(AuthGuard('microsoft'))

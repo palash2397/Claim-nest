@@ -16,7 +16,7 @@ export class MicrosoftStrategy extends PassportStrategy(
       responseMode: 'query',
       redirectUrl: process.env.MICROSOFT_CALLBACK_URL as string,
       allowHttpForRedirectUrl: false, // only for local dev
-      passReqToCallback: false,
+      passReqToCallback: true,
       scope: [
         'openid',
         'profile',
@@ -32,6 +32,7 @@ export class MicrosoftStrategy extends PassportStrategy(
   }
 
   async validate(
+    req: any, 
     iss: string,
     sub: string,
     profile: any,
@@ -39,6 +40,8 @@ export class MicrosoftStrategy extends PassportStrategy(
     refreshToken: string,
     done: Function,
   ) {
+
+      console.log('SESSION IN VALIDATE:', req.session);
 
      console.log('✅ Microsoft profile:', profile);
     const user = {
