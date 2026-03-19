@@ -55,6 +55,7 @@ export class UserController {
    @UseGuards(AuthGuard('microsoft'))
   async microsoftLogin(@Req() req: any, @Res() res: any) {
     req.session.oauth = 'microsoft';
+     console.log('SESSION BEFORE REDIRECT:', req.session);
 
     req.session.save((err: any) => {
       if (err) {
