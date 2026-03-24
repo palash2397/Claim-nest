@@ -16,6 +16,14 @@ export class CalenderService {
     );
   }
 
+  async getEventById(userId: string, eventId: string) {
+    return this.graphService.graphRequest(
+      userId,
+      'GET',
+      `/me/events/${eventId}?$select=subject,organizer,start,end,location,body,attendees,isOnlineMeeting,onlineMeeting`,
+    );
+  }
+
   async createEvent(
     userId: string,
     payload: {
