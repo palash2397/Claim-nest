@@ -6,11 +6,14 @@ export class OnedriveService {
   constructor(private readonly graphService: GraphService) {}
 
   async listFiles(userId: string) {
-    return this.graphService.graphRequest(
+    const result = await this.graphService.graphRequest(
       userId,
       'GET',
-      '/me/drive/root/children',
+      '/me/drive/root/children?$select=id,name,size,lastModifiedDateTime,file,folder,webUrl',
     );
+    return {
+      files: result.value,
+    };
   }
 
   async uploadFile(userId: string, fileName: string, fileBuffer: Buffer) {
