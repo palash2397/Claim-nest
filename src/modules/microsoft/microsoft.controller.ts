@@ -5,6 +5,7 @@ import {
   Body,
   UseGuards,
   Delete,
+  Query,
   Req,
   UploadedFile,
   UseInterceptors,
@@ -34,8 +35,8 @@ export class MicrosoftController {
 
   // Outlook endpoints
   @Get('emails/all')
-  async getEmails(@Req() req: Request) {
-    return this.outlookService.getEmails(req.user!.id);
+  async getEmails(@Req() req: Request, @Query('pageToken') pageToken?: string) {
+    return this.outlookService.getEmails(req.user!.id, pageToken);
   }
 
   @Post('send-email')

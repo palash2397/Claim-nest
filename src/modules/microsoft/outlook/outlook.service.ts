@@ -5,12 +5,21 @@ import { GraphService } from '../services/graph.service';
 export class OutlookService {
   constructor(private readonly graphService: GraphService) {}
 
-  async getEmails(userId: string) {
-    return this.graphService.graphRequest(
+  async getEmails(userId: string, pageToken?: string) {
+    const endpoint = pageToken
+      ? pageToken.replace('https://graph.microsoft.com/v1.0', '')
+      : '/me/messages?$top=25&$orderby=receivedDateTime desc&$select=subject,from,receivedDateTime,bodyPreview,isRead,hasAttachments';
+
+    const result = await this.graphService.graphRequest(
       userId,
       'GET',
-      '/me/messages?$top=25&$select=subject,from,receivedDateTime,bodyPreview',
+      endpoint,
     );
+
+    return {
+      emails: result.value,
+      nextPageToken: result['@odata.nextLink'] ?? null,
+    };
   }
 
   async sendEmail(
