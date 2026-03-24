@@ -215,6 +215,8 @@ export class UserService {
         { expiresIn: '1h' },
       );
 
+      return res.json({ accessToken: token });
+
       // return new ApiResponse(
       //   200,
       //   { accessToken: token },
@@ -222,9 +224,7 @@ export class UserService {
       // );
 
       // OR redirect frontend:
-      return res.redirect(
-        access_token
-      );
+      // return res.redirect(token);
     } catch (error) {
       console.error('FULL MICROSOFT ERROR:', {
         data: error.response?.data,
