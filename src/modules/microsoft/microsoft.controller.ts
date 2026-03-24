@@ -63,6 +63,14 @@ export class MicrosoftController {
     return this.calenderService.getEvents(req.user!.id);
   }
 
+  @Get('calendar/events/:id')
+  async getEventById(
+    @Req() req: Request,
+    @Param('id') eventId: string,
+  ) {
+    return this.calenderService.getEventById(req.user!.id, eventId);
+  }
+
   @Post('calendar/event')
   async createEvent(
     @Req() req: Request,
