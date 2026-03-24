@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GraphService } from '../services/graph.service';
+import { ApiResponse } from 'src/utils/helper/ApiResponse';
+import { Msg } from 'src/utils/helper/responseMsg';
 
 @Injectable()
 export class OutlookService {
@@ -43,14 +45,17 @@ export class OutlookService {
           },
         ],
       },
+      saveToSentItems: true, // ✅ saves to Sent folder
     };
 
-    return this.graphService.graphRequest(
+    await this.graphService.graphRequest(
       userId,
       'POST',
       '/me/sendMail',
       payload,
     );
+
+    return new ApiResponse(200, {}, Msg.EMAIL_SENT_SUCCESS); // ✅ return your own response
   }
 
   async getEmailById(userId: string, emailId: string) {

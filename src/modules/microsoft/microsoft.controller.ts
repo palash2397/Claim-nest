@@ -39,6 +39,11 @@ export class MicrosoftController {
     return this.outlookService.getEmails(req.user!.id, pageToken);
   }
 
+  @Get('emails/:id')
+  async getEmailById(@Req() req: Request, @Param('id') emailId: string) {
+    return this.outlookService.getEmailById(req.user!.id, emailId);
+  }
+
   @Post('send-email')
   async sendEmail(
     @Req() req: Request,
