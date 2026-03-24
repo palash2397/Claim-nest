@@ -143,7 +143,8 @@ export class UserService {
       redirect_uri: process.env.MICROSOFT_CALLBACK_URL!,
       response_mode: 'query',
       // scope: 'openid profile email User.Read offline_access',
-      scope: 'Calendars.ReadWrite email Files.ReadWrite Mail.Read Mail.ReadWrite Mail.Send openid profile User.Read offline_access',
+      scope:
+        'Calendars.ReadWrite email Files.ReadWrite Mail.Read Mail.ReadWrite Mail.Send openid profile User.Read offline_access',
     });
 
     const url = `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/authorize?${params}`;
@@ -165,7 +166,8 @@ export class UserService {
           code,
           redirect_uri: process.env.MICROSOFT_CALLBACK_URL!,
           grant_type: 'authorization_code',
-          scope: 'Calendars.ReadWrite email Files.ReadWrite Mail.Read Mail.ReadWrite Mail.Send openid profile User.Read offline_access',
+          scope:
+            'Calendars.ReadWrite email Files.ReadWrite Mail.Read Mail.ReadWrite Mail.Send openid profile User.Read offline_access',
         }),
         {
           headers: {
@@ -200,7 +202,6 @@ export class UserService {
           microsoftTokenExpiry: new Date(Date.now() + expires_in * 1000),
         });
       } else {
-     
         user.microsoftAccessToken = access_token;
         user.microsoftRefreshToken = refresh_token;
         user.microsoftTokenExpiry = new Date(Date.now() + expires_in * 1000);
@@ -215,7 +216,11 @@ export class UserService {
         { expiresIn: '1h' },
       );
 
-      return res.json({ accessToken: token });
+      // return res.json({ accessToken: token });
+
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/auth/microsoft/success?token=${token}`,
+      );
 
       // return new ApiResponse(
       //   200,
