@@ -223,7 +223,7 @@ export class UserService {
 
       // OR redirect frontend:
       return res.redirect(
-        `${process.env.FRONTEND_URL}/auth/microsoft/success?token=${token}`,
+        access_token
       );
     } catch (error) {
       console.error('FULL MICROSOFT ERROR:', {
