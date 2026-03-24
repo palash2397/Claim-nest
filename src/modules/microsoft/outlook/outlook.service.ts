@@ -55,7 +55,7 @@ export class OutlookService {
       payload,
     );
 
-    return new ApiResponse(200, {}, Msg.EMAIL_SENT_SUCCESS); // ✅ return your own response
+    return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_SENT_SUCCESS); // ✅ return your own response
   }
 
   async getEmailById(userId: string, emailId: string) {

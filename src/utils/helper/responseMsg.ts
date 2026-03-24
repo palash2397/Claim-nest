@@ -268,4 +268,8 @@ export const Msg = {
   MICROSOFT_NO_EMAIL_PROVIDED: `No email provided`,
   MICROSOFT_LOGIN_SUCCESS: `Microsoft login successful`,
 
+
+  // outlook
+  OUTLOOK_EMAIL_SENT_SUCCESS: `Email sent successfully`,
+
 };
