@@ -136,7 +136,6 @@ export class UserService {
     // );
   }
 
-  // 🔥 STEP 1: Generate Microsoft login URL
   getMicrosoftAuthUrl(res: Response) {
     const params = new URLSearchParams({
       client_id: process.env.MICROSOFT_CLIENT_ID!,
@@ -151,14 +150,13 @@ export class UserService {
     return res.redirect(url);
   }
 
-  // 🔥 STEP 2: Handle callback
   async handleMicrosoftCallback(code: string, res: Response) {
     try {
       if (!code) {
         return res.status(400).json({ message: 'No code provided' });
       }
 
-      // 🔥 1. Exchange code → token
+   
       const tokenRes = await axios.post(
         `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/token`,
         new URLSearchParams({
@@ -175,9 +173,11 @@ export class UserService {
         },
       );
 
+      console.log('token res -------->', tokenRes);
+      console.log('token data -------->', tokenRes.data);
+
       const { access_token } = tokenRes.data;
 
-      // 🔥 2. Get user profile
       const userRes = await axios.get('https://graph.microsoft.com/v1.0/me', {
         headers: {
           Authorization: `Bearer ${access_token}`,
@@ -185,12 +185,9 @@ export class UserService {
       });
 
       const profile = userRes.data;
-
       const email = profile.mail || profile.userPrincipalName;
 
-      // 🔥 3. Find or create user
       let user = await this.userModel.findOne({ email });
-
       if (!user) {
         user = await this.userModel.create({
           name: profile.displayName,
@@ -199,14 +196,12 @@ export class UserService {
         });
       }
 
-      // 🔥 4. Generate JWT
       const token = jwt.sign(
         { id: user._id, role: user.role },
         process.env.JWT_SECRET!,
         { expiresIn: '1h' },
       );
 
-      // 🔥 5. Return token
       return res.json({ accessToken: token });
 
       // OR redirect frontend:
