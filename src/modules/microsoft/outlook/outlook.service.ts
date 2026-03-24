@@ -52,4 +52,24 @@ export class OutlookService {
       payload,
     );
   }
+
+  async getEmailById(userId: string, emailId: string) {
+    const result = await this.graphService.graphRequest(
+      userId,
+      'GET',
+      `/me/messages/${emailId}?$select=subject,from,toRecipients,ccRecipients,body,receivedDateTime,isRead,hasAttachments`,
+    );
+
+    return {
+      id: result.id,
+      subject: result.subject,
+      from: result.from,
+      to: result.toRecipients,
+      cc: result.ccRecipients,
+      body: result.body, // { contentType: 'html'/'text', content: '...' }
+      receivedDateTime: result.receivedDateTime,
+      isRead: result.isRead,
+      hasAttachments: result.hasAttachments,
+    };
+  }
 }
