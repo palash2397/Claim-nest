@@ -54,7 +54,7 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  // enable global validation for DTOs
+  // 🔥 enable global validation for DTOs
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -66,7 +66,7 @@ async function bootstrap() {
     }),
   );
 
-  // cors
+  // 🔥 cors
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -78,7 +78,7 @@ async function bootstrap() {
   // Global Prefix
   app.setGlobalPrefix(Global.PREFIX);
 
-  // Swagger Documentation
+  // 🔥 Swagger Documentation
   const config = new DocumentBuilder()
     .setTitle(SWAGGER.TITLE)
     .setDescription(SWAGGER.DESCRIPTION)
