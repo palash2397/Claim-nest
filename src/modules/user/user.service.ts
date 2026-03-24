@@ -215,14 +215,16 @@ export class UserService {
         { expiresIn: '1h' },
       );
 
-      return new ApiResponse(
-        200,
-        { accessToken: token },
-        Msg.MICROSOFT_LOGIN_SUCCESS,
-      );
+      // return new ApiResponse(
+      //   200,
+      //   { accessToken: token },
+      //   Msg.MICROSOFT_LOGIN_SUCCESS,
+      // );
 
       // OR redirect frontend:
-      // return res.redirect(`https://your-frontend.com?token=${token}`);
+      return res.redirect(
+        `${process.env.FRONTEND_URL}/auth/microsoft/success?token=${token}`,
+      );
     } catch (error) {
       console.error('FULL MICROSOFT ERROR:', {
         data: error.response?.data,
