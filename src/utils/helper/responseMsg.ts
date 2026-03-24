@@ -264,6 +264,8 @@ export const Msg = {
   MICROSOFT_ACCOUNT_CONNECTION_FAILED: `Microsoft account connection failed`,
   MICROSOFT_ACCOUNT_CONNECTION_ERROR: `Microsoft account connection error`,
   MICROSOFT_ACCOUNT_CONNECTION_TIMEOUT: `Microsoft account connection timeout`,
-  
+  MICROSOFT_NO_CODE_PROVIDED: `No code provided`,
+  MICROSOFT_NO_EMAIL_PROVIDED: `No email provided`,
+  MICROSOFT_LOGIN_SUCCESS: `Microsoft login successful`,
 
 };

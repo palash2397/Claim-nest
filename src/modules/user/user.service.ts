@@ -153,10 +153,9 @@ export class UserService {
   async handleMicrosoftCallback(code: string, res: Response) {
     try {
       if (!code) {
-        return res.status(400).json({ message: 'No code provided' });
+        return new ApiResponse(400, {}, Msg.MICROSOFT_NO_CODE_PROVIDED);
       }
 
-   
       const tokenRes = await axios.post(
         `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/token`,
         new URLSearchParams({
@@ -176,7 +175,7 @@ export class UserService {
       console.log('token res -------->', tokenRes);
       console.log('token data -------->', tokenRes.data);
 
-      const { access_token } = tokenRes.data;
+      const { access_token, refresh_token, expires_in } = tokenRes.data;
 
       const userRes = await axios.get('https://graph.microsoft.com/v1.0/me', {
         headers: {
@@ -188,12 +187,24 @@ export class UserService {
       const email = profile.mail || profile.userPrincipalName;
 
       let user = await this.userModel.findOne({ email });
+
       if (!user) {
         user = await this.userModel.create({
           name: profile.displayName,
           email,
           provider: 'microsoft',
+          microsoftAccessToken: access_token,
+          microsoftRefreshToken: refresh_token,
+          microsoftTokenExpiry: new Date(Date.now() + expires_in * 1000),
         });
+      } else {
+     
+        user.microsoftAccessToken = access_token;
+        user.microsoftRefreshToken = refresh_token;
+        user.microsoftTokenExpiry = new Date(Date.now() + expires_in * 1000);
+        user.provider = 'microsoft';
+
+        await user.save();
       }
 
       const token = jwt.sign(
@@ -202,7 +213,11 @@ export class UserService {
         { expiresIn: '1h' },
       );
 
-      return res.json({ accessToken: token });
+      return new ApiResponse(
+        200,
+        { accessToken: token },
+        Msg.MICROSOFT_LOGIN_SUCCESS,
+      );
 
       // OR redirect frontend:
       // return res.redirect(`https://your-frontend.com?token=${token}`);
