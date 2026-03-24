@@ -142,7 +142,7 @@ export class UserService {
       response_type: 'code',
       redirect_uri: process.env.MICROSOFT_CALLBACK_URL!,
       response_mode: 'query',
-      scope: 'openid profile email User.Read',
+      scope: 'openid profile email User.Read offline_access',
     });
 
     const url = `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID}/oauth2/v2.0/authorize?${params}`;
