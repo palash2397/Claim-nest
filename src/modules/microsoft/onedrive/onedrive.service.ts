@@ -18,9 +18,7 @@ export class OnedriveService {
       );
 
       console.log(result);
-      return {
-        files: result.value,
-      };
+      return new ApiResponse(200, { files: result.value }, Msg.SUCCESS);
     } catch (error) {
       console.log(`error who called listFiles: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);

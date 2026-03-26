@@ -272,4 +272,14 @@ export const Msg = {
   // outlook
   OUTLOOK_EMAIL_SENT_SUCCESS: `Email sent successfully`,
 
+
+  // Onedrive
+  ONEDRIVE_FILES_LISTED: `OneDrive files listed successfully`,
+  ONEDRIVE_FILE_UPLOADED: `OneDrive file uploaded successfully`,
+  ONEDRIVE_FILE_DELETED: `OneDrive file deleted successfully`,
+  ONEDRIVE_FILE_NOT_FOUND: `OneDrive file not found`,
+  ONEDRIVE_FILE_ALREADY_EXISTS: `OneDrive file already exists`,
+  ONEDRIVE_FILE_UPDATED: `OneDrive file updated successfully`,
+  
+
 };
