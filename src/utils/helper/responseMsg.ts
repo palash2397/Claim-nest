@@ -271,6 +271,12 @@ export const Msg = {
 
   // outlook
   OUTLOOK_EMAIL_SENT_SUCCESS: `Email sent successfully`,
+  OUTLOOK_EMAILS_FETCHED_SUCCESS: `Emails fetched successfully`,
+  OUTLOOK_EMAIL_FETCHED_SUCCESS: `Email fetched successfully`,
+  OUTLOOK_EMAILS_FETCHED_FAILED: `Failed to fetch emails`,
+  OUTLOOK_EMAIL_FETCH_FAILED: `Failed to fetch email`,
+  OUTLOOK_EMAIL_SEND_FAILED: `Failed to send email`,
+
 
 
   // Onedrive

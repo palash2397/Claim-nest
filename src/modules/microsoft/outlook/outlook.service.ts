@@ -8,20 +8,27 @@ export class OutlookService {
   constructor(private readonly graphService: GraphService) {}
 
   async getEmails(userId: string, pageToken?: string) {
-    const endpoint = pageToken
-      ? pageToken.replace('https://graph.microsoft.com/v1.0', '')
-      : '/me/messages?$top=25&$orderby=receivedDateTime desc&$select=subject,from,receivedDateTime,bodyPreview,isRead,hasAttachments';
+    try {
+      const endpoint = pageToken
+        ? pageToken.replace('https://graph.microsoft.com/v1.0', '')
+        : '/me/messages?$top=25&$orderby=receivedDateTime desc&$select=subject,from,receivedDateTime,bodyPreview,isRead,hasAttachments';
 
-    const result = await this.graphService.graphRequest(
-      userId,
-      'GET',
-      endpoint,
-    );
+      const result = await this.graphService.graphRequest(
+        userId,
+        'GET',
+        endpoint,
+      );
 
-    return {
-      emails: result.value,
-      nextPageToken: result['@odata.nextLink'] ?? null,
-    };
+      const data = {
+        emails: result.value,
+        nextPageToken: result['@odata.nextLink'] ?? null,
+      };
+
+      return new ApiResponse(200, data, Msg.OUTLOOK_EMAILS_FETCHED_SUCCESS);
+    } catch (error) {
+      console.log(`error who called getEmails:`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
   }
 
   async sendEmail(
@@ -30,32 +37,37 @@ export class OutlookService {
     subject: string,
     content: string,
   ) {
-    const payload = {
-      message: {
-        subject,
-        body: {
-          contentType: 'HTML',
-          content,
-        },
-        toRecipients: [
-          {
-            emailAddress: {
-              address: to,
-            },
+    try {
+      const payload = {
+        message: {
+          subject,
+          body: {
+            contentType: 'HTML',
+            content,
           },
-        ],
-      },
-      saveToSentItems: true, // ✅ saves to Sent folder
-    };
+          toRecipients: [
+            {
+              emailAddress: {
+                address: to,
+              },
+            },
+          ],
+        },
+        saveToSentItems: true, // ✅ saves to Sent folder
+      };
 
-    await this.graphService.graphRequest(
-      userId,
-      'POST',
-      '/me/sendMail',
-      payload,
-    );
+      await this.graphService.graphRequest(
+        userId,
+        'POST',
+        '/me/sendMail',
+        payload,
+      );
 
-    return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_SENT_SUCCESS); // ✅ return your own response
+      return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_SENT_SUCCESS);
+    } catch (error) {
+      console.log(`error who called sendEmail:`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
   }
 
   async getEmailById(userId: string, emailId: string) {
