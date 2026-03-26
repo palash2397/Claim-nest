@@ -26,26 +26,31 @@ export class OnedriveService {
   }
 
   async uploadFile(userId: string, fileName: string, fileBuffer: Buffer) {
-    const accessToken = await this.graphService.getAccessToken(userId); // ✅ get token directly
+    try {
+      const accessToken = await this.graphService.getAccessToken(userId); // ✅ get token directly
 
-    const response = await axios.put(
-      `https://graph.microsoft.com/v1.0/me/drive/root:/${fileName}:/content`,
-      fileBuffer,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/octet-stream', // ✅ required for file upload
+      const response = await axios.put(
+        `https://graph.microsoft.com/v1.0/me/drive/root:/${fileName}:/content`,
+        fileBuffer,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/octet-stream', // ✅ required for file upload
+          },
         },
-      },
-    );
+      );
 
-    return {
-      id: response.data.id,
-      name: response.data.name,
-      size: response.data.size,
-      webUrl: response.data.webUrl,
-      lastModifiedDateTime: response.data.lastModifiedDateTime,
-    };
+      return {
+        id: response.data.id,
+        name: response.data.name,
+        size: response.data.size,
+        webUrl: response.data.webUrl,
+        lastModifiedDateTime: response.data.lastModifiedDateTime,
+      };
+    } catch (error) {
+      console.log(`error who called uploadFile: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
   }
 
   async deleteFile(userId: string, itemId: string) {
