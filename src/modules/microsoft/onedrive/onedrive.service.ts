@@ -27,7 +27,6 @@ export class OnedriveService {
 
   async uploadFile(userId: string, fileName: string, fileBuffer: Buffer) {
     try {
-
       const accessToken = await this.graphService.getAccessToken(userId); // ✅ get token directly
 
       const response = await axios.put(
@@ -41,28 +40,37 @@ export class OnedriveService {
         },
       );
 
-      const data =  {
+      const data = {
         id: response.data.id,
         name: response.data.name,
         size: response.data.size,
         webUrl: response.data.webUrl,
         lastModifiedDateTime: response.data.lastModifiedDateTime,
       };
-      
+
       return new ApiResponse(200, data, Msg.ONEDRIVE_FILE_UPLOADED);
     } catch (error) {
       // console.log(error)
-      console.log(`error who called uploadFile:`, JSON.stringify(error.response?.data, null, 2));
+      console.log(
+        `error who called uploadFile:`,
+        JSON.stringify(error.response?.data, null, 2),
+      );
       // console.log(`error who called uploadFile: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }
 
   async deleteFile(userId: string, itemId: string) {
-    return this.graphService.graphRequest(
-      userId,
-      'DELETE',
-      `/me/drive/items/${itemId}`,
-    );
+    try {
+      const result = await this.graphService.graphRequest(
+        userId,
+        'DELETE',
+        `/me/drive/items/${itemId}`,
+      );
+      return new ApiResponse(200, result, Msg.ONEDRIVE_FILE_DELETED);
+    } catch (error) {
+      console.log(`error who called deleteFile: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
   }
 }
