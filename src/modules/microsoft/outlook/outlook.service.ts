@@ -71,22 +71,29 @@ export class OutlookService {
   }
 
   async getEmailById(userId: string, emailId: string) {
-    const result = await this.graphService.graphRequest(
-      userId,
-      'GET',
-      `/me/messages/${emailId}?$select=subject,from,toRecipients,ccRecipients,body,receivedDateTime,isRead,hasAttachments`,
-    );
-
-    return {
-      id: result.id,
-      subject: result.subject,
-      from: result.from,
-      to: result.toRecipients,
-      cc: result.ccRecipients,
-      body: result.body, // { contentType: 'html'/'text', content: '...' }
-      receivedDateTime: result.receivedDateTime,
-      isRead: result.isRead,
-      hasAttachments: result.hasAttachments,
-    };
+ try {
+     const result = await this.graphService.graphRequest(
+       userId,
+       'GET',
+       `/me/messages/${emailId}?$select=subject,from,toRecipients,ccRecipients,body,receivedDateTime,isRead,hasAttachments`,
+     );
+ 
+     const data = {
+       id: result.id,
+       subject: result.subject,
+       from: result.from,
+       to: result.toRecipients,
+       cc: result.ccRecipients,
+       body: result.body, // { contentType: 'html'/'text', content: '...' }
+       receivedDateTime: result.receivedDateTime,
+       isRead: result.isRead,
+       hasAttachments: result.hasAttachments,
+     };
+     return new ApiResponse(200, data, Msg.OUTLOOK_EMAIL_FETCHED_SUCCESS);
+ } catch (error) {
+  console.log(`error who called getEmailById:`, error);
+  return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+  
+ }
   }
 }
