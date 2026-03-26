@@ -64,10 +64,7 @@ export class MicrosoftController {
   }
 
   @Get('calendar/event/:id')
-  async getEventById(
-    @Req() req: Request,
-    @Param('id') eventId: string,
-  ) {
+  async getEventById(@Req() req: Request, @Param('id') eventId: string) {
     return this.calenderService.getEventById(req.user!.id, eventId);
   }
 
@@ -114,5 +111,18 @@ export class MicrosoftController {
   @Get('status')
   async getMicrosoftStatus(@Req() req: Request) {
     return this.microsoftService.microsoftStatus(req.user!.id);
+  }
+
+  @Get('emails/folder/:folder')
+  async getEmailsByFolder(
+    @Req() req: Request,
+    @Param('folder') folder: string,
+    @Query('pageToken') pageToken?: string,
+  ) {
+    return this.outlookService.getEmailsByFolder(
+      req.user!.id,
+      folder,
+      pageToken,
+    );
   }
 }
