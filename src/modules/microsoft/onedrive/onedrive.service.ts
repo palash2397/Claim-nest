@@ -39,7 +39,7 @@ export class OnedriveService {
 
       return new ApiResponse(200, { data: result }, Msg.SUCCESS);
     } catch (error) {
-      console.log(`error who called getFileById: ${error}`);
+      console.log(`error who called fileById: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
   }

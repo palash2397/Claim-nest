@@ -89,13 +89,18 @@ export class MicrosoftController {
     return this.onedriveService.listFiles(req.user!.id);
   }
 
+  @Get('onedrive/files/:id')
+  async getFileById(@Req() req: Request, @Param('id') fileId: string) {
+    return this.onedriveService.fileById(req.user!.id, fileId);
+  }
+
   @Post('onedrive/upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    
+
     return this.onedriveService.uploadFile(
       req.user!.id,
       file.originalname,
