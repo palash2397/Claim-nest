@@ -25,13 +25,17 @@ export class OnedriveService {
     }
   }
 
-  async getFileById(userId: string, fileId: string) {
+  async fileById(userId: string, fileId: string) {
     try {
       const result = await this.graphService.graphRequest(
         userId,
         'GET',
         `/me/drive/items/${fileId}?$select=id,name,size,lastModifiedDateTime,file,folder,webUrl`,
       );
+
+      if (!result) {
+        return new ApiResponse(404, {}, Msg.ONEDRIVE_FILE_NOT_FOUND);
+      }
 
       return new ApiResponse(200, { data: result }, Msg.SUCCESS);
     } catch (error) {
