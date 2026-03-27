@@ -89,7 +89,7 @@ export class MicrosoftController {
     return this.onedriveService.listFiles(req.user!.id);
   }
 
-  @Get('onedrive/files/:id')
+  @Get('onedrive/file/:id')
   async getFileById(@Req() req: Request, @Param('id') fileId: string) {
     return this.onedriveService.fileById(req.user!.id, fileId);
   }
@@ -108,7 +108,7 @@ export class MicrosoftController {
     );
   }
 
-  @Delete('onedrive/:id')
+  @Delete('onedrive/file/:id')
   async deleteFile(@Req() req: Request, @Param('id') id: string) {
     return this.onedriveService.deleteFile(req.user!.id, id);
   }
