@@ -25,6 +25,21 @@ export class OnedriveService {
     }
   }
 
+  async getFileById(userId: string, fileId: string) {
+    try {
+      const result = await this.graphService.graphRequest(
+        userId,
+        'GET',
+        `/me/drive/items/${fileId}?$select=id,name,size,lastModifiedDateTime,file,folder,webUrl`,
+      );
+
+      return new ApiResponse(200, { data: result }, Msg.SUCCESS);
+    } catch (error) {
+      console.log(`error who called getFileById: ${error}`);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
   async uploadFile(userId: string, fileName: string, fileBuffer: Buffer) {
     try {
       const accessToken = await this.graphService.getAccessToken(userId); // ✅ get token directly
