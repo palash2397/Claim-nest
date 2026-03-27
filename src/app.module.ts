@@ -28,6 +28,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { MicrosoftModule } from './modules/microsoft/microsoft.module';
+import { TextModule } from './modules/text/text.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { MicrosoftModule } from './modules/microsoft/microsoft.module';
     ChatModule,
     EventEmitterModule.forRoot(),
     MicrosoftModule,
+    TextModule,
   ],
   controllers: [AppController],
   providers: [],
