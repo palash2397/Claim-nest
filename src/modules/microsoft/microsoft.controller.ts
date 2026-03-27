@@ -95,7 +95,7 @@ export class MicrosoftController {
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log('file -------->', file);
+    
     return this.onedriveService.uploadFile(
       req.user!.id,
       file.originalname,

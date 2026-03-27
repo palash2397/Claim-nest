@@ -281,6 +281,7 @@ export const Msg = {
 
   // Onedrive
   ONEDRIVE_FILES_LISTED: `OneDrive files listed successfully`,
+  ONEDRIVE_FILE_LISTED: `OneDrive file listed successfully`,
   ONEDRIVE_FILE_UPLOADED: `OneDrive file uploaded successfully`,
   ONEDRIVE_FILE_DELETED: `OneDrive file deleted successfully`,
   ONEDRIVE_FILE_NOT_FOUND: `OneDrive file not found`,
