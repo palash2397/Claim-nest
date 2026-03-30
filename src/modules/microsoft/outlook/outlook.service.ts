@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import { GraphService } from '../services/graph.service';
 import { ApiResponse } from 'src/utils/helper/ApiResponse';
 import { Msg } from 'src/utils/helper/responseMsg';
@@ -184,6 +185,44 @@ export class OutlookService {
       200,
       { thread: result.value },
       Msg.OUTLOOK_EMAIL_THREAD_FETCHED,
+    );
+  }
+
+  // Service
+  async deleteMultipleEmails(userId: string, emailIds: string[]) {
+    const accessToken = await this.graphService.getAccessToken(userId);
+
+    // Build batch requests (max 20 per batch)
+    const requests = emailIds.map((id, index) => ({
+      id: String(index + 1),
+      method: 'DELETE',
+      url: `/me/messages/${id}`,
+    }));
+
+    const response = await axios.post(
+      'https://graph.microsoft.com/v1.0/$batch',
+      { requests },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    // Check which ones succeeded/failed
+    const results = response.data.responses;
+    const failed = results.filter((r: any) => r.status !== 204);
+    const succeeded = results.filter((r: any) => r.status === 204);
+
+    return new ApiResponse(
+      200,
+      {
+        deleted: succeeded.length,
+        failed: failed.length,
+        failedIds: failed.map((r: any) => emailIds[parseInt(r.id) - 1]),
+      },
+      Msg.OUTLOOK_EMAILS_DELETED,
     );
   }
 }
