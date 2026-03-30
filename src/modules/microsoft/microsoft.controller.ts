@@ -33,7 +33,9 @@ export class MicrosoftController {
     private readonly onedriveService: OnedriveService,
   ) {}
 
-  // Outlook endpoints
+  // ========================================
+  // Outlook Endpoints
+  // ========================================
   @Get('emails/all')
   async getEmails(@Req() req: Request, @Query('pageToken') pageToken?: string) {
     return this.outlookService.getEmails(req.user!.id, pageToken);
@@ -74,7 +76,24 @@ export class MicrosoftController {
     );
   }
 
-  // Calender endpoints
+  @Post('emails/:id/forward')
+  async forwardEmail(
+    @Req() req: Request,
+    @Param('id') emailId: string,
+    @Body() body: { to: string[]; comment?: string },
+  ) {
+    return this.outlookService.forwardEmail(
+      req.user!.id,
+      emailId,
+      body.to,
+      body.comment,
+    );
+  }
+
+  // ========================================
+  // Calender Endpoints
+  // ========================================
+
   @Get('calendar/events')
   async getEvents(@Req() req: Request) {
     return this.calenderService.getEvents(req.user!.id);
@@ -99,8 +118,12 @@ export class MicrosoftController {
   ) {
     return this.calenderService.createEvent(req.user!.id, body);
   }
+  
 
-  // Onedrive endpoints
+  // ========================================
+  // Onedrive Endpoints
+  // ========================================
+
   @Get('onedrive/files')
   async getFiles(@Req() req: Request) {
     return this.onedriveService.listFiles(req.user!.id);
