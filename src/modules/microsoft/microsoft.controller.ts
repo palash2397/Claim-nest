@@ -147,6 +147,11 @@ export class MicrosoftController {
     return this.calenderService.createEvent(req.user!.id, body);
   }
 
+  @Delete('calendar/event/:eventId')
+  async deleteEvent(@Req() req: Request, @Param('eventId') eventId: string) {
+    return this.calenderService.deleteEvent(req.user!.id, eventId);
+  }
+
   // ========================================
   // Onedrive Endpoints
   // ========================================
