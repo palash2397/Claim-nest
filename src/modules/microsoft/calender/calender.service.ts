@@ -58,4 +58,12 @@ export class CalenderService {
 
     return this.graphService.graphRequest(userId, 'POST', '/me/events', event);
   }
+
+  async deleteEvent(userId: string, eventId: string) {
+    return this.graphService.graphRequest(
+      userId,
+      'DELETE',
+      `/me/events/${eventId}`,
+    );
+  }
 }
