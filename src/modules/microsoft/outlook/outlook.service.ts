@@ -130,12 +130,13 @@ export class OutlookService {
   }
 
   async replyEmail(userId: string, emailId: string, comment: string) {
-    await this.graphService.graphRequest(
+    const data = await this.graphService.graphRequest(
       userId,
       'POST',
       `/me/messages/${emailId}/reply`,
       { comment },
     );
+    console.log('data ---------------->', data);
     return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_REPLIED);
   }
 
@@ -159,12 +160,26 @@ export class OutlookService {
     return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_FORWARDED);
   }
 
+  // async getEmailThread(userId: string, conversationId: string) {
+  //   const result = await this.graphService.graphRequest(
+  //     userId,
+  //     'GET',
+  //     `/me/messages?$search="conversationId:${conversationId}"&$select=subject,from,toRecipients,receivedDateTime,bodyPreview,isRead`,
+  //   );
+  //   return new ApiResponse(
+  //     200,
+  //     { thread: result.value },
+  //     Msg.OUTLOOK_EMAIL_THREAD_FETCHED,
+  //   );
+  // }
+
   async getEmailThread(userId: string, conversationId: string) {
     const result = await this.graphService.graphRequest(
       userId,
       'GET',
-      `/me/messages?$search="conversationId:${conversationId}"&$select=subject,from,toRecipients,receivedDateTime,bodyPreview,isRead`,
+      `/me/messages?$filter=${encodeURIComponent(`conversationId eq '${conversationId}'`)}&$select=subject,from,toRecipients,receivedDateTime,bodyPreview,isRead,conversationId`,
     );
+
     return new ApiResponse(
       200,
       { thread: result.value },

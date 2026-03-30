@@ -92,7 +92,7 @@ export class GraphService {
     } catch (error) {
       //   throw new UnauthorizedException('Microsoft Graph API request failed');
 
-      console.log(`error while getting graph request`, error);
+      console.log(`error while getting graph request`, error.message);
 
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
