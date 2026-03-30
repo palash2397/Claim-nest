@@ -66,6 +66,61 @@ export class CalenderService {
       `/me/events/${eventId}`,
     );
 
-    return new ApiResponse(200, {}, Msg.EVENT_DELETED)
+    return new ApiResponse(200, {}, Msg.EVENT_DELETED);
+  }
+
+  async updateEvent(
+    userId: string,
+    eventId: string,
+    payload: {
+      subject?: string;
+      content?: string;
+      start?: string;
+      end?: string;
+      attendees?: string[];
+    },
+  ) {
+    const event: Record<string, any> = {};
+
+    if (payload.subject) {
+      event.subject = payload.subject;
+    }
+
+    if (payload.content) {
+      event.body = {
+        contentType: 'HTML',
+        content: payload.content,
+      };
+    }
+
+    if (payload.start) {
+      event.start = {
+        dateTime: payload.start,
+        timeZone: 'UTC',
+      };
+    }
+
+    if (payload.end) {
+      event.end = {
+        dateTime: payload.end,
+        timeZone: 'UTC',
+      };
+    }
+
+    if (payload.attendees) {
+      event.attendees = payload.attendees.map((email) => ({
+        emailAddress: { address: email },
+        type: 'required',
+      }));
+    }
+
+    await this.graphService.graphRequest(
+      userId,
+      'PATCH', // Microsoft Graph uses PATCH for partial updates
+      `/me/events/${eventId}`,
+      event,
+    );
+
+    return new ApiResponse(200, {}, Msg.EVENT_UPDATED);
   }
 }

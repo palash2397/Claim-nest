@@ -71,7 +71,7 @@ export class GraphService {
 
   async graphRequest(
     userId: string,
-    method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     endpoint: string,
     data?: any,
   ) {
