@@ -120,5 +120,12 @@ export class OutlookService {
     }
   }
 
-  
+  async deleteEmail(userId: string, emailId: string) {
+    await this.graphService.graphRequest(
+      userId,
+      'DELETE',
+      `/me/messages/${emailId}`,
+    );
+    return new ApiResponse(200, {}, Msg.SUCCESS);
+  }
 }
