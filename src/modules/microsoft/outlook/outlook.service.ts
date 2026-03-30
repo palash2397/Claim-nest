@@ -136,6 +136,6 @@ export class OutlookService {
       `/me/messages/${emailId}/reply`,
       { comment },
     );
-    return new ApiResponse(200, {}, Msg.SUCCESS);
+    return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_REPLIED);
   }
 }
