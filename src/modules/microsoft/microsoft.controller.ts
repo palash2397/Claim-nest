@@ -64,7 +64,7 @@ export class MicrosoftController {
     return this.outlookService.deleteEmail(req.user!.id, emailId);
   }
 
-  @Post('emails/:id/reply')
+  @Post('emails/reply')
   async replyEmail(
     @Req() req: Request,
     @Body() body: { comment: string; emailId: string },
@@ -76,15 +76,14 @@ export class MicrosoftController {
     );
   }
 
-  @Post('emails/:id/forward')
+  @Post('emails/forward')
   async forwardEmail(
     @Req() req: Request,
-    @Param('id') emailId: string,
-    @Body() body: { to: string[]; comment?: string },
+    @Body() body: { to: string[]; comment?: string, emailId: string },
   ) {
     return this.outlookService.forwardEmail(
       req.user!.id,
-      emailId,
+      body.emailId,
       body.to,
       body.comment,
     );
