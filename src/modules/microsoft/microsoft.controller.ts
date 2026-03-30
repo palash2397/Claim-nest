@@ -62,6 +62,18 @@ export class MicrosoftController {
     return this.outlookService.deleteEmail(req.user!.id, emailId);
   }
 
+  @Post('emails/:id/reply')
+  async replyEmail(
+    @Req() req: Request,
+    @Body() body: { comment: string; emailId: string },
+  ) {
+    return this.outlookService.replyEmail(
+      req.user!.id,
+      body.emailId,
+      body.comment,
+    );
+  }
+
   // Calender endpoints
   @Get('calendar/events')
   async getEvents(@Req() req: Request) {
