@@ -89,8 +89,13 @@ export class MicrosoftController {
     );
   }
 
-
-
+  @Get('emails/thread/:conversationId')
+  async getEmailThread(
+    @Req() req: Request,
+    @Param('conversationId') conversationId: string,
+  ) {
+    return this.outlookService.getEmailThread(req.user!.id, conversationId);
+  }
 
   // ========================================
   // Calender Endpoints
@@ -120,7 +125,6 @@ export class MicrosoftController {
   ) {
     return this.calenderService.createEvent(req.user!.id, body);
   }
-  
 
   // ========================================
   // Onedrive Endpoints
