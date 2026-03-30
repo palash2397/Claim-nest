@@ -79,7 +79,7 @@ export class MicrosoftController {
   @Post('emails/forward')
   async forwardEmail(
     @Req() req: Request,
-    @Body() body: { to: string[]; comment?: string, emailId: string },
+    @Body() body: { to: string[]; comment?: string; emailId: string },
   ) {
     return this.outlookService.forwardEmail(
       req.user!.id,
@@ -88,6 +88,9 @@ export class MicrosoftController {
       body.comment,
     );
   }
+
+
+
 
   // ========================================
   // Calender Endpoints

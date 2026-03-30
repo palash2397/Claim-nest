@@ -11,7 +11,7 @@ export class OutlookService {
     try {
       const endpoint = pageToken
         ? pageToken.replace('https://graph.microsoft.com/v1.0', '')
-        : '/me/messages?$top=25&$orderby=receivedDateTime desc&$select=subject,from,receivedDateTime,bodyPreview,isRead,hasAttachments';
+        : '/me/messages?$top=25&$orderby=receivedDateTime desc&$select=subject,from,receivedDateTime,bodyPreview,isRead,hasAttachments, conversationId';
 
       const result = await this.graphService.graphRequest(
         userId,
@@ -75,7 +75,7 @@ export class OutlookService {
       const result = await this.graphService.graphRequest(
         userId,
         'GET',
-        `/me/messages/${emailId}?$select=subject,from,toRecipients,ccRecipients,body,receivedDateTime,isRead,hasAttachments`,
+        `/me/messages/${emailId}?$select=subject,from,toRecipients,ccRecipients,body,receivedDateTime,isRead,hasAttachments, conversationId`,
       );
 
       const data = {
@@ -157,5 +157,18 @@ export class OutlookService {
       },
     );
     return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_FORWARDED);
+  }
+
+  async getEmailThread(userId: string, conversationId: string) {
+    const result = await this.graphService.graphRequest(
+      userId,
+      'GET',
+      `/me/messages?$filter=conversationId eq '${conversationId}'&$orderby=receivedDateTime asc`,
+    );
+    return new ApiResponse(
+      200,
+      { thread: result.value },
+      Msg.OUTLOOK_EMAIL_THREAD_FETCHED,
+    );
   }
 }
