@@ -100,6 +100,14 @@ export class MicrosoftController {
     );
   }
 
+  @Delete('emails/bulk')
+  async deleteMultipleEmails(
+    @Req() req: Request,
+    @Body('emailIds') emailIds: string[],
+  ) {
+    return this.outlookService.deleteMultipleEmails(req.user!.id, emailIds);
+  }
+
   @Delete('emails/:id')
   async deleteEmail(@Req() req: Request, @Param('id') emailId: string) {
     return this.outlookService.deleteEmail(req.user!.id, emailId);
