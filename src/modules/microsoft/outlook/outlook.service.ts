@@ -138,4 +138,24 @@ export class OutlookService {
     );
     return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_REPLIED);
   }
+
+  async forwardEmail(
+    userId: string,
+    emailId: string,
+    to: string[],
+    comment?: string,
+  ) {
+    await this.graphService.graphRequest(
+      userId,
+      'POST',
+      `/me/messages/${emailId}/forward`,
+      {
+        comment,
+        toRecipients: to.map((address) => ({
+          emailAddress: { address },
+        })),
+      },
+    );
+    return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_FORWARDED);
+  }
 }
