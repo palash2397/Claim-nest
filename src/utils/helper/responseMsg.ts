@@ -277,6 +277,7 @@ export const Msg = {
   OUTLOOK_EMAIL_FETCH_FAILED: `Failed to fetch email`,
   OUTLOOK_EMAIL_SEND_FAILED: `Failed to send email`,
   OUTLOOK_EMAIL_DELETED: `Email deleted successfully`,
+  OUTLOOK_EMAIL_REPLIED: `Email replied successfully`,
 
 
 

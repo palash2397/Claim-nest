@@ -128,4 +128,14 @@ export class OutlookService {
     );
     return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_DELETED);
   }
+
+  async replyEmail(userId: string, emailId: string, comment: string) {
+    await this.graphService.graphRequest(
+      userId,
+      'POST',
+      `/me/messages/${emailId}/reply`,
+      { comment },
+    );
+    return new ApiResponse(200, {}, Msg.SUCCESS);
+  }
 }
