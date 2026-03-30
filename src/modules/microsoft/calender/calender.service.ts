@@ -60,10 +60,12 @@ export class CalenderService {
   }
 
   async deleteEvent(userId: string, eventId: string) {
-    return this.graphService.graphRequest(
+    await this.graphService.graphRequest(
       userId,
       'DELETE',
       `/me/events/${eventId}`,
     );
+
+    return new ApiResponse(200, {}, Msg.EVENT_DELETED)
   }
 }
