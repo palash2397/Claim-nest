@@ -36,33 +36,6 @@ export class MicrosoftController {
   // ========================================
   // Outlook Endpoints
   // ========================================
-  @Get('emails/all')
-  async getEmails(@Req() req: Request, @Query('pageToken') pageToken?: string) {
-    return this.outlookService.getEmails(req.user!.id, pageToken);
-  }
-
-  @Get('emails/:id')
-  async getEmailById(@Req() req: Request, @Param('id') emailId: string) {
-    return this.outlookService.getEmailById(req.user!.id, emailId);
-  }
-
-  @Post('send-email')
-  async sendEmail(
-    @Req() req: Request,
-    @Body() body: { to: string; subject: string; content: string },
-  ) {
-    return this.outlookService.sendEmail(
-      req.user!.id,
-      body.to,
-      body.subject,
-      body.content,
-    );
-  }
-
-  @Delete('emails/:id')
-  async deleteEmail(@Req() req: Request, @Param('id') emailId: string) {
-    return this.outlookService.deleteEmail(req.user!.id, emailId);
-  }
 
   @Post('emails/reply')
   async replyEmail(
@@ -89,12 +62,52 @@ export class MicrosoftController {
     );
   }
 
-  @Get('emails/thread/:conversationId')
+  @Get('emails/thread')
   async getEmailThread(
     @Req() req: Request,
-    @Param('conversationId') conversationId: string,
+    @Query('conversationId') conversationId: string,
   ) {
     return this.outlookService.getEmailThread(req.user!.id, conversationId);
+  }
+
+  @Get('emails/folder/:folder')
+  async getEmailsByFolder(
+    @Req() req: Request,
+    @Param('folder') folder: string,
+    @Query('pageToken') pageToken?: string,
+  ) {
+    return this.outlookService.getEmailsByFolder(
+      req.user!.id,
+      folder,
+      pageToken,
+    );
+  }
+  @Get('emails/all')
+  async getEmails(@Req() req: Request, @Query('pageToken') pageToken?: string) {
+    return this.outlookService.getEmails(req.user!.id, pageToken);
+  }
+
+  @Post('send-email')
+  async sendEmail(
+    @Req() req: Request,
+    @Body() body: { to: string; subject: string; content: string },
+  ) {
+    return this.outlookService.sendEmail(
+      req.user!.id,
+      body.to,
+      body.subject,
+      body.content,
+    );
+  }
+
+  @Delete('emails/:id')
+  async deleteEmail(@Req() req: Request, @Param('id') emailId: string) {
+    return this.outlookService.deleteEmail(req.user!.id, emailId);
+  }
+
+  @Get('emails/:id')
+  async getEmailById(@Req() req: Request, @Param('id') emailId: string) {
+    return this.outlookService.getEmailById(req.user!.id, emailId);
   }
 
   // ========================================
@@ -161,18 +174,5 @@ export class MicrosoftController {
   @Get('status')
   async getMicrosoftStatus(@Req() req: Request) {
     return this.microsoftService.microsoftStatus(req.user!.id);
-  }
-
-  @Get('emails/folder/:folder')
-  async getEmailsByFolder(
-    @Req() req: Request,
-    @Param('folder') folder: string,
-    @Query('pageToken') pageToken?: string,
-  ) {
-    return this.outlookService.getEmailsByFolder(
-      req.user!.id,
-      folder,
-      pageToken,
-    );
   }
 }

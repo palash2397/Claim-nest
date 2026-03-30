@@ -163,7 +163,7 @@ export class OutlookService {
     const result = await this.graphService.graphRequest(
       userId,
       'GET',
-      `/me/messages?$filter=conversationId eq '${conversationId}'&$orderby=receivedDateTime asc`,
+      `/me/messages?$search="conversationId:${conversationId}"&$select=subject,from,toRecipients,receivedDateTime,bodyPreview,isRead`,
     );
     return new ApiResponse(
       200,
