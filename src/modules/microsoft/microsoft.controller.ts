@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Patch,
   UseGuards,
   Delete,
   Query,
@@ -145,6 +146,22 @@ export class MicrosoftController {
     },
   ) {
     return this.calenderService.createEvent(req.user!.id, body);
+  }
+
+  @Patch('calendar/event')
+  async updateEvent(
+    @Req() req: Request,
+    @Body()
+    body: {
+      eventId?: string;
+      subject?: string;
+      content?: string;
+      start?: string;
+      end?: string;
+      attendees?: string[];
+    },
+  ) {
+    return this.calenderService.updateEvent(req.user!.id, body.eventId!, body);
   }
 
   @Delete('calendar/event/:eventId')
