@@ -57,6 +57,11 @@ export class MicrosoftController {
     );
   }
 
+  @Delete('emails/:id')
+  async deleteEmail(@Req() req: Request, @Param('id') emailId: string) {
+    return this.outlookService.deleteEmail(req.user!.id, emailId);
+  }
+
   // Calender endpoints
   @Get('calendar/events')
   async getEvents(@Req() req: Request) {
@@ -100,7 +105,6 @@ export class MicrosoftController {
     @Req() req: Request,
     @UploadedFile() file: Express.Multer.File,
   ) {
-
     return this.onedriveService.uploadFile(
       req.user!.id,
       file.originalname,
