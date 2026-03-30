@@ -126,6 +126,6 @@ export class OutlookService {
       'DELETE',
       `/me/messages/${emailId}`,
     );
-    return new ApiResponse(200, {}, Msg.SUCCESS);
+    return new ApiResponse(200, {}, Msg.OUTLOOK_EMAIL_DELETED);
   }
 }
