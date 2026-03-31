@@ -44,10 +44,10 @@ export class UserController {
     return this.userService.all(req.user!.id);
   }
 
-  @Get('/byId/:id')
+  @Get('/profile/my')
   @UseGuards(JwtAuthGuard, RoleGuard)
-  getById(@Param('id') id: string) {
-    return this.userService.getById(id);
+  getById(@Req() req: any) {
+    return this.userService.getById(req.user.id);
   }
 
   // @Get('auth/microsoft')
