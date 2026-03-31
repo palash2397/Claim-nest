@@ -32,7 +32,10 @@ export class EventService {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
 
-      const event = new this.eventModel(dto);
+      const event = new this.eventModel({
+        ...dto,
+        roleUserId: new Types.ObjectId(userId),
+      });
       const savedEvent = await event.save();
 
       return new ApiResponse(201, savedEvent, Msg.EVENT_CREATED);
