@@ -92,7 +92,15 @@ export class UserService {
       if (!user) {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
       }
-      return new ApiResponse(200, user, Msg.USER_FETCHED);
+
+      let userObj = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+     
+      };
+      return new ApiResponse(200, userObj, Msg.USER_FETCHED);
     } catch (error) {
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
     }
