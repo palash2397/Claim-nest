@@ -36,7 +36,7 @@ export class CaseController {
   constructor(private readonly caseService: CaseService) {}
 
   @Post('/create')
-  @Roles(UserRole.Admin)
+  // @Roles(UserRole.Admin)
   create(@Body() createCaseDto: CreateCaseDto, @Req() req: Request) {
 
     return this.caseService.create(createCaseDto, req.user!.id);
