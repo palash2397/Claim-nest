@@ -14,6 +14,7 @@ export class CreateEventDto {
   caseId: string;
 
 
+
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
