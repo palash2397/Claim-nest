@@ -21,13 +21,12 @@ export class EventService {
     @InjectModel('User') private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async create(dto: CreateEventDto) {
+  async create(dto: CreateEventDto, userId: string) {
     try {
-      const user = await this.userModel.findById(dto.roleUserId);
+      const user = await this.userModel.findById(userId);
       if (!user) {
         return new ApiResponse(404, {}, Msg.ASSIGNED_USER_NOT_FOUND);
       }
-
       const caseDoc = await this.caseModel.findById(dto.caseId);
       if (!caseDoc) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);

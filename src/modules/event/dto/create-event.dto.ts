@@ -13,9 +13,6 @@ export class CreateEventDto {
   @ApiProperty()
   caseId: string;
 
-  @IsMongoId()
-  @ApiProperty()
-  roleUserId: string;
 
   @IsNotEmpty()
   @IsString()
