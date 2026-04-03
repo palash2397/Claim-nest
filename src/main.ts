@@ -24,6 +24,7 @@ const redisClient = createClient({
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  // morgan for logging
   app.use(morgan('dev'));
 
    // 🔥 CONNECT REDIS FIRST
