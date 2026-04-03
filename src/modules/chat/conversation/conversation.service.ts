@@ -120,11 +120,10 @@ export class ConversationService {
           participants: userId,
           deletedFor: { $ne: userId },
         })
-        .populate("participants", "name email")
+        .populate('participants', 'name email')
         .sort({ updatedAt: -1 })
         .lean();
 
-      
       const result: ConversationListItem[] = [];
 
       for (const conversation of conversations) {
@@ -145,7 +144,12 @@ export class ConversationService {
           _id: conversation._id.toString(),
           title: conversation.title,
           type: conversation.type,
-          participants: conversation.participants.map((p: any) => p.toString()),
+          participants: (conversation.participants as any[]).map((p) => ({
+            _id: p._id.toString(),
+            name: p.name,
+            email: p.email,
+          })),
+          // participants: conversation.participants.map((p: any) => p.toString()),
           lastMessage: lastMessage
             ? {
                 ...lastMessage,
@@ -166,7 +170,6 @@ export class ConversationService {
 
   async deleteConversation(conversationId: string, userId: string) {
     try {
-
       // console.log("conversationId ---->", conversationId);
       // console.log("userId ---->", userId);
       const consversation = await this.conversationModel.findByIdAndUpdate(
