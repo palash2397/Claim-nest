@@ -120,7 +120,7 @@ export class ConversationService {
           participants: userId,
           deletedFor: { $ne: userId },
         })
-        // .populate("participants", "name email")
+        .populate("participants", "name email")
         .sort({ updatedAt: -1 })
         .lean();
 
