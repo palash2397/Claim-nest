@@ -13,6 +13,7 @@ import { ApiResponse } from '../../utils/helper/ApiResponse';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -72,8 +73,13 @@ export class UserService {
     }
   }
 
-  async updateProfile(){
+  async updateProfile(dto: UpdateUserDto, userId: string){
     try {
+      const user = await this.userModel.findByIdAndUpdate(userId, dto, { new: true });
+      if (!user) {
+        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND);
+      }
+      return new ApiResponse(200, user, Msg.USER_UPDATED);
       
     } catch (error) {
       console.log(`update profile error ---->`, error);
