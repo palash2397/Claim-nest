@@ -39,7 +39,7 @@ export class UserController {
 
   @Patch('/change-password')
   changePassword(@Body() dto: any) {
-    return this.userService.changePassword(dto.id, dto.password);
+    return this.userService.changePassword(dto.email, dto.password);
   }
 
   @Get('/all')

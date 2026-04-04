@@ -91,7 +91,7 @@ export class UserService {
   async all(userId: string) {
     try {
       const users = await this.userModel
-        .find({ role: 'User', _id: { $ne: userId } })
+        .find({ _id: { $ne: userId } })
         .lean();
 
       if (!users || users.length === 0) {
@@ -123,9 +123,9 @@ export class UserService {
     }
   }
 
-  async changePassword(id: string, password: string) {
+  async changePassword(email: string, password: string) {
     try {
-      const user = await this.userModel.findById(id);
+      const user = await this.userModel.findOne({email:email});
       if (!user) {
         return new ApiResponse(404, {}, Msg.USER_NOT_FOUND)
       }
