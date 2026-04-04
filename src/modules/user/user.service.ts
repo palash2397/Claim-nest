@@ -123,6 +123,20 @@ export class UserService {
     }
   }
 
+  async changePassword(id: string, password: string) {
+    try {
+      const user = await this.userModel.findById(id);
+      if (!user) {
+        return new ApiResponse(404, {}, Msg.USER_NOT_FOUND)
+      }
+      user.password = password;
+      await user.save();
+      return new ApiResponse(200, {}, Msg.PASSWORD_CHANGED);
+    } catch (error) {
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
   async handleMicrosoftLogin(microsoftUser: any, res: any) {
     const { microsoftId, email, name, accessToken, refreshToken } =
       microsoftUser;
