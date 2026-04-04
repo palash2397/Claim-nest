@@ -8,6 +8,7 @@ import {
   Res,
   Req,
   Query,
+  Patch,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import passport from 'passport';
@@ -16,8 +17,6 @@ import type { Request, Response } from 'express';
 
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard';
 import { RoleGuard } from '../auth/roles/roles.guard';
-
-
 
 import { AuthGuard } from '@nestjs/passport';
 
@@ -36,6 +35,11 @@ export class UserController {
   @Post('/login')
   login(@Body() dto: LoginUserDto) {
     return this.userService.login(dto);
+  }
+
+  @Patch('/change-password')
+  changePassword(@Body() dto: any) {
+    return this.userService.changePassword(dto.id, dto.password);
   }
 
   @Get('/all')
