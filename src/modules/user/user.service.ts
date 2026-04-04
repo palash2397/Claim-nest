@@ -67,7 +67,18 @@ export class UserService {
       };
       return new ApiResponse(200, userData, Msg.LOGIN_SUCCESS);
     } catch (error) {
+      console.log(`login error ---->`, error);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+    }
+  }
+
+  async updateProfile(){
+    try {
+      
+    } catch (error) {
+      console.log(`update profile error ---->`, error);
+      return new ApiResponse(500, {}, Msg.SERVER_ERROR);
+      
     }
   }
 
