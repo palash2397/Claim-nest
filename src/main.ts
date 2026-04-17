@@ -6,9 +6,6 @@
 // | $$    $$| $$      | $$  | $$  | $$  | $$\  $ | $$
 // |  $$$$$$/| $$$$$$$$| $$  | $$ /$$$$$$| $$ \/  | $$
 //  \______/ |________/|__/  |__/|______/|__/     |__/
-                                                   
-                                                   
-                                                  
 
 import 'dotenv/config';
 
@@ -34,14 +31,13 @@ const redisClient = createClient({
 });
 
 
-// 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // morgan for logging
   app.use(morgan('dev'));
 
-   // 🔥 CONNECT REDIS FIRST
+  // 🔥 CONNECT REDIS FIRST
   await redisClient.connect();
 
   // 🔥 SESSION (FIRST)
@@ -62,8 +58,6 @@ async function bootstrap() {
       },
     }),
   );
-
-
 
   // 🔥 PASSPORT INIT
   app.use(passport.initialize());
@@ -113,7 +107,7 @@ async function bootstrap() {
 
   SwaggerModule.setup(`${Global.PREFIX}/docs`, app, document, {
     swaggerOptions: {
-      persistAuthorization: true, 
+      persistAuthorization: true,
     },
   });
 
