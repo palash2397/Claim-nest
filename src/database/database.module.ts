@@ -3,7 +3,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 
 @Module({
-  imports: [MongooseModule.forRoot(process.env.MONGO_URI!)],
+  imports: [MongooseModule.forRoot(process.env.MONGO_URI!, {
+    ssl: true,
+    tlsAllowInvalidCertificates: true
+  })],
 })
 export class DatabaseModule {}
 
