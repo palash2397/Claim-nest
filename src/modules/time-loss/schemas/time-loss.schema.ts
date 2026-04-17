@@ -32,10 +32,10 @@ export class PaymentLedger {
   /* ===== PAYMENT METHOD ===== */
 
   @Prop({
-    enum: TimeLossMethod,
+    type: String,
     required: true,
   })
-  method: TimeLossMethod;
+  method: string;
 
   @Prop()
   bank: string;

@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Case, CaseSchema } from './schemas/case.schema';
 import { CaseCounter, CaseCounterSchema } from './schemas/case-counter.schema';
 import { ActivityLog, ActivityLogSchema } from '../activity-log/schemas/activity-log.schema';
+import { Note, NoteSchema } from '../notes/schemas/create-note.schema';
+import { CallLog, CallLogSchema } from '../call-log/schemas/callLog.schema';
 
 import { UserModule } from '../user/user.module';
 import { AwsModule } from '../aws/aws.module';
