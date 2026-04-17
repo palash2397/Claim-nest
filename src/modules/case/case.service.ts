@@ -24,9 +24,9 @@ import { UpdateCaseDto } from './dto/update-case.dto';
 @Injectable()
 export class CaseService {
   constructor(
-    @InjectModel('Case') private readonly caseModel: Model<CaseDocument>,
-    @InjectModel('User') private readonly userModel: Model<UserDocument>,
-    @InjectModel('CaseCounter')
+    @InjectModel(Case.name) private readonly caseModel: Model<CaseDocument>,
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    @InjectModel(CaseCounter.name)
     private readonly caseCounterModel: Model<CaseCounterDocument>,
     private readonly awsService: AwsService,
   ) {}

@@ -27,6 +27,8 @@ import {
   DocumentFileSchema,
 } from '../case-documents/schemas/create-document.schema';
 
+import { ProtestAppeal, ProtestAppealSchema } from '../case-protest-appeal/schemas/create-case-protest-appeal.schema';
+
 import { UserModule } from '../user/user.module';
 import { AwsModule } from '../aws/aws.module';
 
@@ -42,6 +44,7 @@ import { AwsModule } from '../aws/aws.module';
       { name: CaseMessage.name, schema: CaseMessageSchema },
       { name: DocumentFile.name, schema: DocumentFileSchema },
       { name: TimeLoss.name, schema: TimeLossSchema },
+      
     ]),
     UserModule,
     AwsModule,
