@@ -33,6 +33,8 @@ const redisClient = createClient({
   url: 'redis://127.0.0.1:6379',
 });
 
+
+// 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
