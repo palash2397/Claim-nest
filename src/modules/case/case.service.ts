@@ -389,6 +389,19 @@ export class CaseService {
       const callLogModel = await this.callLogModel.find({ caseId });
       const caseMessageModel = await this.caseMessageModel.find({ caseId });
 
+
+      const obj = {
+        case: caseDoc,
+        caseEmail: caseEmailModel,
+        activityLog: activityLogModel,
+        protestAppeal: protestAppealModel,
+        timeLoss: timeLossModel,
+        documentFile: documentFileModel,
+        note: noteModel,
+        callLog: callLogModel,
+        caseMessage: caseMessageModel,
+      };
+
       // // Add signed URLs for documents
       // if (caseDoc.documents && caseDoc.documents.length > 0) {
       //   for await (const doc of caseDoc.documents) {
@@ -398,7 +411,7 @@ export class CaseService {
       //   }
       // }
 
-      return new ApiResponse(200, caseDoc, Msg.DATA_FETCHED);
+      return new ApiResponse(200, obj, Msg.DATA_FETCHED);
     } catch (error) {
       console.log(`Error fetching case by ID: ${error}`);
       return new ApiResponse(500, {}, Msg.SERVER_ERROR);
