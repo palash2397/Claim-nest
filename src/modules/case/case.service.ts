@@ -41,6 +41,24 @@ export class CaseService {
     private readonly caseEmailModel: Model<CaseEmailDocument>,
     @InjectModel(ActivityLog.name)
     private readonly activityLogModel: Model<ActivityLogDocument>,
+    @InjectModel(ProtestAppeal.name)
+    private readonly protestAppealModel: Model<ProtestAppealDocument>,
+
+    @InjectModel(TimeLoss.name)
+    private readonly timeLossModel: Model<TimeLossDocument>,
+
+    @InjectModel(DocumentFile.name)
+    private readonly documentFileModel: Model<DocumentFileDocument>,
+
+    @InjectModel(Note.name)
+    private readonly noteModel: Model<NoteDocument>,
+
+    @InjectModel(CallLog.name)
+    private readonly callLogModel: Model<CallLogDocument>,
+
+    @InjectModel(CaseMessage.name)
+    private readonly caseMessageModel: Model<CaseMessageDocument>,
+
     private readonly awsService: AwsService,
   ) {}
 
@@ -361,6 +379,15 @@ export class CaseService {
       if (!caseDoc) {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
+
+      const caseEmailModel = await this.caseEmailModel.find({ caseId });
+      const activityLogModel = await this.activityLogModel.find({ caseId });
+      const protestAppealModel = await this.protestAppealModel.find({ caseId });
+      const timeLossModel = await this.timeLossModel.find({ caseId });
+      const documentFileModel = await this.documentFileModel.find({ caseId });
+      const noteModel = await this.noteModel.find({ caseId });
+      const callLogModel = await this.callLogModel.find({ caseId });
+      const caseMessageModel = await this.caseMessageModel.find({ caseId });
 
       // // Add signed URLs for documents
       // if (caseDoc.documents && caseDoc.documents.length > 0) {
