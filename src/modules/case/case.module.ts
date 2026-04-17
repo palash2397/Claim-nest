@@ -44,7 +44,7 @@ import { AwsModule } from '../aws/aws.module';
       { name: CaseMessage.name, schema: CaseMessageSchema },
       { name: DocumentFile.name, schema: DocumentFileSchema },
       { name: TimeLoss.name, schema: TimeLossSchema },
-      
+      { name: ProtestAppeal.name, schema: ProtestAppealSchema },
     ]),
     UserModule,
     AwsModule,
