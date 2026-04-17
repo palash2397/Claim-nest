@@ -8,6 +8,15 @@ import { AwsService } from '../aws/aws.service';
 
 import { Case, CaseDocument } from './schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
+import { CaseEmail, CaseEmailDocument } from '../case-mail/schemas/case-mail.schema';
+import { ActivityLog, ActivityLogDocument } from '../activity-log/schemas/activity-log.schema';
+import { Note, NoteDocument } from '../notes/schemas/create-note.schema';
+import { CallLog, CallLogDocument } from '../call-log/schemas/callLog.schema';
+import { CaseMessage, CaseMessageDocument } from '../case-message/schemas/case-msg.schema';
+import { DocumentFile, DocumentFileDocument } from '../case-documents/schemas/create-document.schema';
+import { TimeLoss, TimeLossDocument } from '../case-time-loss/schemas/case-time-loss.schema';
+import { ProtestAppeal, ProtestAppealDocument } from '../case-protest-appeal/schemas/create-case-protest-appeal.schema';
+
 import {
   CaseCounter,
   CaseCounterDocument,
@@ -28,6 +37,10 @@ export class CaseService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     @InjectModel(CaseCounter.name)
     private readonly caseCounterModel: Model<CaseCounterDocument>,
+    @InjectModel(CaseEmail.name)
+    private readonly caseEmailModel: Model<CaseEmailDocument>,
+    @InjectModel(ActivityLog.name)
+    private readonly activityLogModel: Model<ActivityLogDocument>,
     private readonly awsService: AwsService,
   ) {}
 
