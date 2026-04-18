@@ -381,7 +381,9 @@ export class CaseService {
       }
 
       const caseEmailModel = await this.caseEmailModel.find({ caseId });
-      const activityLogModel = await this.activityLogModel.find({ caseId });
+      console.log("caseEmailModel", caseEmailModel);
+
+      const activityLogModel = await this.activityLogModel.find({  caseId: new Types.ObjectId(caseId) });
       const protestAppealModel = await this.protestAppealModel.find({ caseId });
       const timeLossModel = await this.timeLossModel.find({ caseId });
       const documentFileModel = await this.documentFileModel.find({ caseId });
