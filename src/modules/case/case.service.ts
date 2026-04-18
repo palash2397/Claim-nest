@@ -419,14 +419,15 @@ export class CaseService {
       });
       const documentFileModel = await this.documentFileModel.find({ caseId });
       const noteModel = await this.noteModel.find({ caseId });
-      const callLogModel = await this.callLogModel.find({ caseId });
+      // const callLogModel = await this.callLogModel.find({ caseId });
       const caseMessageModel = await this.caseMessageModel.find({
         caseId: new Types.ObjectId(caseId),
       });
 
-      await Promise.all(
+      const processedDocuments = await Promise.all(
         documentFileModel.map(async (item) => {
           item.fileUrl = await this.awsService.getSignedFileUrl(item.fileUrl);
+          return item;
         })
       );
 
@@ -436,9 +437,9 @@ export class CaseService {
         activityLog: activityLogModel,
         protestAppeal: protestAppealModel,
         timeLoss: timeLossModel,
-        documentFile: documentFileModel,
+        documentFile: processedDocuments,
         note: noteModel,
-        callLog: callLogModel,
+        // callLog: callLogModel,
         caseMessage: caseMessageModel,
       };
 
