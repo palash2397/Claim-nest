@@ -38,7 +38,7 @@ export class TimeLossService {
       const entry = await this.timeLossModel.create({
         ...dto,
         date: new Date(dto.date),
-        caseId: dto.caseId,
+        caseId: new Types.ObjectId(dto.caseId),
         createdBy: new Types.ObjectId(userId),
       });
 

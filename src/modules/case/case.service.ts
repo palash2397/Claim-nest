@@ -26,10 +26,13 @@ import {
   DocumentFile,
   DocumentFileDocument,
 } from '../case-documents/schemas/create-document.schema';
-import {
-  TimeLoss,
-  TimeLossDocument,
-} from '../case-time-loss/schemas/case-time-loss.schema';
+// import {
+//   TimeLoss,
+//   TimeLossDocument,
+// } from '../case-time-loss/schemas/case-time-loss.schema';
+
+
+import { PaymentLedger, PaymentLedgerDocument } from '../time-loss/schemas/time-loss.schema';
 import {
   ProtestAppeal,
   ProtestAppealDocument,
@@ -62,8 +65,8 @@ export class CaseService {
     @InjectModel(ProtestAppeal.name)
     private readonly protestAppealModel: Model<ProtestAppealDocument>,
 
-    @InjectModel(TimeLoss.name)
-    private readonly timeLossModel: Model<TimeLossDocument>,
+    @InjectModel(PaymentLedger.name)
+    private readonly timeLossModel: Model<PaymentLedgerDocument>,
 
     @InjectModel(DocumentFile.name)
     private readonly documentFileModel: Model<DocumentFileDocument>,
