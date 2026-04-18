@@ -8,14 +8,32 @@ import { AwsService } from '../aws/aws.service';
 
 import { Case, CaseDocument } from './schemas/case.schema';
 import { User, UserDocument } from '../user/schemas/user.schema';
-import { CaseEmail, CaseEmailDocument } from '../case-mail/schemas/case-mail.schema';
-import { ActivityLog, ActivityLogDocument } from '../activity-log/schemas/activity-log.schema';
+import {
+  CaseEmail,
+  CaseEmailDocument,
+} from '../case-mail/schemas/case-mail.schema';
+import {
+  ActivityLog,
+  ActivityLogDocument,
+} from '../activity-log/schemas/activity-log.schema';
 import { Note, NoteDocument } from '../notes/schemas/create-note.schema';
 import { CallLog, CallLogDocument } from '../call-log/schemas/callLog.schema';
-import { CaseMessage, CaseMessageDocument } from '../case-message/schemas/case-msg.schema';
-import { DocumentFile, DocumentFileDocument } from '../case-documents/schemas/create-document.schema';
-import { TimeLoss, TimeLossDocument } from '../case-time-loss/schemas/case-time-loss.schema';
-import { ProtestAppeal, ProtestAppealDocument } from '../case-protest-appeal/schemas/create-case-protest-appeal.schema';
+import {
+  CaseMessage,
+  CaseMessageDocument,
+} from '../case-message/schemas/case-msg.schema';
+import {
+  DocumentFile,
+  DocumentFileDocument,
+} from '../case-documents/schemas/create-document.schema';
+import {
+  TimeLoss,
+  TimeLossDocument,
+} from '../case-time-loss/schemas/case-time-loss.schema';
+import {
+  ProtestAppeal,
+  ProtestAppealDocument,
+} from '../case-protest-appeal/schemas/create-case-protest-appeal.schema';
 
 import {
   CaseCounter,
@@ -380,17 +398,22 @@ export class CaseService {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
 
-      const caseEmailModel = await this.caseEmailModel.find({ caseId });
-      console.log("caseEmailModel", caseEmailModel);
+      const caseEmailModel = await this.caseEmailModel.find({
+        caseId: new Types.ObjectId(caseId),
+      });
+      console.log('caseEmailModel', caseEmailModel);
 
-      const activityLogModel = await this.activityLogModel.find({  caseId: new Types.ObjectId(caseId) });
+      const activityLogModel = await this.activityLogModel.find({
+        caseId: new Types.ObjectId(caseId),
+      });
       const protestAppealModel = await this.protestAppealModel.find({ caseId });
-      const timeLossModel = await this.timeLossModel.find({ caseId });
+      const timeLossModel = await this.timeLossModel.find({
+        caseId: new Types.ObjectId(caseId),
+      });
       const documentFileModel = await this.documentFileModel.find({ caseId });
       const noteModel = await this.noteModel.find({ caseId });
       const callLogModel = await this.callLogModel.find({ caseId });
       const caseMessageModel = await this.caseMessageModel.find({ caseId });
-
 
       const obj = {
         case: caseDoc,
