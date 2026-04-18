@@ -43,7 +43,7 @@ export class CaseProtestAppealService {
 
       // 1️⃣ Create Protest/Appeal entry
       const entry = await this.protestAppealModel.create({
-        caseId: dto.caseId,
+        caseId: new Types.ObjectId(dto.caseId),
         doDate: new Date(dto.doDate),
         description: dto.description,
         deadline: new Date(dto.deadline),

@@ -31,8 +31,10 @@ import {
 //   TimeLossDocument,
 // } from '../case-time-loss/schemas/case-time-loss.schema';
 
-
-import { PaymentLedger, PaymentLedgerDocument } from '../time-loss/schemas/time-loss.schema';
+import {
+  PaymentLedger,
+  PaymentLedgerDocument,
+} from '../time-loss/schemas/time-loss.schema';
 import {
   ProtestAppeal,
   ProtestAppealDocument,
@@ -409,7 +411,9 @@ export class CaseService {
       const activityLogModel = await this.activityLogModel.find({
         caseId: new Types.ObjectId(caseId),
       });
-      const protestAppealModel = await this.protestAppealModel.find({ caseId });
+      const protestAppealModel = await this.protestAppealModel.find({
+        caseId: new Types.ObjectId(caseId),
+      });
       const timeLossModel = await this.timeLossModel.find({
         caseId: new Types.ObjectId(caseId),
       });
