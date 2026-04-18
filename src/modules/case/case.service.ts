@@ -424,9 +424,11 @@ export class CaseService {
         caseId: new Types.ObjectId(caseId),
       });
 
-      documentFileModel.map(async (item) => {
-        item.fileUrl = await this.awsService.getSignedFileUrl(item.fileUrl);
-      });
+      await Promise.all(
+        documentFileModel.map(async (item) => {
+          item.fileUrl = await this.awsService.getSignedFileUrl(item.fileUrl);
+        })
+      );
 
       const obj = {
         case: caseDoc,
