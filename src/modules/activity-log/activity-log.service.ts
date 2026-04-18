@@ -30,7 +30,7 @@ export class ActivityLogService {
       }
 
       const activity = await this.activityLogModel.create({
-        caseId: dto.caseId,
+        caseId: new Types.ObjectId(dto.caseId),
         activity: dto.activity,
         createdBy: new Types.ObjectId(userId),
       });
@@ -57,7 +57,7 @@ export class ActivityLogService {
       const activities = await this.activityLogModel
         .find({ caseId })
         .sort({ createdAt: -1 })
-        .populate("caseId", "caseId")
+        .populate( "caseId", "caseId")
         .populate("createdBy", "firstName lastName email");
 
       if (!activities || activities.length === 0) {
