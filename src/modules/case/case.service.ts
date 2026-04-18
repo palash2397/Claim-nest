@@ -403,10 +403,10 @@ export class CaseService {
         return new ApiResponse(404, {}, Msg.DATA_NOT_FOUND);
       }
 
-      const caseEmailModel = await this.caseEmailModel.find({
+      const caseEmailModel = await this.caseEmailModel.findOne({
         caseId: new Types.ObjectId(caseId),
       });
-      console.log('caseEmailModel', caseEmailModel);
+      // console.log('caseEmailModel', caseEmailModel);
 
       const activityLogModel = await this.activityLogModel.findOne({
         caseId: new Types.ObjectId(caseId),
