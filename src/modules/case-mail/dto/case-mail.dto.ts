@@ -38,8 +38,9 @@ export class CreateCaseEmailDto {
   subject: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsDateString()
-  emailDate: string;
+  emailDate?: string;
 
   @ApiProperty()
   @IsOptional()

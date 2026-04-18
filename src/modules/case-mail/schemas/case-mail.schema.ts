@@ -23,13 +23,13 @@ export class CaseEmail {
   @Prop({ required: true })
   subject: string;
 
-  @Prop({ type: Date, required: true })
-  emailDate: Date;
+  @Prop({ type: Date, required: false })
+  emailDate?: Date;
 
-  @Prop()
-  summary: string;
+  @Prop({ required: false })
+  summary?: string;
 
-  @Prop()
+  @Prop({ required: false })
   attachmentUrl?: string;
 
   /* ===== FOLLOW-UP AUTOMATION ===== */
