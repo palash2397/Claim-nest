@@ -416,7 +416,9 @@ export class CaseService {
       const documentFileModel = await this.documentFileModel.find({ caseId });
       const noteModel = await this.noteModel.find({ caseId });
       const callLogModel = await this.callLogModel.find({ caseId });
-      const caseMessageModel = await this.caseMessageModel.find({ caseId });
+      const caseMessageModel = await this.caseMessageModel.find({
+        caseId: new Types.ObjectId(caseId),
+      });
 
       const obj = {
         case: caseDoc,

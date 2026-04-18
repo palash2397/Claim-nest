@@ -25,13 +25,13 @@ export class CaseMessageService {
   async create(dto: CreateCaseMessageDto, userId: string) {
     try {
       const caseDoc = await this.caseModel.findById(dto.caseId);
-
+            
       if (!caseDoc) {
         return new ApiResponse(404, {}, Msg.CASE_NOT_FOUND);
       }
 
       const entry = await this.caseMessageModel.create({
-        caseId: dto.caseId,
+        caseId: new Types.ObjectId(dto.caseId),
         from: new Types.ObjectId(userId),
         regarding: dto.regarding,
         status: dto.status,
@@ -54,7 +54,7 @@ export class CaseMessageService {
   async findOne(id: string) {
     try {
       const message = await this.caseMessageModel
-        .find({ caseId: id })
+        .find({ caseId: new Types.ObjectId(id) })
         .populate('caseId', 'caseId')
         .populate('from', 'name');
       if (!message) {
