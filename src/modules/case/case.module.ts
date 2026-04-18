@@ -28,6 +28,8 @@ import {
 } from '../case-documents/schemas/create-document.schema';
 
 import { ProtestAppeal, ProtestAppealSchema } from '../case-protest-appeal/schemas/create-case-protest-appeal.schema';
+import { PaymentLedger, PaymentLedgerSchema } from '../time-loss/schemas/time-loss.schema';
+
 
 import { UserModule } from '../user/user.module';
 import { AwsModule } from '../aws/aws.module';
@@ -45,6 +47,7 @@ import { AwsModule } from '../aws/aws.module';
       { name: DocumentFile.name, schema: DocumentFileSchema },
       { name: TimeLoss.name, schema: TimeLossSchema },
       { name: ProtestAppeal.name, schema: ProtestAppealSchema },
+      { name: PaymentLedger.name, schema: PaymentLedgerSchema },
     ]),
     UserModule,
     AwsModule,
