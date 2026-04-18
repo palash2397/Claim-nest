@@ -411,16 +411,16 @@ export class CaseService {
       const activityLogModel = await this.activityLogModel.findOne({
         caseId: new Types.ObjectId(caseId),
       });
-      const protestAppealModel = await this.protestAppealModel.find({
+      const protestAppealModel = await this.protestAppealModel.findOne({
         caseId: new Types.ObjectId(caseId),
       });
-      const timeLossModel = await this.timeLossModel.find({
+      const timeLossModel = await this.timeLossModel.findOne({
         caseId: new Types.ObjectId(caseId),
       });
       const documentFileModel = await this.documentFileModel.find({ caseId });
-      const noteModel = await this.noteModel.find({ caseId });
+      const noteModel = await this.noteModel.findOne({ caseId });
       // const callLogModel = await this.callLogModel.find({ caseId });
-      const caseMessageModel = await this.caseMessageModel.find({
+      const caseMessageModel = await this.caseMessageModel.findOne({
         caseId: new Types.ObjectId(caseId),
       });
 
